@@ -88,7 +88,9 @@ export const Data_Giai_3 = [
 ];
 
 export default function LotteryDraw() {
+  const [slGiai, setSlGiai] = useState(DataInitGiaiThuong[3].sl);
   const [dataGiaiThuong, setDataGiaiThuong] = useState(DataInitGiaiThuong);
+  const [idxGiaiThuong, setIdxGiaiThuong] = useState(0);
   const [currGiaiThuong, setCurrGiaiThuong] = useState(DataInitGiaiThuong[3]);
   const [showConfetti, setShowConfetti] = useState(false);
   const [winner, setWinner] = useState<IDataUser | null>(null);
@@ -98,7 +100,7 @@ export default function LotteryDraw() {
   const getWinnerByValue = (value: string) => {
     switch (currGiaiThuong.id) {
       case "3":
-        return Data_Giai_3.find((item) => item.Stt === "3");
+        return Data_Giai_3.find((item) => item.Stt === value);
       case "2":
         return Data_Giai_2.find((item) => item.Stt === value);
       case "1":
@@ -107,6 +109,21 @@ export default function LotteryDraw() {
         return Data_Giai_2.find((item) => item.Stt === value);
       default:
         return null;
+    }
+  };
+
+  const getDataTrungThuong = () => {
+    switch (currGiaiThuong.id) {
+      case "3":
+        return Data_Giai_3;
+      case "2":
+        return Data_Giai_2;
+      case "1":
+        return Data_Giai_2;
+      case "db":
+        return Data_Giai_2;
+      default:
+        return Data_Giai_2;
     }
   };
 
@@ -119,11 +136,18 @@ export default function LotteryDraw() {
 
     if (!winner) return;
 
+    setIdxGiaiThuong((prev) => prev + 1);
     setShowWinnerModal(true);
     setWinner(winner);
     setShowConfetti(true);
     setTimeout(() => setShowConfetti(false), 5000);
   };
+
+  const handleNext = () => {
+    setSlGiai((prev) => prev - 1);
+  };
+
+  const handleCancel = () => {};
 
   return (
     <div
@@ -240,11 +264,21 @@ export default function LotteryDraw() {
           </div>
 
           <div className="max-w-4xl mx-auto">
+            <div className="mb-2 w-full flex justify-center items-center">
+              <h2
+                className="mb-1 md:mb-4 text-balance text-3xl font-bold tracking-tight 
+            bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 
+            leading-normal
+            bg-clip-text text-transparent ">
+                {currGiaiThuong.ten} - Còn lại {slGiai} giải
+              </h2>
+            </div>
             {/* Draw Display */}
             <div className="mb-8 w-full">
               <SlotMachine
                 onSpin={handleSpin}
                 onCompleteSpin={handleCompleteSpin}
+                DataTrungThuong={getDataTrungThuong()[idxGiaiThuong]}
               />
 
               {/* Number Display */}
@@ -353,6 +387,8 @@ export default function LotteryDraw() {
           currGiaiThuong={currGiaiThuong}
           isOpen={showWinnerModal}
           onClose={() => setShowWinnerModal(false)}
+          onNext={handleNext}
+          onCancel={handleCancel}
         />
       </div>
     </div>

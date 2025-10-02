@@ -1,5 +1,6 @@
 "use client";
 
+import { IDataUser } from "@/app/page";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useEffect, useRef, useState } from "react";
@@ -90,11 +91,13 @@ function Reel({
 interface ISlotMachineProps {
   onSpin: () => void;
   onCompleteSpin: (value: string) => void;
+  DataTrungThuong: IDataUser;
 }
 
 export default function SlotMachine({
   onSpin,
   onCompleteSpin,
+  DataTrungThuong,
 }: ISlotMachineProps) {
   const [spinId, setSpinId] = useState(0); // tăng mỗi khi click
   const [results, setResults] = useState<string[]>(["?", "?", "?", "?"]);
@@ -104,9 +107,7 @@ export default function SlotMachine({
     if (spinning) return;
 
     // generate final numbers
-    const final = Array.from({ length: results.length }, () =>
-      String(Math.floor(Math.random() * 10))
-    );
+    const final = DataTrungThuong.Stt.padStart(results.length, "0").split("");
     setResults(final);
 
     // start spin
@@ -118,7 +119,7 @@ export default function SlotMachine({
     setTimeout(() => {
       setSpinning(false);
 
-      if (onCompleteSpin) onCompleteSpin(final.join());
+      if (onCompleteSpin) onCompleteSpin(DataTrungThuong.Stt);
       // note: we do NOT reset transform here — final position is left as-is
     }, totalTime);
 

@@ -13,6 +13,8 @@ interface WinnerModalProps {
   isOpen: boolean;
   onClose: () => void;
   currGiaiThuong: IDataGiaiThuong;
+  onNext: () => void;
+  onCancel: () => void;
 }
 
 export default function WinnerModal({
@@ -20,6 +22,8 @@ export default function WinnerModal({
   isOpen,
   onClose,
   currGiaiThuong,
+  onNext,
+  onCancel,
 }: WinnerModalProps) {
   const [showConfetti, setShowConfetti] = useState(false);
 
@@ -30,6 +34,18 @@ export default function WinnerModal({
       return () => clearTimeout(timer);
     }
   }, [isOpen]);
+
+  const handleNext = () => {
+    if (onNext) onNext();
+
+    onClose();
+  };
+
+  const handleCancel = () => {
+    if (onCancel) onCancel();
+
+    onClose();
+  };
 
   if (!winner) return null;
 
@@ -75,14 +91,14 @@ export default function WinnerModal({
 
             <div className="flex gap-4">
               <Button
-                onClick={onClose}
+                onClick={handleCancel}
                 className="flex-1 cursor-pointer 
                 bg-gradient-to-r from-yellow-500/20 to-orange-500/20   
               text-amber-600 border-2 border-amber-400 px-10 py-7 text-xl font-black rounded-2xl shadow-xl hover:shadow-2xl transition-all mt-8">
                 Huỷ bỏ
               </Button>
               <Button
-                onClick={onClose}
+                onClick={handleNext}
                 className="flex-1 cursor-pointer 
                 bg-gradient-to-r from-yellow-500/20 to-orange-500/20   
               text-amber-600 border-2 border-amber-400 px-10 py-7 text-xl font-black rounded-2xl shadow-xl hover:shadow-2xl transition-all mt-8">
