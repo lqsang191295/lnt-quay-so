@@ -9,86 +9,121 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import WinnerModal from "@/components/winner-modal";
 import WinnersList from "@/components/WinnersList";
 import { ShieldUserIcon, Trophy } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+
+export interface IDataGiaiThuong {
+  id: string;
+  ten: string;
+  sl: number;
+}
+
+const DataInitGiaiThuong: IDataGiaiThuong[] = [
+  { id: "db", ten: "Giải đặc biệt", sl: 1 },
+  { id: "1", ten: "Giải nhất", sl: 15 },
+  { id: "2", ten: "Giải nhì", sl: 10 },
+  { id: "3", ten: "Giải ba", sl: 20 },
+];
+
+export interface IDataUser {
+  Stt: string;
+  Hoten: string;
+  NoiCongTac: string;
+  SoDienThoai: string;
+}
+
+export const Data_Giai_2 = [
+  {
+    Stt: "3",
+    Hoten: "Test thu 3",
+    NoiCongTac: "Test noi cong tac 3",
+    SoDienThoai: "3333333",
+  },
+  {
+    Stt: "4",
+    Hoten: "Test thu 4",
+    NoiCongTac: "Test noi cong tac 4",
+    SoDienThoai: "4444444",
+  },
+  {
+    Stt: "5",
+    Hoten: "Test thu 5",
+    NoiCongTac: "Test noi cong tac 5",
+    SoDienThoai: "5555555",
+  },
+];
+
+export const Data_Giai_3 = [
+  {
+    Stt: "3",
+    Hoten: "Test thu 3",
+    NoiCongTac: "Test noi cong tac 3",
+    SoDienThoai: "3333333",
+    GiaiFix: "3",
+  },
+  {
+    Stt: "4",
+    Hoten: "Test thu 4",
+    NoiCongTac: "Test noi cong tac 4",
+    SoDienThoai: "4444444",
+    GiaiFix: "3",
+  },
+  {
+    Stt: "5",
+    Hoten: "Test thu 5",
+    NoiCongTac: "Test noi cong tac 5",
+    SoDienThoai: "5555555",
+    GiaiFix: "",
+  },
+  {
+    Stt: "6",
+    Hoten: "Test thu 6",
+    NoiCongTac: "Test noi cong tac 6",
+    SoDienThoai: "5555555",
+    GiaiFix: "",
+  },
+];
 
 export default function LotteryDraw() {
-  const [isDrawing, setIsDrawing] = useState(false);
-  const [countdown, setCountdown] = useState({
-    hours: 3,
-    minutes: 12,
-    seconds: 48,
-  });
+  const [dataGiaiThuong, setDataGiaiThuong] = useState(DataInitGiaiThuong);
+  const [currGiaiThuong, setCurrGiaiThuong] = useState(DataInitGiaiThuong[3]);
   const [showConfetti, setShowConfetti] = useState(false);
-  const [winner, setWinner] = useState<string | null>(null);
+  const [winner, setWinner] = useState<IDataUser | null>(null);
   const [participants, setParticipants] = useState(1247);
-  const [currentNumber, setCurrentNumber] = useState("000000");
+  const [showWinnerModal, setShowWinnerModal] = useState(false);
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      // setCountdown((prev) => {
-      //   let { hours, minutes, seconds } = prev;
-      //   if (seconds > 0) {
-      //     seconds--;
-      //   } else if (minutes > 0) {
-      //     minutes--;
-      //     seconds = 59;
-      //   } else if (hours > 0) {
-      //     hours--;
-      //     minutes = 59;
-      //     seconds = 59;
-      //   }
-      //   return { hours, minutes, seconds };
-      // });
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, []);
-
-  useEffect(() => {
-    if (isDrawing) {
-      const interval = setInterval(() => {
-        const randomNum = Math.floor(Math.random() * 1000000)
-          .toString()
-          .padStart(6, "0");
-        setCurrentNumber(randomNum);
-      }, 50);
-
-      // Stop after 3 seconds and show winner
-      const timeout = setTimeout(() => {
-        clearInterval(interval);
-        const finalNumber = Math.floor(Math.random() * 1000000)
-          .toString()
-          .padStart(6, "0");
-        setCurrentNumber(finalNumber);
-        setWinner(finalNumber);
-        setIsDrawing(false);
-        setShowConfetti(true);
-        setTimeout(() => setShowConfetti(false), 5000);
-      }, 3000);
-
-      return () => {
-        clearInterval(interval);
-        clearTimeout(timeout);
-      };
+  const getWinnerByValue = (value: string) => {
+    switch (currGiaiThuong.id) {
+      case "3":
+        return Data_Giai_3.find((item) => item.Stt === "3");
+      case "2":
+        return Data_Giai_2.find((item) => item.Stt === value);
+      case "1":
+        return Data_Giai_2.find((item) => item.Stt === value);
+      case "db":
+        return Data_Giai_2.find((item) => item.Stt === value);
+      default:
+        return null;
     }
-  }, [isDrawing]);
-
-  const handleDraw = () => {
-    setWinner(null);
-    setShowConfetti(false);
-    setIsDrawing(true);
   };
 
-  const handleReset = () => {
+  const handleSpin = () => {
     setWinner(null);
-    setCurrentNumber("000000");
-    setShowConfetti(false);
   };
 
-  console.log("xxxx");
+  const handleCompleteSpin = (value: string) => {
+    const winner = getWinnerByValue(value) || null;
+
+    if (!winner) return;
+
+    setShowWinnerModal(true);
+    setWinner(winner);
+    setShowConfetti(true);
+    setTimeout(() => setShowConfetti(false), 5000);
+  };
 
   return (
     <div
@@ -189,8 +224,8 @@ export default function LotteryDraw() {
       )}
       <div className="w-full flex justify-center items-center bg-[#ffffff20]">
         <Label
-          className="uppercase text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-600 via-yellow-500 to-amber-600 not-visited:text-balance tracking-tight
-              leading-normal">
+          className="text-6xl font-black text-amber-600 
+  [text-shadow:_2px_2px_0_#b45309,3px_3px_0_#92400e,4px_4px_0_#78350f] leading-normal">
           Hội nghị khoa học kỹ thuật lần thứ X
         </Label>
       </div>
@@ -198,50 +233,19 @@ export default function LotteryDraw() {
         <div className="w-6xl mx-auto text-center mb-8">
           <div className="text-center mb-8 animate-slide-up flex flex-col justify-center items-center">
             <Label
-              className="uppercase text-6xl font-bold text-accent mb-2"
+              className="uppercase text-5xl font-bold text-accent mb-2"
               style={{ textShadow: "0 0 20px rgba(255, 215, 0, 0.8)" }}>
               Hệ Thống Quay Số May Mắn
             </Label>
-          </div>
-          {/* Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 max-w-4xl mx-auto">
-            <div
-              className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700
-            text-white font-bold px-12 py-6 text-lg hover:shadow-lg transition-shadow
-            rounded-lg">
-              <div className="flex items-center gap-4">
-                <div className="p-1 bg-emerald-100 rounded-xl">
-                  <ShieldUserIcon className="w-12 h-12 text-emerald-600" />
-                </div>
-                <div>
-                  <p className="text-sm">Người tham gia</p>
-                  <p className="text-2xl font-bold">
-                    {participants.toLocaleString()}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div
-              className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700
-            text-white font-bold px-12 py-6 text-lg hover:shadow-lg transition-shadow
-            rounded-lg">
-              <div className="flex items-center gap-4">
-                <div className="p-3 bg-purple-100 rounded-xl">
-                  <Trophy className="w-6 h-6 text-purple-600" />
-                </div>
-                <div>
-                  <p className="text-sm ">Giải đặc biệt</p>
-                  <p className="text-2xl font-bold">1 giải</p>
-                </div>
-              </div>
-            </div>
           </div>
 
           <div className="max-w-4xl mx-auto">
             {/* Draw Display */}
             <div className="mb-8 w-full">
-              <SlotMachine />
+              <SlotMachine
+                onSpin={handleSpin}
+                onCompleteSpin={handleCompleteSpin}
+              />
 
               {/* Number Display */}
               {/* <div
@@ -264,18 +268,6 @@ export default function LotteryDraw() {
                   ))}
                 </div>
               </div> */}
-
-              {winner && (
-                <div className="mt-6 text-center animate-in fade-in slide-in-from-bottom-4 duration-500">
-                  <div className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-amber-400 to-amber-500 rounded-full shadow-lg">
-                    <Trophy className="w-5 h-5 text-white" />
-                    <span className="text-white font-bold text-lg">
-                      Chúc mừng người chiến thắng!
-                    </span>
-                    <Trophy className="w-5 h-5 text-white" />
-                  </div>
-                </div>
-              )}
             </div>
 
             {/* Action Buttons */}
@@ -302,22 +294,66 @@ export default function LotteryDraw() {
           </div>
         </div>
         {/* Chon giai */}
-        <div className="absolute bottom-2 left-2">
-          <Select>
-            <SelectTrigger className="w-[180px]">
+        <div className="absolute bottom-2 left-2 flex flex-col gap-4">
+          <div className="flex items-center justify-between p-3 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 rounded-lg border border-yellow-500/30 text-yellow-400">
+            <div className="flex items-center gap-4">
+              <div className="">
+                <ShieldUserIcon className="w-8 h-8 text-yellow-400" />
+              </div>
+              <div className="pr-2">
+                <p className="text-sm uppercase">Người tham gia</p>
+                <p className="text-2xl font-bold">
+                  {participants.toLocaleString()}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="flex items-center justify-between p-3 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-lg border border-purple-500/30 text-purple-400">
+            <div className="flex text-left items-center gap-4">
+              <div className="">
+                <Trophy className="w-8 h-8 text-purple-400" />
+              </div>
+              <div>
+                <p className="text-sm uppercase">{currGiaiThuong.ten}</p>
+                <p className="text-2xl font-bold">{currGiaiThuong.sl} giải</p>
+              </div>
+            </div>
+          </div>
+          <Select
+            value={currGiaiThuong.id}
+            onValueChange={(val) => {
+              const found = dataGiaiThuong.find((g) => g.id === val);
+              if (found) setCurrGiaiThuong(found);
+            }}>
+            <SelectTrigger className="w-[200px]">
               <SelectValue placeholder="Chọn giải" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="light">Giải đặc biệt</SelectItem>
-              <SelectItem value="dark">Giải nhất</SelectItem>
-              <SelectItem value="system">Giải nhì</SelectItem>
+              {dataGiaiThuong.map((item) => (
+                <SelectItem value={item.id} key={item.id} className="bg-white">
+                  <Label>
+                    {item.sl} - {item.ten}
+                  </Label>
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>
+
+        {/* Data stas */}
+
         {/* List trung thuong */}
         <div className="absolute bottom-2 right-2">
           <WinnersList />
         </div>
+
+        {/* Winner modal */}
+        <WinnerModal
+          winner={winner}
+          currGiaiThuong={currGiaiThuong}
+          isOpen={showWinnerModal}
+          onClose={() => setShowWinnerModal(false)}
+        />
       </div>
     </div>
   );

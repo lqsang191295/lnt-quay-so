@@ -62,7 +62,11 @@ function Reel({
   }, [spinId, stopIndex, index, isDigit]);
 
   return (
-    <div className="relative overflow-hidden w-16 h-20 bg-white shadow-inner">
+    <div
+      className="relative overflow-hidden w-16 h-20 rounded-md 
+        bg-gradient-to-b from-gray-200 to-gray-50 
+        shadow-inner border border-gray-300
+        [box-shadow:inset_0_4px_8px_rgba(0,0,0,0.2),inset_0_-2px_4px_rgba(255,255,255,0.6)]">
       {/* Nếu là '?' thì chỉ hiển thị nó thôi, không render số */}
       {!isDigit ? (
         <div className="absolute inset-0 flex items-center justify-center text-4xl font-black text-red-600">
@@ -83,7 +87,15 @@ function Reel({
   );
 }
 
-export default function SlotMachine() {
+interface ISlotMachineProps {
+  onSpin: () => void;
+  onCompleteSpin: (value: string) => void;
+}
+
+export default function SlotMachine({
+  onSpin,
+  onCompleteSpin,
+}: ISlotMachineProps) {
   const [spinId, setSpinId] = useState(0); // tăng mỗi khi click
   const [results, setResults] = useState<string[]>(["?", "?", "?", "?"]);
   const [spinning, setSpinning] = useState(false);
@@ -105,14 +117,18 @@ export default function SlotMachine() {
     const totalTime = SPIN_DURATION + STAGGER * (results.length - 1) + 200;
     setTimeout(() => {
       setSpinning(false);
+
+      if (onCompleteSpin) onCompleteSpin(final.join());
       // note: we do NOT reset transform here — final position is left as-is
     }, totalTime);
+
+    if (onSpin) onSpin();
   };
 
   return (
-    <div className="flex flex-col items-center justify-center w-full">
-      <div className=" w-full bg-gradient-to-b from-red-500 to-red-700 rounded-xl shadow-lg border-4 border-red-300">
-        <div className="flex gap-1 justify-center">
+    <div className="flex flex-col items-center justify-center">
+      <div className="bg-gradient-to-b from-red-500 to-red-700 rounded-xl p-6 shadow-lg border-4 border-red-300">
+        <div className="flex gap-3 justify-center">
           {results.map((r, i) => (
             <Reel key={i} target={r} spinId={spinId} index={i} />
           ))}
@@ -123,11 +139,11 @@ export default function SlotMachine() {
           onClick={spin}
           disabled={spinning}
           className={cn(
-            "relative px-24 py-12 text-lg font-bold text-white rounded-lg",
+            "relative px-24 py-8 text-lg font-bold text-white rounded-lg",
             "bg-gradient-to-b from-red-400 to-red-600",
             "shadow-[0_4px_0_0_#b91c1c,0_6px_8px_rgba(0,0,0,0.3)]",
             "active:translate-y-1 active:shadow-[0_2px_0_0_#b91c1c,0_3px_4px_rgba(0,0,0,0.3)]",
-            "transition-all duration-150 uppercase text-4xl"
+            "transition-all duration-150 uppercase text-4xl cursor-pointer"
           )}>
           {/* <Button
             onClick={spin}

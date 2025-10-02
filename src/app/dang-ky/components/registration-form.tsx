@@ -2,6 +2,7 @@
 
 import type React from "react";
 
+import { act_DangKy } from "@/actions/act_user";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -13,6 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { formatDate } from "@/lib/format";
 import { Calendar, MapPin, Users } from "lucide-react";
 import { useState } from "react";
 
@@ -69,10 +71,27 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
     setIsSubmitting(true);
 
     // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    const data = await act_DangKy(
+      formData.fullName,
+      formData.organization,
+      "",
+      "",
+      formatDate(new Date()),
+      "",
+      "",
+      "",
+      "",
+      formData.phone
+    );
 
-    const randomNum = Math.floor(1000 + Math.random() * 9000);
-    const ticketNumber = `${randomNum}`;
+    console.log("data === ", data);
+
+    // const randomNum = Math.floor(1000 + Math.random() * 9000);
+    let ticketNumber = ``;
+
+    if (data && data.length > 0) {
+      ticketNumber = data[0].NewID;
+    }
 
     setIsSubmitting(false);
     onSuccess(formData, ticketNumber);
@@ -110,7 +129,7 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
               <div className="hidden xs:flex h-10 w-10 items-center justify-center rounded-lg bg-accent text-accent-foreground">
                 <Calendar className="h-5 w-5" />
               </div>
-              <div>
+              <div className="text-center">
                 <p className="text-sm font-medium text-muted-foreground">
                   Thời gian
                 </p>
@@ -124,7 +143,7 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
               <div className="hidden xs:flex h-10 w-10 items-center justify-center rounded-lg bg-accent text-accent-foreground">
                 <MapPin className="h-5 w-5" />
               </div>
-              <div>
+              <div className="text-center">
                 <p className="text-sm font-medium text-muted-foreground">
                   Địa điểm
                 </p>
@@ -138,7 +157,7 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
               <div className="hidden xs:flex h-10 w-10 items-center justify-center rounded-lg bg-accent text-accent-foreground">
                 <Users className="h-5 w-5" />
               </div>
-              <div>
+              <div className="text-center">
                 <p className="text-sm font-medium text-muted-foreground">
                   Đã đăng ký
                 </p>
