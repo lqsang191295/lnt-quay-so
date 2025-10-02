@@ -71,11 +71,8 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
     // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    // Generate ticket number (format: EVT-YYYYMMDD-XXXX)
-    const date = new Date();
-    const dateStr = date.toISOString().slice(0, 10).replace(/-/g, "");
     const randomNum = Math.floor(1000 + Math.random() * 9000);
-    const ticketNumber = `EVT-${dateStr}-${randomNum}`;
+    const ticketNumber = `${randomNum}`;
 
     setIsSubmitting(false);
     onSuccess(formData, ticketNumber);
@@ -90,23 +87,27 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 flex flex-col justify-center items-center">
+    <div className="container mx-auto p-1 md:p-4 flex flex-col justify-center items-center h-full">
       <div className="mx-auto max-w-4xl">
         {/* Header */}
         <div className="mb-4 text-center">
-          <h1 className="mb-4 text-balance text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl">
+          <h1
+            className="mb-1 md:mb-4 text-balance text-xl md:text-4xl font-bold tracking-tight lg:text-6xl 
+            bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 
+            leading-normal
+            bg-clip-text text-transparent ">
             Đăng ký tham dự sự kiện
           </h1>
-          <p className="text-pretty text-lg text-muted-foreground md:text-xl">
+          <p className="text-pretty text-xs md:text-xl text-red-600">
             Vui lòng điền đầy đủ thông tin để hoàn tất đăng ký
           </p>
         </div>
 
         {/* Event Info Cards */}
-        <div className="mb-4 grid gap-4 md:grid-cols-3">
-          <Card className="border-2 py-2">
-            <CardContent className="flex items-center gap-3 p-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent text-accent-foreground">
+        <div className="mb-4 grid gap-1 md:gap-4 grid-cols-3">
+          <Card className="border-2 py-0 xs:py-2">
+            <CardContent className="flex items-center gap-3 p-1 xs:p-4 justify-center">
+              <div className="hidden xs:flex h-10 w-10 items-center justify-center rounded-lg bg-accent text-accent-foreground">
                 <Calendar className="h-5 w-5" />
               </div>
               <div>
@@ -118,9 +119,9 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
             </CardContent>
           </Card>
 
-          <Card className="border-2 py-2">
-            <CardContent className="flex items-center gap-3 p-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent text-accent-foreground">
+          <Card className="border-2 py-0 xs:py-2">
+            <CardContent className="flex items-center gap-3 p-1 xs:p-4 justify-center">
+              <div className="hidden xs:flex h-10 w-10 items-center justify-center rounded-lg bg-accent text-accent-foreground">
                 <MapPin className="h-5 w-5" />
               </div>
               <div>
@@ -132,9 +133,9 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
             </CardContent>
           </Card>
 
-          <Card className="border-2 py-2">
-            <CardContent className="flex items-center gap-3 p-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent text-accent-foreground">
+          <Card className="border-2 py-0 xs:py-2">
+            <CardContent className="flex items-center gap-3 p-1 xs:p-4 justify-center">
+              <div className="hidden xs:flex h-10 w-10 items-center justify-center rounded-lg bg-accent text-accent-foreground">
                 <Users className="h-5 w-5" />
               </div>
               <div>
@@ -148,7 +149,7 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
         </div>
 
         {/* Registration Form */}
-        <Card className="border-2 shadow-lg">
+        <Card className="border-2 shadow-lg py-2">
           <CardHeader>
             <CardTitle className="text-2xl">Thông tin đăng ký</CardTitle>
             <CardDescription>
@@ -159,7 +160,7 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Full Name */}
               <div className="space-y-2">
-                <Label htmlFor="fullName" className="text-base">
+                <Label htmlFor="fullName" className="text-base uppercase">
                   Họ và tên <span className="text-destructive">*</span>
                 </Label>
                 <Input
@@ -178,7 +179,7 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
 
               {/* Phone */}
               <div className="space-y-2">
-                <Label htmlFor="phone" className="text-base">
+                <Label htmlFor="phone" className="text-base uppercase">
                   Số điện thoại <span className="text-destructive">*</span>
                 </Label>
                 <Input
@@ -197,7 +198,8 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
               {/* Organization */}
               <div className="space-y-2">
                 <Label htmlFor="organization" className="text-base">
-                  Đơn vị công tác <span className="text-destructive">*</span>
+                  Đơn vị công tác{" "}
+                  <span className="text-destructive uppercase">*</span>
                 </Label>
                 <Input
                   id="organization"
@@ -242,7 +244,8 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
               <Button
                 type="submit"
                 size="lg"
-                className="w-full text-base font-semibold"
+                className="w-full text-base font-semibold 
+                bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 cursor-pointer"
                 disabled={isSubmitting}>
                 {isSubmitting ? "Đang xử lý..." : "Đăng ký ngay"}
               </Button>

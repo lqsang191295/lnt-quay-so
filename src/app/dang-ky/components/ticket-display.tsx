@@ -46,19 +46,23 @@ export function TicketDisplay({
       <div className="mx-auto max-w-2xl">
         {/* Success Message */}
         <div className="mb-8 text-center">
-          <h1 className="mb-3 text-balance text-3xl font-bold md:text-4xl">
+          <h1
+            className="mb-1 md:mb-4 text-balance text-xl md:text-4xl font-bold tracking-tight lg:text-6xl 
+            bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 
+            leading-normal
+            bg-clip-text text-transparent ">
             Đăng ký thành công!
           </h1>
-          <p className="text-pretty text-lg text-muted-foreground">
-            Vui lòng chụp màn hình hoặc lưu lại số phiếu để tham gia quay số may
-            mắn
+          <p className="text-pretty text-xs md:text-xl text-red-600">
+            Vui lòng chụp màn hình hoặc lưu lại số phiếu này để tham dự quay số
+            may mắn.
           </p>
         </div>
 
         {/* Ticket Card */}
         <Card
           ref={ticketRef}
-          className="relative overflow-hidden border-2 shadow-2xl">
+          className="relative overflow-hidden border-2 shadow-2xl py-2">
           {/* Decorative Background Pattern */}
           <div className="absolute inset-0 opacity-5">
             <div className="absolute -right-20 -top-20 h-40 w-40 rounded-full bg-accent" />
@@ -69,9 +73,9 @@ export function TicketDisplay({
             {/* Ticket Number - Large Display */}
             <div className="mb-2 text-center">
               <p className="mb-2 text-sm font-medium uppercase tracking-wider text-blue-600">
-                Số phiếu tham dự
+                Số thứ tự
               </p>
-              <div className="rounded-lg bg-accent/10 px-6 py-4">
+              <div className="rounded-lg bg-accent/10 p-1 xs:px-4">
                 <p className="font-mono text-3xl font-bold tracking-wider md:text-4xl text-blue-600">
                   {ticketNumber}
                 </p>
@@ -79,7 +83,7 @@ export function TicketDisplay({
             </div>
 
             {/* Divider */}
-            <div className="relative mb-8">
+            <div className="relative p-2 xs:mb-8">
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t-2 border-dashed border-border" />
               </div>
@@ -93,7 +97,7 @@ export function TicketDisplay({
             {/* Registration Details */}
             <div className="space-y-4">
               <div className="flex justify-between border-b border-border pb-3">
-                <span className="font-medium text-muted-foreground">
+                <span className="font-medium text-muted-foreground uppercase">
                   Họ và tên:
                 </span>
                 <span className="font-semibold">
@@ -101,13 +105,13 @@ export function TicketDisplay({
                 </span>
               </div>
               <div className="flex justify-between border-b border-border pb-3">
-                <span className="font-medium text-muted-foreground">
+                <span className="font-medium text-muted-foreground uppercase">
                   Số điện thoại:
                 </span>
                 <span className="font-semibold">{registrationData.phone}</span>
               </div>
               <div className="flex justify-between border-b border-border pb-3">
-                <span className="font-medium text-muted-foreground">
+                <span className="font-medium text-muted-foreground uppercase">
                   Đơn vị:
                 </span>
                 <span className="font-semibold">
@@ -115,7 +119,9 @@ export function TicketDisplay({
                 </span>
               </div>
               <div className="flex justify-between pb-3">
-                <span className="font-medium text-muted-foreground">Loại:</span>
+                <span className="font-medium text-muted-foreground uppercase">
+                  Loại:
+                </span>
                 <span className="font-semibold">
                   {registrationData.attendeeType === "staff"
                     ? "Nhân viên bệnh viện"
@@ -145,21 +151,6 @@ export function TicketDisplay({
             Tải xuống
           </Button>
         </div>
-
-        {/* Important Notice */}
-        <Card className="mt-6 border-accent/20 bg-accent/5">
-          <CardContent className="p-2">
-            <h3 className="mb-2 font-semibold text-red-600">
-              Lưu ý quan trọng:
-            </h3>
-            <ul className="space-y-1 text-sm text-muted-foreground">
-              <li>• Vui lòng chụp màn hình hoặc lưu lại số phiếu này</li>
-              <li>• Số phiếu sẽ được sử dụng cho việc quay số may mắn</li>
-              <li>• Mang theo số phiếu khi tham dự sự kiện</li>
-              <li>• Liên hệ ban tổ chức nếu có thắc mắc</li>
-            </ul>
-          </CardContent>
-        </Card>
 
         {/* Back Button */}
         <div className="mt-8 text-center">

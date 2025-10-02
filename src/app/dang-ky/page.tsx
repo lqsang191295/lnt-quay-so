@@ -32,7 +32,7 @@ export default function EventRegistrationPage() {
   };
 
   return (
-    <main className="min-h-screen bg-background">
+    <main className="min-h-screen bg-background flex flex-col justify-center items-center">
       {!ticketNumber ? (
         <RegistrationForm onSuccess={handleRegistrationSuccess} />
       ) : (

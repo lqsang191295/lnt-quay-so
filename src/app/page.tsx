@@ -1,7 +1,6 @@
 "use client";
 
 import SlotMachine from "@/components/SlotMachine";
-import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -11,7 +10,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import WinnersList from "@/components/WinnersList";
-import { ShieldUserIcon, Sparkles, Trophy } from "lucide-react";
+import { ShieldUserIcon, Trophy } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
@@ -118,7 +117,7 @@ export default function LotteryDraw() {
       <div
         className="absolute top-[60%] left-[15%] w-10 h-10 animate-float opacity-60"
         style={{ animationDelay: "1.5s" }}>
-        <Image src={"/coin-3d.png"} width={120} height={120} alt="Gift" />
+        <Image src={"/gift-3d.png"} width={48} height={48} alt="Gift" />
       </div>
 
       <div
@@ -241,11 +240,11 @@ export default function LotteryDraw() {
 
           <div className="max-w-4xl mx-auto">
             {/* Draw Display */}
-            <div className="mb-8">
+            <div className="mb-8 w-full">
               <SlotMachine />
 
               {/* Number Display */}
-              <div
+              {/* <div
                 className={`relative bg-gradient-to-br from-emerald-600 to-emerald-700 rounded-2xl p-8 md:p-12 ${
                   isDrawing ? "animate-glow" : ""
                 } ${winner ? "ring-4 ring-amber-400 ring-offset-4" : ""}`}>
@@ -264,7 +263,7 @@ export default function LotteryDraw() {
                     </div>
                   ))}
                 </div>
-              </div>
+              </div> */}
 
               {winner && (
                 <div className="mt-6 text-center animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -281,7 +280,7 @@ export default function LotteryDraw() {
 
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button
+              {/* <Button
                 size="lg"
                 onClick={handleDraw}
                 disabled={isDrawing}
@@ -298,7 +297,7 @@ export default function LotteryDraw() {
                     <Label className="text-2xl">Bắt đầu</Label>
                   </>
                 )}
-              </Button>
+              </Button> */}
             </div>
           </div>
         </div>

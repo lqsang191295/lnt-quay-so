@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { useEffect, useRef, useState } from "react";
 
 const numbers = Array.from({ length: 10 }, (_, i) => i.toString());
@@ -8,7 +9,7 @@ const numbers = Array.from({ length: 10 }, (_, i) => i.toString());
 const REEL_HEIGHT = 80; // px (h-20 = 80px)
 const TOTAL_NUMBERS = 30; // reel dài
 const SPIN_DURATION = 2000; // ms (animation time)
-const STAGGER = 200; // ms between reels
+const STAGGER = 100; // ms between reels
 
 function Reel({
   target,
@@ -61,7 +62,7 @@ function Reel({
   }, [spinId, stopIndex, index, isDigit]);
 
   return (
-    <div className="relative overflow-hidden w-16 h-20 bg-white rounded-md shadow-inner">
+    <div className="relative overflow-hidden w-16 h-20 bg-white shadow-inner">
       {/* Nếu là '?' thì chỉ hiển thị nó thôi, không render số */}
       {!isDigit ? (
         <div className="absolute inset-0 flex items-center justify-center text-4xl font-black text-red-600">
@@ -109,26 +110,31 @@ export default function SlotMachine() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center p-6">
-      <div className="bg-gradient-to-b from-red-500 to-red-700 rounded-xl p-6 shadow-lg border-4 border-red-300">
-        <div className="text-center bg-yellow-400 text-red-700 font-bold px-4 py-1 rounded-full mb-4">
-          🎉 Hệ thống quay số 🎉
-        </div>
-
-        <div className="flex gap-3 justify-center mb-6">
+    <div className="flex flex-col items-center justify-center w-full">
+      <div className=" w-full bg-gradient-to-b from-red-500 to-red-700 rounded-xl shadow-lg border-4 border-red-300">
+        <div className="flex gap-1 justify-center">
           {results.map((r, i) => (
             <Reel key={i} target={r} spinId={spinId} index={i} />
           ))}
         </div>
-
-        <div className="flex justify-center">
-          <Button
+      </div>
+      <div className="flex justify-center mt-6">
+        <Button
+          onClick={spin}
+          disabled={spinning}
+          className={cn(
+            "relative px-24 py-12 text-lg font-bold text-white rounded-lg",
+            "bg-gradient-to-b from-red-400 to-red-600",
+            "shadow-[0_4px_0_0_#b91c1c,0_6px_8px_rgba(0,0,0,0.3)]",
+            "active:translate-y-1 active:shadow-[0_2px_0_0_#b91c1c,0_3px_4px_rgba(0,0,0,0.3)]",
+            "transition-all duration-150 uppercase text-4xl"
+          )}>
+          {/* <Button
             onClick={spin}
             disabled={spinning}
-            className="px-10 py-6 text-xl font-bold rounded-lg bg-yellow-400 text-red-700 shadow hover:bg-yellow-300">
-            Quay số
-          </Button>
-        </div>
+            className="px-10 py-6 text-xl font-bold rounded-lg bg-yellow-400 text-red-700 shadow hover:bg-yellow-300"> */}
+          Quay số
+        </Button>
       </div>
     </div>
   );
