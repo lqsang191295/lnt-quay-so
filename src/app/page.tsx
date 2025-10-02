@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/select";
 import WinnersList from "@/components/WinnersList";
 import { ShieldUserIcon, Sparkles, Trophy } from "lucide-react";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 export default function LotteryDraw() {
@@ -95,45 +96,29 @@ export default function LotteryDraw() {
       className="relative w-screen h-screen flex flex-col justify-center items-center
     bg-gradient-to-br from-[#0f1729] via-[#1a2847] to-[#0f1729] overflow-hidden">
       <div className="absolute top-20 left-[10%] w-16 h-16 animate-float opacity-60">
-        <svg viewBox="0 0 100 100" className="w-full h-full text-blue-400">
-          <path
-            d="M50 10 L61 39 L92 39 L67 58 L78 87 L50 68 L22 87 L33 58 L8 39 L39 39 Z"
-            fill="currentColor"
-          />
-        </svg>
+        <Image src={"/gift-3d.png"} width={48} height={48} alt="Gift" />
       </div>
 
       <div
         className="absolute top-40 right-[15%] w-12 h-12 animate-float-slow opacity-50"
         style={{ animationDelay: "1s" }}>
-        <svg viewBox="0 0 100 100" className="w-full h-full text-blue-300">
-          <path
-            d="M50 10 L61 39 L92 39 L67 58 L78 87 L50 68 L22 87 L33 58 L8 39 L39 39 Z"
-            fill="currentColor"
-          />
-        </svg>
+        <Image src={"/balloons-3d.png"} width={120} height={120} alt="Gift" />
       </div>
 
       <div className="absolute top-[30%] left-[8%] w-14 h-14 animate-float opacity-80">
-        <div className="w-full h-full rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 shadow-lg flex items-center justify-center text-2xl font-bold text-yellow-900">
-          $
-        </div>
+        <Image src={"/coin-3d.png"} width={120} height={120} alt="Gift" />
       </div>
 
       <div
         className="absolute bottom-[25%] right-[12%] w-12 h-12 animate-float-slow opacity-70"
         style={{ animationDelay: "0.5s" }}>
-        <div className="w-full h-full rounded-full bg-gradient-to-br from-yellow-300 to-yellow-500 shadow-lg flex items-center justify-center text-xl font-bold text-yellow-900">
-          $
-        </div>
+        <Image src={"/coin-3d.png"} width={120} height={120} alt="Gift" />
       </div>
 
       <div
         className="absolute top-[60%] left-[15%] w-10 h-10 animate-float opacity-60"
         style={{ animationDelay: "1.5s" }}>
-        <div className="w-full h-full rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 shadow-lg flex items-center justify-center text-lg font-bold text-yellow-900">
-          $
-        </div>
+        <Image src={"/coin-3d.png"} width={120} height={120} alt="Gift" />
       </div>
 
       <div
