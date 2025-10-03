@@ -1,7 +1,7 @@
 "use client";
 
-import { IDataUser } from "@/app/page";
 import { Button } from "@/components/ui/button";
+import { IDataUser } from "@/lib/lottery-logic";
 import { cn } from "@/lib/utils";
 import { useEffect, useRef, useState } from "react";
 

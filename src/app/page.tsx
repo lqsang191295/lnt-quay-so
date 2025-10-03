@@ -11,12 +11,12 @@ import {
 } from "@/components/ui/select";
 import WinnerModal from "@/components/winner-modal";
 import WinnersList from "@/components/WinnersList";
-import { 
-  IDataUser, 
-  IDataGiaiThuong, 
-  getDanhSachThamGia, 
-  quayChoNguoiTrungGiai, 
-  quayTatCaGiai
+import {
+  IDataGiaiThuong,
+  IDataUser,
+  getDanhSachThamGia,
+  quayChoNguoiTrungGiai,
+  quayTatCaGiai,
 } from "@/lib/lottery-logic";
 import { ShieldUserIcon, Trophy } from "lucide-react";
 import Image from "next/image";
@@ -150,25 +150,44 @@ export default function LotteryDraw() {
   const [showWinnerModal, setShowWinnerModal] = useState(false);
 
   // Hàm quay số cho một lần quay cụ thể
-  const quayMotLan = (loaiGiai: string, lanQuayThu: number): IDataUser | null => {
-    const totalLanQuay = DataInitGiaiThuong.find(g => g.id === loaiGiai)?.sl || 1;
-    return quayChoNguoiTrungGiai(DataThamGia, loaiGiai, lanQuayThu, totalLanQuay);
+  const quayMotLan = (
+    loaiGiai: string,
+    lanQuayThu: number
+  ): IDataUser | null => {
+    const totalLanQuay =
+      DataInitGiaiThuong.find((g) => g.id === loaiGiai)?.sl || 1;
+    return quayChoNguoiTrungGiai(
+      DataThamGia,
+      loaiGiai,
+      lanQuayThu,
+      totalLanQuay
+    );
   };
 
   const getDataTrungThuong = (): IDataUser[] => {
     // Trả về danh sách người tham gia theo loại giải
+    let data;
     switch (currGiaiThuong.id) {
       case "3": // Giải ba - chỉ khách mời
-        return getDanhSachThamGia(DataThamGia, currGiaiThuong.id, ["kh"]);
+        data = getDanhSachThamGia(DataThamGia, currGiaiThuong.id, ["kh"]);
       case "2": // Giải nhì - chỉ khách mời
-        return getDanhSachThamGia(DataThamGia, currGiaiThuong.id, ["kh"]);
+        data = getDanhSachThamGia(DataThamGia, currGiaiThuong.id, ["kh"]);
       case "1": // Giải nhất - cả nhân viên và khách mời
-        return getDanhSachThamGia(DataThamGia, currGiaiThuong.id, ["nv", "kh"]);
+        data = getDanhSachThamGia(DataThamGia, currGiaiThuong.id, ["nv", "kh"]);
       case "db": // Giải đặc biệt - chỉ nhân viên
-        return getDanhSachThamGia(DataThamGia, currGiaiThuong.id, ["nv"]);
+        data = getDanhSachThamGia(DataThamGia, currGiaiThuong.id, ["nv"]);
       default:
-        return getDanhSachThamGia(DataThamGia, currGiaiThuong.id, ["nv", "kh"]);
+        data = getDanhSachThamGia(DataThamGia, currGiaiThuong.id, ["nv", "kh"]);
     }
+
+    console.log(
+      "getDataTrungThuong === ",
+      currGiaiThuong.id,
+      idxGiaiThuong,
+      data
+    );
+
+    return data;
   };
 
   const handleSpin = () => {
@@ -176,11 +195,12 @@ export default function LotteryDraw() {
   };
 
   const handleCompleteSpin = () => {
-    const winner = quayMotLan(currGiaiThuong.id, idxGiaiThuong);
+    const winner = getDataTrungThuong()[0];
+
+    console.log("winner === ", winner);
 
     if (!winner) return;
 
-    setIdxGiaiThuong((prev) => prev + 1);
     setShowWinnerModal(true);
     setWinner(winner);
     setShowConfetti(true);
@@ -189,10 +209,24 @@ export default function LotteryDraw() {
 
   const handleNext = () => {
     setSlGiai((prev) => prev - 1);
+    setIdxGiaiThuong((prev) => prev + 1);
+
+    DataThamGia.map((item) => {
+      if (item.Stt === winner?.Stt) {
+        item.GiaiTrung = currGiaiThuong.id;
+      }
+    });
+
     setShowWinnerModal(false);
   };
 
   const handleCancel = () => {
+    DataThamGia.map((item) => {
+      if (item.Stt === winner?.Stt) {
+        item.GiaiTrung = currGiaiThuong.id;
+        item.HuyBo = true;
+      }
+    });
     setShowWinnerModal(false);
   };
 
@@ -316,8 +350,8 @@ export default function LotteryDraw() {
                 className="mb-1 md:mb-4 text-balance text-3xl font-bold tracking-tight 
             bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 
             leading-normal
-            bg-clip-text text-transparent ">
-                {currGiaiThuong.ten} - Còn lại {slGiai} giải
+            bg-clip-text text-transparent uppercase">
+                {currGiaiThuong.ten} - Còn lại {slGiai} lần quay
               </h2>
             </div>
             {/* Draw Display */}
@@ -325,7 +359,7 @@ export default function LotteryDraw() {
               <SlotMachine
                 onSpin={handleSpin}
                 onCompleteSpin={handleCompleteSpin}
-                DataTrungThuong={getDataTrungThuong()[idxGiaiThuong] || getDataTrungThuong()[0]}
+                DataTrungThuong={getDataTrungThuong()[0]}
               />
 
               {/* Number Display */}
@@ -439,7 +473,7 @@ export default function LotteryDraw() {
 
         {/* List trung thuong */}
         <div className="absolute bottom-2 right-2">
-          <WinnersList />
+          <WinnersList DataThamGia={DataThamGia} />
         </div>
 
         {/* Winner modal */}

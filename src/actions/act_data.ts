@@ -131,7 +131,7 @@ const getDataGiaiServer = async (giai: string) => {
 
 const mockData = true;
 
-const getDataGiaiDb = async () => {
+export const getDataGiaiDb = async () => {
   if (mockData) return Mock_Data_Giai_Db;
 
   let data = getLocalStorageByKey("DATA_GIAI_DB");
@@ -147,7 +147,7 @@ const getDataGiaiDb = async () => {
   return data;
 };
 
-const getDataGiai1 = async () => {
+export const getDataGiai1 = async () => {
   if (mockData) return Mock_Data_Giai_1;
 
   let data = getLocalStorageByKey("DATA_GIAI_1");
@@ -163,7 +163,7 @@ const getDataGiai1 = async () => {
   return data;
 };
 
-const getDataGiai2 = async () => {
+export const getDataGiai2 = async () => {
   if (mockData) return Mock_Data_Giai_2;
 
   let data = getLocalStorageByKey("DATA_GIAI_2");
@@ -179,7 +179,7 @@ const getDataGiai2 = async () => {
   return data;
 };
 
-const getDataGiai3 = async () => {
+export const getDataGiai3 = async () => {
   if (mockData) return Mock_Data_Giai_3;
 
   let data = getLocalStorageByKey("DATA_GIAI_3");
