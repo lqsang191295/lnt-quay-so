@@ -18,6 +18,7 @@ import {
   quayChoNguoiTrungGiai,
   quayTatCaGiai,
 } from "@/lib/lottery-logic";
+import { useUserDataStore } from "@/store/data-user";
 import { ShieldUserIcon, Trophy } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
@@ -30,116 +31,117 @@ const DataInitGiaiThuong: IDataGiaiThuong[] = [
 ];
 
 // Danh sách tham gia cho từng loại giải
-const DataThamGia: IDataUser[] = [
-  // Nhân viên bệnh viện
-  {
-    Stt: "1",
-    Hoten: "Nguyễn Văn A",
-    NoiCongTac: "Khoa Nội",
-    SoDienThoai: "0901234567",
-    SoPhieu: 1,
-    LoaiDS: "nv",
-    NgayTao: new Date(),
-    NgayThamDu: new Date(),
-    NgayQuaySo: null,
-    GiaiTrung: null,
-    GiaiFix: "db", // Người này sẽ trúng giải đặc biệt
-  },
-  {
-    Stt: "2",
-    Hoten: "Trần Thị B",
-    NoiCongTac: "Khoa Ngoại",
-    SoDienThoai: "0901234568",
-    SoPhieu: 2,
-    LoaiDS: "nv",
-    NgayTao: new Date(),
-    NgayThamDu: new Date(),
-    NgayQuaySo: null,
-    GiaiTrung: null,
-    GiaiFix: "1", // Người này sẽ trúng giải nhất
-  },
-  {
-    Stt: "3",
-    Hoten: "Lê Văn C",
-    NoiCongTac: "Khoa Sản",
-    SoDienThoai: "0901234569",
-    SoPhieu: 3,
-    LoaiDS: "nv",
-    NgayTao: new Date(),
-    NgayThamDu: new Date(),
-    NgayQuaySo: null,
-    GiaiTrung: null,
-    GiaiFix: null,
-  },
-  {
-    Stt: "4",
-    Hoten: "Phạm Thị D",
-    NoiCongTac: "Khoa Nhi",
-    SoDienThoai: "0901234570",
-    SoPhieu: 4,
-    LoaiDS: "nv",
-    NgayTao: new Date(),
-    NgayThamDu: new Date(),
-    NgayQuaySo: null,
-    GiaiTrung: null,
-    GiaiFix: "1", // Người này sẽ trúng giải nhất
-  },
-  // Khách mời bên ngoài
-  {
-    Stt: "5",
-    Hoten: "Hoàng Văn E",
-    NoiCongTac: "Công ty ABC",
-    SoDienThoai: "0901234571",
-    SoPhieu: 5,
-    LoaiDS: "kh",
-    NgayTao: new Date(),
-    NgayThamDu: new Date(),
-    NgayQuaySo: null,
-    GiaiTrung: null,
-    GiaiFix: "3", // Người này sẽ trúng giải ba
-  },
-  {
-    Stt: "6",
-    Hoten: "Vũ Thị F",
-    NoiCongTac: "Công ty XYZ",
-    SoDienThoai: "0901234572",
-    SoPhieu: 6,
-    LoaiDS: "kh",
-    NgayTao: new Date(),
-    NgayThamDu: new Date(),
-    NgayQuaySo: null,
-    GiaiTrung: null,
-    GiaiFix: "2", // Người này sẽ trúng giải nhì
-  },
-  {
-    Stt: "7",
-    Hoten: "Đỗ Văn G",
-    NoiCongTac: "Đối tác H",
-    SoDienThoai: "0901234573",
-    SoPhieu: 7,
-    LoaiDS: "kh",
-    NgayTao: new Date(),
-    NgayThamDu: new Date(),
-    NgayQuaySo: null,
-    GiaiTrung: null,
-    GiaiFix: "3", // Người này sẽ trúng giải ba
-  },
-  {
-    Stt: "8",
-    Hoten: "Bùi Thị H",
-    NoiCongTac: "Liên đoàn I",
-    SoDienThoai: "0901234574",
-    SoPhieu: 8,
-    LoaiDS: "kh",
-    NgayTao: new Date(),
-    NgayThamDu: new Date(),
-    NgayQuaySo: null,
-    GiaiTrung: null,
-    GiaiFix: null,
-  },
-];
+// const DataThamGia: IDataUser[] = [
+//   // Nhân viên bệnh viện
+//   {
+//     Stt: "1",
+//     Hoten: "Nguyễn Văn A",
+//     NoiCongTac: "Khoa Nội",
+//     SoDienThoai: "0901234567",
+//     SoPhieu: 1,
+//     LoaiDS: "nv",
+//     NgayTao: new Date(),
+//     NgayThamDu: new Date(),
+//     NgayQuaySo: null,
+//     GiaiTrung: null,
+//     GiaiFix: "db", // Người này sẽ trúng giải đặc biệt
+//   },
+//   {
+//     Stt: "2",
+//     Hoten: "Trần Thị B",
+//     NoiCongTac: "Khoa Ngoại",
+//     SoDienThoai: "0901234568",
+//     SoPhieu: 2,
+//     LoaiDS: "nv",
+//     NgayTao: new Date(),
+//     NgayThamDu: new Date(),
+//     NgayQuaySo: null,
+//     GiaiTrung: null,
+//     GiaiFix: "1", // Người này sẽ trúng giải nhất
+//   },
+//   {
+//     Stt: "3",
+//     Hoten: "Lê Văn C",
+//     NoiCongTac: "Khoa Sản",
+//     SoDienThoai: "0901234569",
+//     SoPhieu: 3,
+//     LoaiDS: "nv",
+//     NgayTao: new Date(),
+//     NgayThamDu: new Date(),
+//     NgayQuaySo: null,
+//     GiaiTrung: null,
+//     GiaiFix: null,
+//   },
+//   {
+//     Stt: "4",
+//     Hoten: "Phạm Thị D",
+//     NoiCongTac: "Khoa Nhi",
+//     SoDienThoai: "0901234570",
+//     SoPhieu: 4,
+//     LoaiDS: "nv",
+//     NgayTao: new Date(),
+//     NgayThamDu: new Date(),
+//     NgayQuaySo: null,
+//     GiaiTrung: null,
+//     GiaiFix: "1", // Người này sẽ trúng giải nhất
+//   },
+//   // Khách mời bên ngoài
+//   {
+//     Stt: "5",
+//     Hoten: "Hoàng Văn E",
+//     NoiCongTac: "Công ty ABC",
+//     SoDienThoai: "0901234571",
+//     SoPhieu: 5,
+//     LoaiDS: "kh",
+//     NgayTao: new Date(),
+//     NgayThamDu: new Date(),
+//     NgayQuaySo: null,
+//     GiaiTrung: null,
+//     GiaiFix: "3", // Người này sẽ trúng giải ba
+//   },
+//   {
+//     Stt: "6",
+//     Hoten: "Vũ Thị F",
+//     NoiCongTac: "Công ty XYZ",
+//     SoDienThoai: "0901234572",
+//     SoPhieu: 6,
+//     LoaiDS: "kh",
+//     NgayTao: new Date(),
+//     NgayThamDu: new Date(),
+//     NgayQuaySo: null,
+//     GiaiTrung: null,
+//     GiaiFix: "2", // Người này sẽ trúng giải nhì
+//   },
+//   {
+//     Stt: "7",
+//     Hoten: "Đỗ Văn G",
+//     NoiCongTac: "Đối tác H",
+//     SoDienThoai: "0901234573",
+//     SoPhieu: 7,
+//     LoaiDS: "kh",
+//     NgayTao: new Date(),
+//     NgayThamDu: new Date(),
+//     NgayQuaySo: null,
+//     GiaiTrung: null,
+//     GiaiFix: "3", // Người này sẽ trúng giải ba
+//   },
+//   {
+//     Stt: "8",
+//     Hoten: "Bùi Thị H",
+//     NoiCongTac: "Liên đoàn I",
+//     SoDienThoai: "0901234574",
+//     SoPhieu: 8,
+//     LoaiDS: "kh",
+//     NgayTao: new Date(),
+//     NgayThamDu: new Date(),
+//     NgayQuaySo: null,
+//     GiaiTrung: null,
+//     GiaiFix: null,
+//   },
+// ];
 
 export default function LotteryDraw() {
+  const { DataThamGia } = useUserDataStore();
   const [slGiai, setSlGiai] = useState(DataInitGiaiThuong[3].sl);
   const [dataGiaiThuong] = useState(DataInitGiaiThuong);
   const [idxGiaiThuong, setIdxGiaiThuong] = useState(0);
@@ -192,6 +194,22 @@ export default function LotteryDraw() {
 
   const handleSpin = () => {
     setWinner(null);
+  };
+
+  const handleBeforeSpin = () => {
+    const dataTrungThuong = getDataTrungThuong();
+
+    if (!dataTrungThuong || dataTrungThuong.length === 0) {
+      alert("Không còn nhân viên đủ điều kiện để nhận giải!");
+      return false;
+    }
+
+    if (slGiai <= 0) {
+      alert(`Hết lượt quay ${currGiaiThuong.ten}`);
+      return false;
+    }
+
+    return true;
   };
 
   const handleCompleteSpin = () => {
@@ -358,6 +376,7 @@ export default function LotteryDraw() {
             <div className="mb-8 w-full">
               <SlotMachine
                 onSpin={handleSpin}
+                onBeforeSpin={handleBeforeSpin}
                 onCompleteSpin={handleCompleteSpin}
                 DataTrungThuong={getDataTrungThuong()[0]}
               />

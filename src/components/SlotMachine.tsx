@@ -90,12 +90,14 @@ function Reel({
 
 interface ISlotMachineProps {
   onSpin: () => void;
+  onBeforeSpin: () => boolean;
   onCompleteSpin: (value: string) => void;
   DataTrungThuong: IDataUser;
 }
 
 export default function SlotMachine({
   onSpin,
+  onBeforeSpin,
   onCompleteSpin,
   DataTrungThuong,
 }: ISlotMachineProps) {
@@ -105,6 +107,10 @@ export default function SlotMachine({
 
   const spin = () => {
     if (spinning) return;
+
+    if (onBeforeSpin) {
+      if (!onBeforeSpin()) return;
+    }
 
     // generate final numbers
     const final = DataTrungThuong.Stt.padStart(results.length, "0").split("");
