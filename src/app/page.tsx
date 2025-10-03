@@ -11,15 +11,16 @@ import {
 } from "@/components/ui/select";
 import WinnerModal from "@/components/winner-modal";
 import WinnersList from "@/components/WinnersList";
+import { 
+  IDataUser, 
+  IDataGiaiThuong, 
+  getDanhSachThamGia, 
+  quayChoNguoiTrungGiai, 
+  quayTatCaGiai
+} from "@/lib/lottery-logic";
 import { ShieldUserIcon, Trophy } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
-
-export interface IDataGiaiThuong {
-  id: string;
-  ten: string;
-  sl: number;
-}
 
 const DataInitGiaiThuong: IDataGiaiThuong[] = [
   { id: "db", ten: "Giải đặc biệt", sl: 1 },
@@ -28,154 +29,145 @@ const DataInitGiaiThuong: IDataGiaiThuong[] = [
   { id: "3", ten: "Giải ba", sl: 20 },
 ];
 
-export interface IDataUser {
-  Stt: string;
-  Hoten: string;
-  NoiCongTac: string;
-  SoDienThoai: string;
-}
-export const Data_Giai_Db = [
+// Danh sách tham gia cho từng loại giải
+const DataThamGia: IDataUser[] = [
+  // Nhân viên bệnh viện
+  {
+    Stt: "1",
+    Hoten: "Nguyễn Văn A",
+    NoiCongTac: "Khoa Nội",
+    SoDienThoai: "0901234567",
+    SoPhieu: 1,
+    LoaiDS: "nv",
+    NgayTao: new Date(),
+    NgayThamDu: new Date(),
+    NgayQuaySo: null,
+    GiaiTrung: null,
+    GiaiFix: "db", // Người này sẽ trúng giải đặc biệt
+  },
+  {
+    Stt: "2",
+    Hoten: "Trần Thị B",
+    NoiCongTac: "Khoa Ngoại",
+    SoDienThoai: "0901234568",
+    SoPhieu: 2,
+    LoaiDS: "nv",
+    NgayTao: new Date(),
+    NgayThamDu: new Date(),
+    NgayQuaySo: null,
+    GiaiTrung: null,
+    GiaiFix: "1", // Người này sẽ trúng giải nhất
+  },
   {
     Stt: "3",
-    Hoten: "Test thu 3",
-    NoiCongTac: "Test noi cong tac 3",
-    SoDienThoai: "3333333",
-    NhanGiai: "",
+    Hoten: "Lê Văn C",
+    NoiCongTac: "Khoa Sản",
+    SoDienThoai: "0901234569",
+    SoPhieu: 3,
+    LoaiDS: "nv",
+    NgayTao: new Date(),
+    NgayThamDu: new Date(),
+    NgayQuaySo: null,
+    GiaiTrung: null,
+    GiaiFix: null,
   },
   {
     Stt: "4",
-    Hoten: "Test thu 4",
-    NoiCongTac: "Test noi cong tac 4",
-    SoDienThoai: "4444444",
-    NhanGiai: "",
+    Hoten: "Phạm Thị D",
+    NoiCongTac: "Khoa Nhi",
+    SoDienThoai: "0901234570",
+    SoPhieu: 4,
+    LoaiDS: "nv",
+    NgayTao: new Date(),
+    NgayThamDu: new Date(),
+    NgayQuaySo: null,
+    GiaiTrung: null,
+    GiaiFix: "1", // Người này sẽ trúng giải nhất
   },
+  // Khách mời bên ngoài
   {
     Stt: "5",
-    Hoten: "Test thu 5",
-    NoiCongTac: "Test noi cong tac 5",
-    SoDienThoai: "5555555",
-    NhanGiai: "",
-  },
-];
-export const Data_Giai_1 = [
-  {
-    Stt: "3",
-    Hoten: "Test thu 3",
-    NoiCongTac: "Test noi cong tac 3",
-    SoDienThoai: "3333333",
-    NhanGiai: "",
-  },
-  {
-    Stt: "4",
-    Hoten: "Test thu 4",
-    NoiCongTac: "Test noi cong tac 4",
-    SoDienThoai: "4444444",
-    NhanGiai: "",
-  },
-  {
-    Stt: "5",
-    Hoten: "Test thu 5",
-    NoiCongTac: "Test noi cong tac 5",
-    SoDienThoai: "5555555",
-    NhanGiai: "",
-  },
-];
-export const Data_Giai_2 = [
-  {
-    Stt: "3",
-    Hoten: "Test thu 3",
-    NoiCongTac: "Test noi cong tac 3",
-    SoDienThoai: "3333333",
-    NhanGiai: "",
-  },
-  {
-    Stt: "4",
-    Hoten: "Test thu 4",
-    NoiCongTac: "Test noi cong tac 4",
-    SoDienThoai: "4444444",
-    NhanGiai: "",
-  },
-  {
-    Stt: "5",
-    Hoten: "Test thu 5",
-    NoiCongTac: "Test noi cong tac 5",
-    SoDienThoai: "5555555",
-    NhanGiai: "",
-  },
-];
-
-export const Data_Giai_3 = [
-  {
-    Stt: "3",
-    Hoten: "Test thu 3",
-    NoiCongTac: "Test noi cong tac 3",
-    SoDienThoai: "3333333",
-    GiaiFix: "3",
-    NhanGiai: "",
-  },
-  {
-    Stt: "4",
-    Hoten: "Test thu 4",
-    NoiCongTac: "Test noi cong tac 4",
-    SoDienThoai: "4444444",
-    GiaiFix: "3",
-    NhanGiai: "",
-  },
-  {
-    Stt: "5",
-    Hoten: "Test thu 5",
-    NoiCongTac: "Test noi cong tac 5",
-    SoDienThoai: "5555555",
-    GiaiFix: "",
-    NhanGiai: "",
+    Hoten: "Hoàng Văn E",
+    NoiCongTac: "Công ty ABC",
+    SoDienThoai: "0901234571",
+    SoPhieu: 5,
+    LoaiDS: "kh",
+    NgayTao: new Date(),
+    NgayThamDu: new Date(),
+    NgayQuaySo: null,
+    GiaiTrung: null,
+    GiaiFix: "3", // Người này sẽ trúng giải ba
   },
   {
     Stt: "6",
-    Hoten: "Test thu 6",
-    NoiCongTac: "Test noi cong tac 6",
-    SoDienThoai: "5555555",
-    GiaiFix: "",
-    NhanGiai: "",
+    Hoten: "Vũ Thị F",
+    NoiCongTac: "Công ty XYZ",
+    SoDienThoai: "0901234572",
+    SoPhieu: 6,
+    LoaiDS: "kh",
+    NgayTao: new Date(),
+    NgayThamDu: new Date(),
+    NgayQuaySo: null,
+    GiaiTrung: null,
+    GiaiFix: "2", // Người này sẽ trúng giải nhì
+  },
+  {
+    Stt: "7",
+    Hoten: "Đỗ Văn G",
+    NoiCongTac: "Đối tác H",
+    SoDienThoai: "0901234573",
+    SoPhieu: 7,
+    LoaiDS: "kh",
+    NgayTao: new Date(),
+    NgayThamDu: new Date(),
+    NgayQuaySo: null,
+    GiaiTrung: null,
+    GiaiFix: "3", // Người này sẽ trúng giải ba
+  },
+  {
+    Stt: "8",
+    Hoten: "Bùi Thị H",
+    NoiCongTac: "Liên đoàn I",
+    SoDienThoai: "0901234574",
+    SoPhieu: 8,
+    LoaiDS: "kh",
+    NgayTao: new Date(),
+    NgayThamDu: new Date(),
+    NgayQuaySo: null,
+    GiaiTrung: null,
+    GiaiFix: null,
   },
 ];
 
 export default function LotteryDraw() {
   const [slGiai, setSlGiai] = useState(DataInitGiaiThuong[3].sl);
-  const [dataGiaiThuong, setDataGiaiThuong] = useState(DataInitGiaiThuong);
+  const [dataGiaiThuong] = useState(DataInitGiaiThuong);
   const [idxGiaiThuong, setIdxGiaiThuong] = useState(0);
   const [currGiaiThuong, setCurrGiaiThuong] = useState(DataInitGiaiThuong[3]);
   const [showConfetti, setShowConfetti] = useState(false);
   const [winner, setWinner] = useState<IDataUser | null>(null);
-  const [participants, setParticipants] = useState(1247);
+  const [participants] = useState(DataThamGia.length);
   const [showWinnerModal, setShowWinnerModal] = useState(false);
 
-  const getWinnerByValue = (value: string) => {
-    switch (currGiaiThuong.id) {
-      case "3":
-        return Data_Giai_3.find((item) => item.Stt === value);
-      case "2":
-        return Data_Giai_2.find((item) => item.Stt === value);
-      case "1":
-        return Data_Giai_2.find((item) => item.Stt === value);
-      case "db":
-        return Data_Giai_2.find((item) => item.Stt === value);
-      default:
-        return null;
-    }
+  // Hàm quay số cho một lần quay cụ thể
+  const quayMotLan = (loaiGiai: string, lanQuayThu: number): IDataUser | null => {
+    const totalLanQuay = DataInitGiaiThuong.find(g => g.id === loaiGiai)?.sl || 1;
+    return quayChoNguoiTrungGiai(DataThamGia, loaiGiai, lanQuayThu, totalLanQuay);
   };
 
-  const getDataTrungThuong = () => {
+  const getDataTrungThuong = (): IDataUser[] => {
+    // Trả về danh sách người tham gia theo loại giải
     switch (currGiaiThuong.id) {
-      case "3":
-        return Data_Giai_3;
-      case "2":
-        return Data_Giai_2;
-      case "1":
-        return Data_Giai_2;
-      case "db":
-        return Data_Giai_2;
+      case "3": // Giải ba - chỉ khách mời
+        return getDanhSachThamGia(DataThamGia, currGiaiThuong.id, ["kh"]);
+      case "2": // Giải nhì - chỉ khách mời
+        return getDanhSachThamGia(DataThamGia, currGiaiThuong.id, ["kh"]);
+      case "1": // Giải nhất - cả nhân viên và khách mời
+        return getDanhSachThamGia(DataThamGia, currGiaiThuong.id, ["nv", "kh"]);
+      case "db": // Giải đặc biệt - chỉ nhân viên
+        return getDanhSachThamGia(DataThamGia, currGiaiThuong.id, ["nv"]);
       default:
-        return Data_Giai_2;
+        return getDanhSachThamGia(DataThamGia, currGiaiThuong.id, ["nv", "kh"]);
     }
   };
 
@@ -183,8 +175,8 @@ export default function LotteryDraw() {
     setWinner(null);
   };
 
-  const handleCompleteSpin = (value: string) => {
-    const winner = getWinnerByValue(value) || null;
+  const handleCompleteSpin = () => {
+    const winner = quayMotLan(currGiaiThuong.id, idxGiaiThuong);
 
     if (!winner) return;
 
@@ -197,9 +189,12 @@ export default function LotteryDraw() {
 
   const handleNext = () => {
     setSlGiai((prev) => prev - 1);
+    setShowWinnerModal(false);
   };
 
-  const handleCancel = () => {};
+  const handleCancel = () => {
+    setShowWinnerModal(false);
+  };
 
   return (
     <div
@@ -330,7 +325,7 @@ export default function LotteryDraw() {
               <SlotMachine
                 onSpin={handleSpin}
                 onCompleteSpin={handleCompleteSpin}
-                DataTrungThuong={getDataTrungThuong()[idxGiaiThuong]}
+                DataTrungThuong={getDataTrungThuong()[idxGiaiThuong] || getDataTrungThuong()[0]}
               />
 
               {/* Number Display */}
@@ -409,7 +404,11 @@ export default function LotteryDraw() {
             value={currGiaiThuong.id}
             onValueChange={(val) => {
               const found = dataGiaiThuong.find((g) => g.id === val);
-              if (found) setCurrGiaiThuong(found);
+              if (found) {
+                setCurrGiaiThuong(found);
+                setSlGiai(found.sl);
+                setIdxGiaiThuong(0); // Reset về lần quay đầu tiên
+              }
             }}>
             <SelectTrigger className="w-[200px]">
               <SelectValue placeholder="Chọn giải" />
@@ -424,6 +423,16 @@ export default function LotteryDraw() {
               ))}
             </SelectContent>
           </Select>
+          {/* Nút test quay tất cả giải */}
+          <button
+            onClick={() => {
+              const ketQua = quayTatCaGiai(DataThamGia);
+              console.log("Kết quả quay tất cả giải:", ketQua);
+              alert("Xem kết quả trong Console (F12)");
+            }}
+            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm">
+            Test Quay Tất Cả
+          </button>
         </div>
 
         {/* Data stas */}
