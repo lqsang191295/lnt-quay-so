@@ -47,11 +47,30 @@ export default function WinnersList({ DataThamGia }: IWinnersListProps) {
     }
   };
 
+  const getNameGiai = (giai: string) => {
+    switch (giai) {
+      case "db":
+        return "Giải đặc biệt";
+      case "1":
+        return "Giải nhất";
+      case "2":
+        return "Giải nhì";
+      case "3":
+        return "Giải ba";
+      default:
+        return "";
+    }
+  };
+
   const winners = getDataTrungGiai();
 
   return (
-    <div className="rounded-2xl z-50 overflow-hidden border border-amber-500">
-      <div className="flex flex-col gap-2 p-2 bg-black/50">
+    <div
+      className="rounded-2xl overflow-hidden border border-amber-500 flex flex-col"
+      style={{
+        maxHeight: "88vh",
+      }}>
+      <div className="flex flex-col gap-1 p-1 bg-black/50 overflow-y-scroll overflow-x-hidden hide-scrollbar flex-1">
         {(!winners || winners.length === 0) && (
           <div className="text-white text-center">Chưa có dữ liệu</div>
         )}
@@ -73,14 +92,14 @@ export default function WinnersList({ DataThamGia }: IWinnersListProps) {
                   alt="Logo"
                 />
                 <div className="flex flex-col">
-                  <div className="flex space-x-2 uppercase font-bold">
-                    <Label className="text-lg font-bold">#{winner.Stt}</Label>
-                    <Label className="text-lg">-</Label>
-                    <Label className="text-lg font-semibold">
-                      {winner.Hoten}
-                    </Label>
+                  <div className="flex space-x-2 uppercase font-bold ">
+                    <Label className="text-2xl font-bold">#{winner.Stt}</Label>
+                    <Label className="text-2xl">-</Label>
+                    <Label className="text-2xl font-bold">{winner.Hoten}</Label>
                   </div>
-                  <Label className="font-bold">{winner.GiaiTrung}</Label>
+                  <Label className="uppercase text-xl">
+                    {getNameGiai(winner.GiaiTrung || "")}
+                  </Label>
                 </div>
               </div>
             </div>

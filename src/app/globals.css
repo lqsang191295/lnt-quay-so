@@ -281,3 +281,13 @@
   animation-name: slot-spin;
   animation-fill-mode: forwards; /* giữ nguyên ở điểm cuối */
 }
+
+/* Ẩn scrollbar nhưng vẫn scroll được */
+.hide-scrollbar {
+  -ms-overflow-style: none;  /* IE và Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;             /* Chrome, Safari */
+}
