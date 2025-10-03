@@ -1,5 +1,7 @@
 // Logic quay số cho hệ thống quay số may mắn
 
+import { formatDate } from "./format";
+
 export interface IDataUser {
   Stt: string;
   Hoten: string;
@@ -7,9 +9,9 @@ export interface IDataUser {
   SoDienThoai: string;
   SoPhieu: number | null;
   LoaiDS: string | null; // "nv": nhân viên bệnh viện, "kh": khách mời bên ngoài
-  NgayTao: Date | null;
-  NgayThamDu: Date | null;
-  NgayQuaySo: Date | null;
+  NgayTao: string | null;
+  NgayThamDu: string | null;
+  NgayQuaySo: string | null;
   GiaiTrung: string | null;
   GiaiFix: string | null; // id giải thưởng được chỉ định trước
   HuyBo?: boolean; // id giải thưởng được chỉ định trước
@@ -62,7 +64,7 @@ export const getDanhSachThamGia = (
   loaiDS?: string[]
 ): IDataUser[] => {
   // Lọc bỏ người đã trúng giải
-  let filtered = danhSachNguoi.filter((user) => !user.GiaiTrung);
+  let filtered = danhSachNguoi.filter((user) => !user.GiaiTrung && !user.HuyBo);
 
   // Lọc theo loại danh sách nếu được chỉ định
   if (loaiDS && loaiDS.length > 0) {
@@ -73,6 +75,24 @@ export const getDanhSachThamGia = (
     filtered = filtered.filter(
       (user) => user.GiaiFix === loaiGiai || !user.GiaiFix
     );
+  }
+
+  return filtered;
+};
+
+export const getDanhSachTrungGiai = (
+  danhSachNguoi: IDataUser[],
+  loaiGiai: string,
+  loaiDS?: string[]
+): IDataUser[] => {
+  // Lọc bỏ người đã trúng giải
+  let filtered = danhSachNguoi.filter(
+    (user) => user.GiaiTrung === loaiGiai && !user.HuyBo
+  );
+
+  // Lọc theo loại danh sách nếu được chỉ định
+  if (loaiDS && loaiDS.length > 0) {
+    filtered = filtered.filter((user) => loaiDS.includes(user.LoaiDS || ""));
   }
 
   return filtered;
@@ -143,7 +163,7 @@ export const quayChoNguoiTrungGiai = (
     if (nguoiGiaiFix.length > 0) {
       const nguoiTrung = nguoiGiaiFix[0];
       // nguoiTrung.GiaiTrung = loaiGiai;
-      nguoiTrung.NgayQuaySo = new Date();
+      nguoiTrung.NgayQuaySo = formatDate(new Date());
       return nguoiTrung;
     }
   }
@@ -158,7 +178,7 @@ export const quayChoNguoiTrungGiai = (
     // Chọn người có giải fix
     const nguoiTrung = nguoiGiaiFix[indexGiaiFix];
     // nguoiTrung.GiaiTrung = loaiGiai;
-    nguoiTrung.NgayQuaySo = new Date();
+    nguoiTrung.NgayQuaySo = formatDate(new Date());
     return nguoiTrung;
   } else {
     // Chọn ngẫu nhiên từ danh sách còn lại (loại bỏ người có giải fix đã được phân bổ)
@@ -171,7 +191,7 @@ export const quayChoNguoiTrungGiai = (
     const randomIndex = Math.floor(Math.random() * danhSachNgauNhien.length);
     const nguoiTrung = danhSachNgauNhien[randomIndex];
     // nguoiTrung.GiaiTrung = loaiGiai;
-    nguoiTrung.NgayQuaySo = new Date();
+    nguoiTrung.NgayQuaySo = formatDate(new Date());
     return nguoiTrung;
   }
 };
@@ -268,8 +288,8 @@ export const taoDataMau = (): IDataUser[] => {
       SoDienThoai: `090${i.toString().padStart(7, "0")}`,
       SoPhieu: i,
       LoaiDS: "nv",
-      NgayTao: new Date(),
-      NgayThamDu: new Date(),
+      NgayTao: formatDate(new Date()),
+      NgayThamDu: formatDate(new Date()),
       NgayQuaySo: null,
       GiaiTrung: null,
       GiaiFix: i <= 3 ? (i === 1 ? "db" : "1") : null, // 1 người trúng DB, 2 người trúng giải 1
@@ -285,8 +305,8 @@ export const taoDataMau = (): IDataUser[] => {
       SoDienThoai: `091${i.toString().padStart(7, "0")}`,
       SoPhieu: 50 + i,
       LoaiDS: "kh",
-      NgayTao: new Date(),
-      NgayThamDu: new Date(),
+      NgayTao: formatDate(new Date()),
+      NgayThamDu: formatDate(new Date()),
       NgayQuaySo: null,
       GiaiTrung: null,
       GiaiFix: i <= 8 ? (i <= 3 ? "3" : i <= 6 ? "2" : "1") : null, // 3 người giải 3, 3 người giải 2, 2 người giải 1

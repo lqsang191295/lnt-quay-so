@@ -1,5 +1,4 @@
 import { post } from "@/api/client";
-import { IDataUser } from "@/lib/lottery-logic";
 
 const Mock_Data_Giai_Db = [
   {
@@ -109,7 +108,7 @@ const getDataGiaiServer = async (giai: string) => {
     case "3":
       store = "dbo.QS_get_giai_1";
     default:
-      store = "dbo.QS_get_data_tham_gia";
+      store = "dbo.QS_get_KhachHang";
   }
 
   try {
@@ -198,130 +197,21 @@ export const getDataGiai3 = async () => {
   return data;
 };
 
-const DataThamGia: IDataUser[] = [
-  // Nhân viên bệnh viện
-  {
-    Stt: "1",
-    Hoten: "Nguyễn Văn A",
-    NoiCongTac: "Khoa Nội",
-    SoDienThoai: "0901234567",
-    SoPhieu: 1,
-    LoaiDS: "nv",
-    NgayTao: new Date(),
-    NgayThamDu: new Date(),
-    NgayQuaySo: null,
-    GiaiTrung: null,
-    GiaiFix: "db", // Người này sẽ trúng giải đặc biệt
-  },
-  {
-    Stt: "2",
-    Hoten: "Trần Thị B",
-    NoiCongTac: "Khoa Ngoại",
-    SoDienThoai: "0901234568",
-    SoPhieu: 2,
-    LoaiDS: "nv",
-    NgayTao: new Date(),
-    NgayThamDu: new Date(),
-    NgayQuaySo: null,
-    GiaiTrung: null,
-    GiaiFix: "1", // Người này sẽ trúng giải nhất
-  },
-  {
-    Stt: "3",
-    Hoten: "Lê Văn C",
-    NoiCongTac: "Khoa Sản",
-    SoDienThoai: "0901234569",
-    SoPhieu: 3,
-    LoaiDS: "nv",
-    NgayTao: new Date(),
-    NgayThamDu: new Date(),
-    NgayQuaySo: null,
-    GiaiTrung: null,
-    GiaiFix: null,
-  },
-  {
-    Stt: "4",
-    Hoten: "Phạm Thị D",
-    NoiCongTac: "Khoa Nhi",
-    SoDienThoai: "0901234570",
-    SoPhieu: 4,
-    LoaiDS: "nv",
-    NgayTao: new Date(),
-    NgayThamDu: new Date(),
-    NgayQuaySo: null,
-    GiaiTrung: null,
-    GiaiFix: "1", // Người này sẽ trúng giải nhất
-  },
-  // Khách mời bên ngoài
-  {
-    Stt: "5",
-    Hoten: "Hoàng Văn E",
-    NoiCongTac: "Công ty ABC",
-    SoDienThoai: "0901234571",
-    SoPhieu: 5,
-    LoaiDS: "kh",
-    NgayTao: new Date(),
-    NgayThamDu: new Date(),
-    NgayQuaySo: null,
-    GiaiTrung: null,
-    GiaiFix: "3", // Người này sẽ trúng giải ba
-  },
-  {
-    Stt: "6",
-    Hoten: "Vũ Thị F",
-    NoiCongTac: "Công ty XYZ",
-    SoDienThoai: "0901234572",
-    SoPhieu: 6,
-    LoaiDS: "kh",
-    NgayTao: new Date(),
-    NgayThamDu: new Date(),
-    NgayQuaySo: null,
-    GiaiTrung: null,
-    GiaiFix: "2", // Người này sẽ trúng giải nhì
-  },
-  {
-    Stt: "7",
-    Hoten: "Đỗ Văn G",
-    NoiCongTac: "Đối tác H",
-    SoDienThoai: "0901234573",
-    SoPhieu: 7,
-    LoaiDS: "kh",
-    NgayTao: new Date(),
-    NgayThamDu: new Date(),
-    NgayQuaySo: null,
-    GiaiTrung: null,
-    GiaiFix: "3", // Người này sẽ trúng giải ba
-  },
-  {
-    Stt: "8",
-    Hoten: "Bùi Thị H",
-    NoiCongTac: "Liên đoàn I",
-    SoDienThoai: "0901234574",
-    SoPhieu: 8,
-    LoaiDS: "kh",
-    NgayTao: new Date(),
-    NgayThamDu: new Date(),
-    NgayQuaySo: null,
-    GiaiTrung: null,
-    GiaiFix: null,
-  },
-];
-
 export const getDataThamGia = async () => {
-  if (mockData) {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    return DataThamGia;
-  }
+  // if (mockData) {
+  //   await new Promise((resolve) => setTimeout(resolve, 1000));
+  //   return DataThamGia;
+  // }
 
-  let data = getLocalStorageByKey("DATA_THAM_GIA");
+  // let data = getLocalStorageByKey("DATA_THAM_GIA");
 
-  if (data) {
-    return data;
-  }
+  // if (data) {
+  //   return data;
+  // }
 
-  data = await getDataGiaiServer("");
+  const data = await getDataGiaiServer("");
 
-  setLocalStorageByKey("DATA_THAM_GIA", data);
+  // setLocalStorageByKey("DATA_THAM_GIA", data);
 
   return data;
 };

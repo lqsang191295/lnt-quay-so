@@ -92,7 +92,7 @@ interface ISlotMachineProps {
   onSpin: () => void;
   onBeforeSpin: () => boolean;
   onCompleteSpin: (value: string) => void;
-  DataTrungThuong: IDataUser;
+  DataTrungThuong: IDataUser | null;
 }
 
 export default function SlotMachine({
@@ -112,8 +112,12 @@ export default function SlotMachine({
       if (!onBeforeSpin()) return;
     }
 
+    if (!DataTrungThuong) return;
+
     // generate final numbers
-    const final = DataTrungThuong.Stt.padStart(results.length, "0").split("");
+    const final = DataTrungThuong.Stt.toString()
+      .padStart(results.length, "0")
+      .split("");
     setResults(final);
 
     // start spin
