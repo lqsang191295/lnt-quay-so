@@ -34,25 +34,73 @@ export interface IDataUser {
   NoiCongTac: string;
   SoDienThoai: string;
 }
-
-export const Data_Giai_2 = [
+export const Data_Giai_Db = [
   {
     Stt: "3",
     Hoten: "Test thu 3",
     NoiCongTac: "Test noi cong tac 3",
     SoDienThoai: "3333333",
+    NhanGiai: "",
   },
   {
     Stt: "4",
     Hoten: "Test thu 4",
     NoiCongTac: "Test noi cong tac 4",
     SoDienThoai: "4444444",
+    NhanGiai: "",
   },
   {
     Stt: "5",
     Hoten: "Test thu 5",
     NoiCongTac: "Test noi cong tac 5",
     SoDienThoai: "5555555",
+    NhanGiai: "",
+  },
+];
+export const Data_Giai_1 = [
+  {
+    Stt: "3",
+    Hoten: "Test thu 3",
+    NoiCongTac: "Test noi cong tac 3",
+    SoDienThoai: "3333333",
+    NhanGiai: "",
+  },
+  {
+    Stt: "4",
+    Hoten: "Test thu 4",
+    NoiCongTac: "Test noi cong tac 4",
+    SoDienThoai: "4444444",
+    NhanGiai: "",
+  },
+  {
+    Stt: "5",
+    Hoten: "Test thu 5",
+    NoiCongTac: "Test noi cong tac 5",
+    SoDienThoai: "5555555",
+    NhanGiai: "",
+  },
+];
+export const Data_Giai_2 = [
+  {
+    Stt: "3",
+    Hoten: "Test thu 3",
+    NoiCongTac: "Test noi cong tac 3",
+    SoDienThoai: "3333333",
+    NhanGiai: "",
+  },
+  {
+    Stt: "4",
+    Hoten: "Test thu 4",
+    NoiCongTac: "Test noi cong tac 4",
+    SoDienThoai: "4444444",
+    NhanGiai: "",
+  },
+  {
+    Stt: "5",
+    Hoten: "Test thu 5",
+    NoiCongTac: "Test noi cong tac 5",
+    SoDienThoai: "5555555",
+    NhanGiai: "",
   },
 ];
 
@@ -63,6 +111,7 @@ export const Data_Giai_3 = [
     NoiCongTac: "Test noi cong tac 3",
     SoDienThoai: "3333333",
     GiaiFix: "3",
+    NhanGiai: "",
   },
   {
     Stt: "4",
@@ -70,6 +119,7 @@ export const Data_Giai_3 = [
     NoiCongTac: "Test noi cong tac 4",
     SoDienThoai: "4444444",
     GiaiFix: "3",
+    NhanGiai: "",
   },
   {
     Stt: "5",
@@ -77,6 +127,7 @@ export const Data_Giai_3 = [
     NoiCongTac: "Test noi cong tac 5",
     SoDienThoai: "5555555",
     GiaiFix: "",
+    NhanGiai: "",
   },
   {
     Stt: "6",
@@ -84,6 +135,7 @@ export const Data_Giai_3 = [
     NoiCongTac: "Test noi cong tac 6",
     SoDienThoai: "5555555",
     GiaiFix: "",
+    NhanGiai: "",
   },
 ];
 
