@@ -17,6 +17,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { formatDate } from "@/lib/format";
 import { Calendar, MapPin, Users } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 
 interface RegistrationFormProps {
   onSuccess: (
@@ -35,7 +36,7 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
     fullName: "",
     phone: "",
     organization: "",
-    attendeeType: "staff",
+    attendeeType: "nv",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -75,7 +76,7 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
       formData.fullName,
       formData.organization,
       "",
-      "",
+      formData.attendeeType,
       formatDate(new Date()),
       "",
       "",
@@ -94,6 +95,19 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
     }
 
     setIsSubmitting(false);
+
+    if (ticketNumber.toString() === "-1") {
+      toast("Thông tin đã được đăng ký!", {
+        style: {
+          background: "#dc2626", // 🔥 Màu đỏ đậm
+          color: "#fff", // Chữ trắng
+          border: "1px solid #b91c1c", // Viền đỏ đậm hơn
+        },
+      });
+
+      return;
+    }
+
     onSuccess(formData, ticketNumber);
   };
 
@@ -249,11 +263,11 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
                   }
                   className="flex gap-6">
                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="staff" id="staff" />
+                    <RadioGroupItem value="nv" id="staff" />
                     <Label htmlFor="staff"> Nhân viên bệnh viện</Label>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="guest" id="guest" />
+                    <RadioGroupItem value="kh" id="guest" />
                     <Label htmlFor="guest">Khách mời (Đại biểu)</Label>
                   </div>
                 </RadioGroup>
