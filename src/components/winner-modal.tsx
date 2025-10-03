@@ -1,7 +1,7 @@
 "use client";
 
-import { IDataGiaiThuong, IDataUser } from "@/app/page";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { IDataGiaiThuong, IDataUser } from "@/lib/lottery-logic";
 import { Crown, Star } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
