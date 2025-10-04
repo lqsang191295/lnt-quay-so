@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { toPng } from "html-to-image";
 import { ArrowLeft, Download, Share2 } from "lucide-react";
 import { useRef } from "react";
 
@@ -36,9 +37,24 @@ export function TicketDisplay({
     }
   };
 
-  const handleDownload = () => {
-    // In a real app, you would generate a PDF or image here
-    alert("Chức năng tải xuống sẽ được cập nhật!");
+  const handleDownload = async () => {
+    if (!ticketRef.current) return;
+
+    try {
+      const dataUrl = await toPng(ticketRef.current, {
+        cacheBust: true,
+        pixelRatio: 2, // tăng độ nét
+      });
+
+      const link = document.createElement("a");
+      link.href = dataUrl;
+      link.download = "ticket.png";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (err) {
+      console.error("Error generating image:", err);
+    }
   };
 
   return (
