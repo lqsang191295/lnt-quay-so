@@ -31,14 +31,54 @@ const DataInitGiaiThuong: IDataGiaiThuong[] = [
 ];
 
 export default function LotteryDraw() {
-  const { DataThamGia, dataGiai1, dataGiai2, dataGiai3, dataGiaiDb } =
-    useUserDataStore();
+  const {
+    DataThamGia,
+    dataGiai1,
+    setDataGiai1,
+    dataGiai2,
+    setDataGiai2,
+    dataGiai3,
+    setDataGiai3,
+    dataGiaiDb,
+    setDataGiaiDb,
+  } = useUserDataStore();
   const [slGiai, setSlGiai] = useState(DataInitGiaiThuong[3].sl);
   const [dataGiaiThuong] = useState(DataInitGiaiThuong);
   const [currGiaiThuong, setCurrGiaiThuong] = useState(DataInitGiaiThuong[3]);
   const [showConfetti, setShowConfetti] = useState(false);
   const [winner, setWinner] = useState<IDataUser | null>(null);
   const [showWinnerModal, setShowWinnerModal] = useState(false);
+
+  const removeWinner = (user: IDataUser) => {
+    let data: IDataUser[] | null = null;
+    let setData: ((val: IDataUser[]) => void) | null = null;
+
+    switch (currGiaiThuong.id) {
+      case "3": // Giải ba - chỉ khách mời
+        data = dataGiai3;
+        setData = setDataGiai3;
+        break;
+      case "2": // Giải nhì - chỉ khách mời
+        data = dataGiai2;
+        setData = setDataGiai2;
+        break;
+      case "1": // Giải nhất - cả nhân viên và khách mời
+        data = dataGiai1;
+        setData = setDataGiai1;
+        break;
+      case "db": // Giải đặc biệt - chỉ nhân viên
+        data = dataGiaiDb;
+        setData = setDataGiaiDb;
+        break;
+      default:
+        return;
+    }
+
+    if (data && setData) {
+      const newData = data.filter((u) => u.id !== user.id);
+      setData(newData); // cập nhật state
+    }
+  };
 
   const getDataTrungThuong = (): IDataUser[] | null => {
     // Trả về danh sách người tham gia theo loại giải
@@ -136,6 +176,7 @@ export default function LotteryDraw() {
       winner.NgayQuaySo = formatDate(new Date());
 
       updateUser(winner);
+      removeWinner(winner);
     }
 
     setShowWinnerModal(false);
@@ -148,6 +189,7 @@ export default function LotteryDraw() {
       winner.NgayQuaySo = formatDate(new Date());
 
       updateUser(winner);
+      removeWinner(winner);
     }
 
     setShowWinnerModal(false);
