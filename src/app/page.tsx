@@ -75,7 +75,7 @@ export default function LotteryDraw() {
     }
 
     if (data && setData) {
-      const newData = data.filter((u) => u.id !== user.id);
+      const newData = data.filter((u) => u.Stt !== user.Stt);
       setData(newData); // cập nhật state
     }
   };
