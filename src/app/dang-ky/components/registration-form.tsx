@@ -4,13 +4,7 @@ import type React from "react";
 
 import { act_DangKy } from "@/actions/act_user";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -125,13 +119,12 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
         {/* Header */}
         <div className="mb-4 text-center">
           <h1
-            className="mb-1 md:mb-4 text-balance text-xl md:text-4xl font-bold tracking-tight lg:text-6xl 
+            className="mb-1 md:mb-4 text-balance text-xl md:text-3xl lg:text-5xl font-bold tracking-tight 
             bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 
-            leading-normal
-            bg-clip-text text-transparent ">
+            leading-normal bg-clip-text text-transparent uppercase">
             Đăng ký tham dự sự kiện
           </h1>
-          <p className="text-pretty text-xs md:text-xl text-red-600">
+          <p className="text-pretty text-xs md:text-xl text-red-600 italic">
             Vui lòng điền đầy đủ thông tin để hoàn tất đăng ký
           </p>
         </div>
@@ -183,17 +176,19 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
 
         {/* Registration Form */}
         <Card className="border-2 shadow-lg py-2">
-          <CardHeader>
+          {/* <CardHeader>
             <CardTitle className="text-2xl">Thông tin đăng ký</CardTitle>
             <CardDescription>
               Điền thông tin của bạn để nhận số phiếu tham dự
             </CardDescription>
-          </CardHeader>
+          </CardHeader> */}
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Full Name */}
               <div className="space-y-2">
-                <Label htmlFor="fullName" className="text-base uppercase">
+                <Label
+                  htmlFor="fullName"
+                  className="text-base uppercase text-blue-600">
                   Họ và tên <span className="text-destructive">*</span>
                 </Label>
                 <Input
@@ -212,7 +207,9 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
 
               {/* Phone */}
               <div className="space-y-2">
-                <Label htmlFor="phone" className="text-base uppercase">
+                <Label
+                  htmlFor="phone"
+                  className="text-base uppercase text-blue-600">
                   Số điện thoại <span className="text-destructive">*</span>
                 </Label>
                 <Input
@@ -230,7 +227,9 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
 
               {/* Organization */}
               <div className="space-y-2">
-                <Label htmlFor="organization" className="text-base">
+                <Label
+                  htmlFor="organization"
+                  className="text-base text-blue-600">
                   Đơn vị công tác{" "}
                   <span className="text-destructive uppercase">*</span>
                 </Label>
@@ -252,7 +251,7 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
 
               {/* Attendee Type */}
               <div className="space-y-3">
-                <Label className="text-base">
+                <Label className="text-base text-blue-600">
                   Người tham dự <span className="text-destructive">*</span>
                 </Label>
                 <RadioGroup

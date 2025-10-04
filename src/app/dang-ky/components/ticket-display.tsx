@@ -63,15 +63,16 @@ export function TicketDisplay({
         {/* Success Message */}
         <div className="mb-8 text-center">
           <h1
-            className="mb-1 md:mb-4 text-balance text-xl md:text-4xl font-bold tracking-tight lg:text-6xl 
+            className="mb-1 md:mb-4 text-balance text-xl md:text-3xl font-bold tracking-tight lg:text-5xl 
             bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 
-            leading-normal
-            bg-clip-text text-transparent ">
+            leading-normal bg-clip-text text-transparent uppercase">
             Đăng ký thành công!
           </h1>
-          <p className="text-pretty text-xs md:text-xl text-red-600">
-            Vui lòng chụp màn hình hoặc lưu lại số phiếu này để tham dự quay số
-            may mắn.
+          <p className="text-pretty text-xs md:text-xl text-red-600 italic">
+            Vui lòng chụp màn hình.
+          </p>
+          <p className="text-pretty text-xs md:text-xl text-red-600 italic">
+            Lưu lại số phiếu này để tham dự quay số.
           </p>
         </div>
 
@@ -105,7 +106,7 @@ export function TicketDisplay({
               </div>
               <div className="relative flex justify-center">
                 <span className="bg-card px-4 text-sm text-muted-foreground">
-                  Thông tin người đăng ký
+                  Thông tin đăng ký
                 </span>
               </div>
             </div>
