@@ -51,7 +51,7 @@ export default function WinnerModal({
 
   return (
     <Dialog open={isOpen}>
-      <DialogContent className=" border-amber-400 max-w-2xl shadow-2xl">
+      <DialogContent className="border-amber-400 shadow-2xl [&>button]:hidden min-w-xl !w-auto !max-w-full">
         <div className="relative py-4">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2">
             <div className="relative">
@@ -80,11 +80,11 @@ export default function WinnerModal({
               />
             </div>
 
-            <div className="space-y-5 flex flex-col justify-center items-center">
-              <Label className="text-5xl font-bold text-purple-500">
+            <div className="space-y-5 flex flex-col justify-center items-center uppercase">
+              <Label className="text-4xl font-bold text-purple-500 whitespace-nowrap">
                 #{winner.Stt} - {winner.Hoten}
               </Label>
-              <Label className="text-2xl font-bold text-purple-500">
+              <Label className="text-3xl font-bold text-purple-500">
                 {currGiaiThuong.ten}
               </Label>
             </div>
