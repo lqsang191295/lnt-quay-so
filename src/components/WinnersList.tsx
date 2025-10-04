@@ -1,6 +1,9 @@
 "use client";
 import { IDataUser } from "@/lib/lottery-logic";
+import { FullscreenIcon, MinusIcon } from "lucide-react";
 import Image from "next/image";
+import { useState } from "react";
+import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 
 interface IWinnersListProps {
@@ -8,6 +11,8 @@ interface IWinnersListProps {
 }
 
 export default function WinnersList({ DataThamGia }: IWinnersListProps) {
+  const [zoom, setZoom] = useState(false);
+
   const getDataTrungGiai = () => {
     const order = ["db", "1", "2", "3"]; // thứ tự ưu tiên
 
@@ -70,7 +75,10 @@ export default function WinnersList({ DataThamGia }: IWinnersListProps) {
       style={{
         maxHeight: "88vh",
       }}>
-      <div className="flex flex-col gap-1 p-1 bg-black/50 overflow-y-scroll overflow-x-hidden hide-scrollbar flex-1">
+      <div
+        className={`flex flex-col gap-1 p-1 bg-black/50 overflow-y-scroll overflow-x-hidden hide-scrollbar flex-1 ${
+          zoom ? "" : "hidden"
+        }`}>
         {(!winners || winners.length === 0) && (
           <div className="text-white text-center">Chưa có dữ liệu</div>
         )}
@@ -106,10 +114,22 @@ export default function WinnersList({ DataThamGia }: IWinnersListProps) {
           ))}
       </div>
 
-      <div className="p-2 flex justify-center items-center bg-amber-500">
-        <Label className="text-white font-semibold uppercase">
+      <div className="p-2 flex justify-center items-center bg-amber-500 gap-1">
+        <Label className="text-white font-semibold uppercase flex-1">
           Danh sách trúng thưởng
         </Label>
+        <Button
+          variant="ghost"
+          className="cursor-pointer ml-4"
+          onClick={() => setZoom((prev) => !prev)}>
+          <FullscreenIcon />
+        </Button>
+        <Button
+          className="cursor-pointer"
+          variant="ghost"
+          onClick={() => setZoom((prev) => !prev)}>
+          <MinusIcon />
+        </Button>
       </div>
     </div>
   );
