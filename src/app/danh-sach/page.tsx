@@ -24,15 +24,21 @@ import { IDataUser } from "@/lib/lottery-logic";
 import { useUserDataStore } from "@/store/data-user";
 import { useEffect, useRef, useState } from "react";
 
+import { act_UpdateUser } from "@/actions/act_user";
 import { saveAs } from "file-saver";
+import { toast } from "sonner";
 import * as XLSX from "xlsx";
 
 export default function NhanVienTable() {
-  const { DataThamGia } = useUserDataStore();
+  const { DataThamGia, setDataThamGia } = useUserDataStore();
 
   const [data, setData] = useState<IDataUser[]>([...DataThamGia]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterLoai, setFilterLoai] = useState("all");
+  const [filterGiai, setFilterGiai] = useState("all");
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 10; // mỗi trang 10 item
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -46,12 +52,63 @@ export default function NhanVienTable() {
     );
   };
 
-  const handleSave = () => {
-    console.log("Save data:", data);
-    // TODO: call API lưu vào DB
+  const handleSave = (user: IDataUser) => {
+    try {
+      if (!user) return;
+
+      act_UpdateUser(user);
+
+      handleUpdateUser(user);
+      toast("Thành công");
+    } catch (ex) {
+      console.log(ex);
+    }
   };
 
-  // ✅ Export Excel
+  const handleDel = (user: IDataUser) => {
+    try {
+      if (!user) return;
+
+      user.TrangThai = -1;
+
+      act_UpdateUser(user);
+
+      handleUpdateUser(user);
+      toast("Thành công");
+    } catch (ex) {
+      console.log(ex);
+    }
+  };
+
+  const handlePhucHoi = (user: IDataUser) => {
+    try {
+      if (!user) return;
+
+      user.TrangThai = 1;
+
+      act_UpdateUser(user);
+
+      handleUpdateUser(user);
+      toast("Thành công");
+    } catch (ex) {
+      console.log(ex);
+    }
+  };
+
+  const handleSaveAll = async () => {
+    try {
+      console.log("Save data:", data);
+      if (!data || !data.length) return;
+
+      await data.map(async (user) => await act_UpdateUser(user));
+
+      setDataThamGia(data);
+      toast("Thành công");
+    } catch (ex) {
+      console.log(ex);
+    }
+  };
+
   const handleExportExcel = () => {
     const ws = XLSX.utils.json_to_sheet(data);
     const wb = XLSX.utils.book_new();
@@ -61,7 +118,23 @@ export default function NhanVienTable() {
     saveAs(blob, "DanhSach.xlsx");
   };
 
-  // ✅ Import Excel
+  const handleReset = async () => {
+    try {
+      if (!data || !data.length) return;
+
+      await data.map(async (user) => {
+        user.GiaiTrung = null;
+
+        await act_UpdateUser(user);
+      });
+
+      setDataThamGia(data);
+      toast("Thành công");
+    } catch (ex) {
+      console.log(ex);
+    }
+  };
+
   const handleImportExcel = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -76,7 +149,10 @@ export default function NhanVienTable() {
       const sheet = workbook.Sheets[sheetName];
       const importedData: IDataUser[] = XLSX.utils.sheet_to_json(sheet);
 
+      console.log("importedData ======= ", importedData);
+
       setData(importedData);
+      setCurrentPage(1); // reset page khi import
     };
     reader.readAsBinaryString(file);
   };
@@ -86,7 +162,14 @@ export default function NhanVienTable() {
     setData(DataThamGia);
   }, [DataThamGia]);
 
-  // ✅ Filter theo search + loại
+  const handleUpdateUser = (updatedUser: IDataUser) => {
+    const newData = DataThamGia.map((user) =>
+      user.Stt === updatedUser.Stt ? { ...user, ...updatedUser } : user
+    );
+    setDataThamGia(newData);
+  };
+
+  // filter theo search + loại
   const filteredData = data.filter((row) => {
     const matchSearch =
       row.Hoten?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -95,33 +178,68 @@ export default function NhanVienTable() {
 
     const matchLoai = filterLoai === "all" || row.LoaiDS === filterLoai;
 
-    return matchSearch && matchLoai;
+    const matchGiai = filterGiai === "all" || row.GiaiFix === filterGiai;
+
+    return matchSearch && matchLoai && matchGiai;
   });
+
+  // slice data theo phân trang
+  const totalPages = Math.ceil(filteredData.length / pageSize);
+  const paginatedData = filteredData.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
 
   return (
     <div className="p-4">
-      <div className="flex flex-row gap-2 mb-4">
+      <div className="flex flex-row gap-2 mb-4 flex-wrap">
         <Input
           placeholder="Tìm kiếm theo tên, nơi công tác, SĐT..."
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={(e) => {
+            setSearchTerm(e.target.value);
+            setCurrentPage(1); // reset page khi search
+          }}
         />
 
-        <Select value={filterLoai} onValueChange={setFilterLoai}>
+        <Select
+          value={filterLoai}
+          onValueChange={(val) => {
+            setFilterLoai(val);
+            setCurrentPage(1); // reset page khi filter
+          }}>
           <SelectTrigger className="w-[200px]">
             <SelectValue placeholder="Lọc theo loại" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">Tất cả</SelectItem>
+            <SelectItem value="all">— Tất cả loại —</SelectItem>
             <SelectItem value="nv">nv - Nhân viên</SelectItem>
             <SelectItem value="kh">kh - Khách mời</SelectItem>
           </SelectContent>
         </Select>
 
-        <Button
+        <Select
+          value={filterGiai}
+          onValueChange={(val) => {
+            setFilterGiai(val);
+            setCurrentPage(1); // reset page khi filter
+          }}>
+          <SelectTrigger className="w-[200px]">
+            <SelectValue placeholder="Lọc theo giải" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">— Tất cả giải —</SelectItem>
+            <SelectItem value="db">db - Giải Đặc biệt</SelectItem>
+            <SelectItem value="1">1 - Giải nhất</SelectItem>
+            <SelectItem value="2">2 - Giải nhì</SelectItem>
+            <SelectItem value="3">3 - Giải ba</SelectItem>
+          </SelectContent>
+        </Select>
+
+        {/* <Button
           onClick={() =>
-            setData([
-              ...data,
+            setData((prev) => [
+              ...prev,
               {
                 Stt: (data.length + 1).toString(),
                 Hoten: "",
@@ -140,9 +258,9 @@ export default function NhanVienTable() {
             ])
           }>
           Thêm nhân viên
-        </Button>
+        </Button> */}
 
-        <Button onClick={handleSave}>Lưu</Button>
+        <Button onClick={handleSaveAll}>Lưu tất cả</Button>
         <Button onClick={() => fileInputRef.current?.click()}>
           Import excel
         </Button>
@@ -154,6 +272,7 @@ export default function NhanVienTable() {
           onChange={handleImportExcel}
         />
         <Button onClick={handleExportExcel}>Export excel</Button>
+        <Button onClick={handleReset}>Reset data</Button>
       </div>
 
       <Table className="border rounded-lg shadow">
@@ -171,40 +290,62 @@ export default function NhanVienTable() {
             <TableHead>Giải trúng</TableHead>
             <TableHead>Giải fix</TableHead>
             <TableHead>Hủy bỏ</TableHead>
+            <TableHead>Trạng thái</TableHead>
             <TableHead>Hành động</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {filteredData.map((row, i) => (
+          {paginatedData.map((row, i) => (
             <TableRow key={row.Stt}>
               <TableCell>{row.Stt}</TableCell>
               <TableCell>
                 <Input
                   value={row.Hoten}
-                  onChange={(e) => handleChange(i, "Hoten", e.target.value)}
+                  onChange={(e) =>
+                    handleChange(
+                      i + (currentPage - 1) * pageSize,
+                      "Hoten",
+                      e.target.value
+                    )
+                  }
                 />
               </TableCell>
               <TableCell>
                 <Input
                   value={row.NoiCongTac}
                   onChange={(e) =>
-                    handleChange(i, "NoiCongTac", e.target.value)
+                    handleChange(
+                      i + (currentPage - 1) * pageSize,
+                      "NoiCongTac",
+                      e.target.value
+                    )
                   }
                 />
               </TableCell>
               <TableCell>
                 <Input
+                  className="w-18"
                   type="number"
                   value={row.SoPhieu ?? ""}
                   onChange={(e) =>
-                    handleChange(i, "SoPhieu", Number(e.target.value))
+                    handleChange(
+                      i + (currentPage - 1) * pageSize,
+                      "SoPhieu",
+                      Number(e.target.value)
+                    )
                   }
                 />
               </TableCell>
               <TableCell>
                 <Select
-                  value={row.LoaiDS ?? undefined}
-                  onValueChange={(val) => handleChange(i, "LoaiDS", val)}>
+                  value={row.LoaiDS ?? ""}
+                  onValueChange={(val) =>
+                    handleChange(
+                      i + (currentPage - 1) * pageSize,
+                      "LoaiDS",
+                      val
+                    )
+                  }>
                   <SelectTrigger className="w-[100px]">
                     <SelectValue placeholder="Chọn loại" />
                   </SelectTrigger>
@@ -216,9 +357,14 @@ export default function NhanVienTable() {
               </TableCell>
               <TableCell>
                 <Input
+                  className="w-28"
                   value={row.SoDienThoai}
                   onChange={(e) =>
-                    handleChange(i, "SoDienThoai", e.target.value)
+                    handleChange(
+                      i + (currentPage - 1) * pageSize,
+                      "SoDienThoai",
+                      e.target.value
+                    )
                   }
                 />
               </TableCell>
@@ -230,7 +376,13 @@ export default function NhanVienTable() {
                       ? new Date(row.NgayTao).toISOString().split("T")[0]
                       : ""
                   }
-                  onChange={(e) => handleChange(i, "NgayTao", e.target.value)}
+                  onChange={(e) =>
+                    handleChange(
+                      i + (currentPage - 1) * pageSize,
+                      "NgayTao",
+                      e.target.value
+                    )
+                  }
                 />
               </TableCell>
               <TableCell>
@@ -242,7 +394,11 @@ export default function NhanVienTable() {
                       : ""
                   }
                   onChange={(e) =>
-                    handleChange(i, "NgayThamDu", e.target.value)
+                    handleChange(
+                      i + (currentPage - 1) * pageSize,
+                      "NgayThamDu",
+                      e.target.value
+                    )
                   }
                 />
               </TableCell>
@@ -255,18 +411,29 @@ export default function NhanVienTable() {
                       : ""
                   }
                   onChange={(e) =>
-                    handleChange(i, "NgayQuaySo", e.target.value)
+                    handleChange(
+                      i + (currentPage - 1) * pageSize,
+                      "NgayQuaySo",
+                      e.target.value
+                    )
                   }
                 />
               </TableCell>
               <TableCell>
                 <Select
-                  value={row.GiaiTrung ?? undefined}
-                  onValueChange={(val) => handleChange(i, "GiaiTrung", val)}>
+                  value={row.GiaiTrung ?? ""}
+                  onValueChange={(val) =>
+                    handleChange(
+                      i + (currentPage - 1) * pageSize,
+                      "GiaiTrung",
+                      val === "-1" ? "" : val
+                    )
+                  }>
                   <SelectTrigger className="w-[100px]">
                     <SelectValue placeholder="Chọn giải" />
                   </SelectTrigger>
                   <SelectContent>
+                    <SelectItem value="-1">— Không chọn —</SelectItem>
                     <SelectItem value="db">db - Giải Đặc biệt</SelectItem>
                     <SelectItem value="1">1 - Giải nhất</SelectItem>
                     <SelectItem value="2">2 - Giải nhì</SelectItem>
@@ -276,12 +443,19 @@ export default function NhanVienTable() {
               </TableCell>
               <TableCell>
                 <Select
-                  value={row.GiaiFix ?? undefined}
-                  onValueChange={(val) => handleChange(i, "GiaiFix", val)}>
+                  value={row.GiaiFix ?? ""}
+                  onValueChange={(val) =>
+                    handleChange(
+                      i + (currentPage - 1) * pageSize,
+                      "GiaiFix",
+                      val === "-1" ? "" : val // luôn string, không null
+                    )
+                  }>
                   <SelectTrigger className="w-[100px]">
                     <SelectValue placeholder="Chọn giải" />
                   </SelectTrigger>
                   <SelectContent>
+                    <SelectItem value="-1">— Không chọn —</SelectItem>
                     <SelectItem value="db">db - Giải Đặc biệt</SelectItem>
                     <SelectItem value="1">1 - Giải nhất</SelectItem>
                     <SelectItem value="2">2 - Giải nhì</SelectItem>
@@ -293,16 +467,41 @@ export default function NhanVienTable() {
                 <Checkbox
                   checked={row.HuyBo}
                   onCheckedChange={(val) =>
-                    handleChange(i, "HuyBo", val === true)
+                    handleChange(
+                      i + (currentPage - 1) * pageSize,
+                      "HuyBo",
+                      val === true
+                    )
                   }
                 />
               </TableCell>
               <TableCell>
+                {row.TrangThai === 1 ? row.TrangThai : "Xoá"}
+              </TableCell>
+              <TableCell>
                 <Button
+                  className="cursor-pointer"
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => {
+                    handleSave(row);
+                  }}>
+                  Lưu
+                </Button>
+                <Button
+                  className="ml-2 cursor-pointer bg-blue-600"
+                  size="sm"
+                  onClick={() => {
+                    handlePhucHoi(row);
+                  }}>
+                  Phục hồi
+                </Button>
+                <Button
+                  className="ml-2 cursor-pointer"
                   variant="destructive"
                   size="sm"
                   onClick={() => {
-                    setData(data.filter((_, idx) => idx !== i));
+                    handleDel(row);
                   }}>
                   Xóa
                 </Button>
@@ -311,6 +510,25 @@ export default function NhanVienTable() {
           ))}
         </TableBody>
       </Table>
+
+      {/* Pagination */}
+      <div className="flex justify-center items-center gap-4 mt-4">
+        <Button
+          disabled={currentPage === 1}
+          onClick={() => setCurrentPage((prev) => prev - 1)}>
+          Prev
+        </Button>
+
+        <span className="font-bold">
+          {currentPage} / {totalPages}
+        </span>
+
+        <Button
+          disabled={currentPage === totalPages}
+          onClick={() => setCurrentPage((prev) => prev + 1)}>
+          Next
+        </Button>
+      </div>
     </div>
   );
 }

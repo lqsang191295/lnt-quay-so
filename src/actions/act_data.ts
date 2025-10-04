@@ -1,5 +1,4 @@
 import { post } from "@/api/client";
-import { IDataUser } from "@/lib/lottery-logic";
 
 const Mock_Data_Giai_Db = [
   {
@@ -201,7 +200,7 @@ export const getDataGiai3 = async () => {
 export const getDataThamGia = async () => {
   const data = await getDataGiaiServer("");
 
-  return shuffleArray<IDataUser>(data);
+  return data;
 };
 
 export function shuffleArray<T>(array: T[]): T[] {

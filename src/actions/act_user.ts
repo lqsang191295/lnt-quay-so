@@ -72,6 +72,7 @@ export const act_UpdateUser = async (user: IDataUser) => {
         { paraName: "GiaiFix", paraValue: user.GiaiFix },
         { paraName: "SoDienThoai", paraValue: user.SoDienThoai },
         { paraName: "HuyBo", paraValue: user.HuyBo },
+        { paraName: "TrangThai", paraValue: user.TrangThai },
       ],
     });
 
