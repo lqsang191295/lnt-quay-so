@@ -71,7 +71,9 @@ export const getDanhSachThamGia = (
     filtered = filtered.filter((user) => loaiDS.includes(user.LoaiDS || ""));
   }
 
-  if (loaiGiai) {
+  if (loaiGiai === "db") {
+    filtered = filtered.filter((user) => user.GiaiFix === loaiGiai);
+  } else {
     filtered = filtered.filter(
       (user) => user.GiaiFix === loaiGiai || !user.GiaiFix
     );
