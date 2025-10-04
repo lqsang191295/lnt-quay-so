@@ -30,9 +30,9 @@ import { toast } from "sonner";
 import * as XLSX from "xlsx";
 
 export default function NhanVienTable() {
-  const { DataThamGia, setDataThamGia } = useUserDataStore();
+  const { DataAll, setDataAll } = useUserDataStore();
 
-  const [data, setData] = useState<IDataUser[]>([...DataThamGia]);
+  const [data, setData] = useState<IDataUser[]>([...DataAll]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterLoai, setFilterLoai] = useState("all");
   const [filterGiai, setFilterGiai] = useState("all");
@@ -102,7 +102,7 @@ export default function NhanVienTable() {
 
       await data.map(async (user) => await act_UpdateUser(user));
 
-      setDataThamGia(data);
+      setDataAll(data);
       toast("Thành công");
     } catch (ex) {
       console.log(ex);
@@ -128,7 +128,7 @@ export default function NhanVienTable() {
         await act_UpdateUser(user);
       });
 
-      setDataThamGia(data);
+      setDataAll(data);
       toast("Thành công");
     } catch (ex) {
       console.log(ex);
@@ -158,15 +158,15 @@ export default function NhanVienTable() {
   };
 
   useEffect(() => {
-    if (!DataThamGia || !DataThamGia.length) return;
-    setData(DataThamGia);
-  }, [DataThamGia]);
+    if (!DataAll || !DataAll.length) return;
+    setData(DataAll);
+  }, [DataAll]);
 
   const handleUpdateUser = (updatedUser: IDataUser) => {
-    const newData = DataThamGia.map((user) =>
+    const newData = DataAll.map((user) =>
       user.Stt === updatedUser.Stt ? { ...user, ...updatedUser } : user
     );
-    setDataThamGia(newData);
+    setDataAll(newData);
   };
 
   // filter theo search + loại

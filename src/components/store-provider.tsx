@@ -17,6 +17,7 @@ export default function StoreProvider({
     setDataGiai2,
     setDataGiai3,
     setDataGiaiDb,
+    setDataAll,
   } = useUserDataStore();
 
   const getDataTrungThuong = useCallback(
@@ -96,8 +97,14 @@ export default function StoreProvider({
   useEffect(() => {
     if (!dataThamGia) return;
 
-    setDataThamGia(dataThamGia);
+    setDataThamGia(dataThamGia.filter((item) => item.TrangThai === 1));
   }, [dataThamGia, setDataThamGia]);
+
+  useEffect(() => {
+    if (!dataThamGia) return;
+
+    setDataAll(dataThamGia);
+  }, [dataThamGia, setDataAll]);
 
   return <>{children}</>;
 }

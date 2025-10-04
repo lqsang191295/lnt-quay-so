@@ -42,6 +42,7 @@ export default function LotteryDraw() {
     dataGiaiDb,
     setDataGiaiDb,
   } = useUserDataStore();
+
   const [slGiai, setSlGiai] = useState(DataInitGiaiThuong[3].sl);
   const [dataGiaiThuong] = useState(DataInitGiaiThuong);
   const [currGiaiThuong, setCurrGiaiThuong] = useState(DataInitGiaiThuong[3]);
@@ -339,50 +340,6 @@ export default function LotteryDraw() {
                 onCompleteSpin={handleCompleteSpin}
                 DataTrungThuong={getDataTrungThuong()?.[0] || null}
               />
-
-              {/* Number Display */}
-              {/* <div
-                className={`relative bg-gradient-to-br from-emerald-600 to-emerald-700 rounded-2xl p-8 md:p-12 ${
-                  isDrawing ? "animate-glow" : ""
-                } ${winner ? "ring-4 ring-amber-400 ring-offset-4" : ""}`}>
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer rounded-2xl" />
-                <div className="relative flex justify-center items-center gap-2 md:gap-4">
-                  {currentNumber.split("").map((digit, index) => (
-                    <div
-                      key={index}
-                      className="bg-white rounded-xl w-12 h-16 md:w-16 md:h-20 flex items-center justify-center shadow-lg transform transition-transform hover:scale-110"
-                      style={{
-                        animationDelay: `${index * 0.1}s`,
-                      }}>
-                      <span className="text-3xl md:text-5xl font-bold text-emerald-700">
-                        {digit}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div> */}
-            </div>
-
-            {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              {/* <Button
-                size="lg"
-                onClick={handleDraw}
-                disabled={isDrawing}
-                className="cursor-pointer bg-gradient-to-r uppercase
-                  from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold px-24 py-8 text-lg rounded-full shadow-lg hover:shadow-xl transition-all disabled:opacity-50">
-                {isDrawing ? (
-                  <>
-                    <div className="w-12 h-12 border-2 border-white border-t-transparent rounded-full animate-spin " />
-                    <Label className="text-2xl">Đang quay...</Label>
-                  </>
-                ) : (
-                  <>
-                    <Sparkles className="w-18 h-18" />
-                    <Label className="text-2xl">Bắt đầu</Label>
-                  </>
-                )}
-              </Button> */}
             </div>
           </div>
         </div>
@@ -434,19 +391,7 @@ export default function LotteryDraw() {
               ))}
             </SelectContent>
           </Select>
-          {/* Nút test quay tất cả giải */}
-          {/* <button
-            onClick={() => {
-              const ketQua = quayTatCaGiai(DataThamGia);
-              console.log("Kết quả quay tất cả giải:", ketQua);
-              alert("Xem kết quả trong Console (F12)");
-            }}
-            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm">
-            Test Quay Tất Cả
-          </button> */}
         </div>
-
-        {/* Data stas */}
 
         {/* List trung thuong */}
         <div className="absolute bottom-2 right-2">

@@ -1,10 +1,11 @@
 "use client";
 import { IDataUser } from "@/lib/lottery-logic";
-import { FullscreenIcon, MinusIcon } from "lucide-react";
+import { FullscreenIcon, MinusIcon, PlusSquareIcon } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
+import WinnersListDialog from "./winner-list-modal";
 
 interface IWinnersListProps {
   DataThamGia: IDataUser[];
@@ -12,6 +13,7 @@ interface IWinnersListProps {
 
 export default function WinnersList({ DataThamGia }: IWinnersListProps) {
   const [zoom, setZoom] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
 
   const getDataTrungGiai = () => {
     const order = ["db", "1", "2", "3"]; // thứ tự ưu tiên
@@ -75,6 +77,23 @@ export default function WinnersList({ DataThamGia }: IWinnersListProps) {
       style={{
         maxHeight: "88vh",
       }}>
+      <div className="p-2 flex justify-center items-center bg-amber-500">
+        <Label className="text-white font-semibold uppercase flex-1">
+          Danh sách trúng thưởng
+        </Label>
+        <Button
+          className="cursor-pointer ml-4"
+          variant="ghost"
+          onClick={() => setOpenDialog(true)}>
+          <FullscreenIcon />
+        </Button>
+        <Button
+          className="cursor-pointer"
+          variant="ghost"
+          onClick={() => setZoom((prev) => !prev)}>
+          {zoom ? <MinusIcon /> : <PlusSquareIcon />}
+        </Button>
+      </div>
       <div
         className={`flex flex-col gap-1 p-1 bg-black/50 overflow-y-scroll overflow-x-hidden hide-scrollbar flex-1 ${
           zoom ? "" : "hidden"
@@ -114,17 +133,11 @@ export default function WinnersList({ DataThamGia }: IWinnersListProps) {
           ))}
       </div>
 
-      <div className="p-2 flex justify-center items-center bg-amber-500 gap-1">
-        <Label className="text-white font-semibold uppercase flex-1">
-          Danh sách trúng thưởng
-        </Label>
-        <Button
-          className="cursor-pointer ml-4"
-          variant="ghost"
-          onClick={() => setZoom((prev) => !prev)}>
-          {zoom ? <MinusIcon /> : <FullscreenIcon />}
-        </Button>
-      </div>
+      <WinnersListDialog
+        open={openDialog}
+        onClose={() => setOpenDialog(false)}
+        DataThamGia={DataThamGia}
+      />
     </div>
   );
 }

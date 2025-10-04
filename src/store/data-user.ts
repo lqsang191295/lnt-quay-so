@@ -16,6 +16,9 @@ interface iUserState {
 
   DataThamGia: IDataUser[];
   setDataThamGia: (data: IDataUser[]) => void;
+
+  DataAll: IDataUser[];
+  setDataAll: (data: IDataUser[]) => void;
 }
 
 export const useUserDataStore = create<iUserState>((set) => ({
@@ -33,4 +36,7 @@ export const useUserDataStore = create<iUserState>((set) => ({
 
   DataThamGia: [],
   setDataThamGia: (d) => set({ DataThamGia: d }),
+
+  DataAll: [],
+  setDataAll: (d) => set({ DataAll: d }),
 }));
