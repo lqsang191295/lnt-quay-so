@@ -10,7 +10,6 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { formatDate } from "@/lib/format";
 import { useUserDataStore } from "@/store/data-user";
-import { Calendar, MapPin, Users } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -119,7 +118,7 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
         {/* Header */}
         <div className="mb-4 text-center">
           <h1
-            className="mb-1 md:mb-4 text-balance text-xl md:text-3xl lg:text-5xl font-bold tracking-tight 
+            className="mb-1 md:mb-4 text-balance text-2xl md:text-3xl lg:text-5xl font-bold tracking-tight 
             bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 
             leading-normal bg-clip-text text-transparent uppercase">
             Đăng ký tham dự sự kiện
@@ -130,7 +129,7 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
         </div>
 
         {/* Event Info Cards */}
-        <div className="mb-4 grid gap-1 md:gap-4 grid-cols-3">
+        {/* <div className="mb-4 grid gap-1 md:gap-4 grid-cols-3">
           <Card className="border-2 py-0 xs:py-2">
             <CardContent className="flex items-center gap-3 p-1 xs:p-4 justify-center">
               <div className="hidden xs:flex h-10 w-10 items-center justify-center rounded-lg bg-accent text-accent-foreground">
@@ -172,7 +171,7 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
               </div>
             </CardContent>
           </Card>
-        </div>
+        </div> */}
 
         {/* Registration Form */}
         <Card className="border-2 shadow-lg py-2">
@@ -182,7 +181,7 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
               Điền thông tin của bạn để nhận số phiếu tham dự
             </CardDescription>
           </CardHeader> */}
-          <CardContent>
+          <CardContent className="px-2.5">
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Full Name */}
               <div className="space-y-2">
@@ -229,7 +228,7 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
               <div className="space-y-2">
                 <Label
                   htmlFor="organization"
-                  className="text-base text-blue-600">
+                  className="text-base text-blue-600 uppercase">
                   Đơn vị công tác{" "}
                   <span className="text-destructive uppercase">*</span>
                 </Label>
@@ -251,7 +250,7 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
 
               {/* Attendee Type */}
               <div className="space-y-3">
-                <Label className="text-base text-blue-600">
+                <Label className="text-base text-blue-600 uppercase">
                   Người tham dự <span className="text-destructive">*</span>
                 </Label>
                 <RadioGroup
