@@ -119,16 +119,10 @@ export default function WinnersList({ DataThamGia }: IWinnersListProps) {
           Danh sách trúng thưởng
         </Label>
         <Button
-          variant="ghost"
           className="cursor-pointer ml-4"
-          onClick={() => setZoom((prev) => !prev)}>
-          <FullscreenIcon />
-        </Button>
-        <Button
-          className="cursor-pointer"
           variant="ghost"
           onClick={() => setZoom((prev) => !prev)}>
-          <MinusIcon />
+          {zoom ? <MinusIcon /> : <FullscreenIcon />}
         </Button>
       </div>
     </div>
