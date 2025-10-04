@@ -19,7 +19,6 @@ import {
   getDanhSachThamGia,
   getDanhSachTrungGiai,
   quayChoNguoiTrungGiai,
-  quayTatCaGiai,
 } from "@/lib/lottery-logic";
 import { useUserDataStore } from "@/store/data-user";
 import { ShieldUserIcon, Trophy } from "lucide-react";
@@ -301,8 +300,8 @@ export default function LotteryDraw() {
       )}
       <div className="w-full flex justify-center items-center bg-[#ffffff20]">
         <Label
-          className="text-6xl font-black text-amber-600 
-  [text-shadow:_2px_2px_0_#b45309,3px_3px_0_#92400e,4px_4px_0_#78350f] leading-normal">
+          className="text-5xl font-black text-amber-600 
+  [text-shadow:_2px_2px_0_#b45309,3px_3px_0_#92400e,4px_4px_0_#78350f] leading-normal uppercase">
           Hội nghị khoa học kỹ thuật lần thứ X
         </Label>
       </div>
@@ -401,7 +400,9 @@ export default function LotteryDraw() {
               </div>
               <div>
                 <p className="text-sm uppercase">{currGiaiThuong.ten}</p>
-                <p className="text-2xl font-bold">{currGiaiThuong.sl} giải</p>
+                <p className="text-2xl font-bold uppercase">
+                  {currGiaiThuong.sl} giải
+                </p>
               </div>
             </div>
           </div>
@@ -428,7 +429,7 @@ export default function LotteryDraw() {
             </SelectContent>
           </Select>
           {/* Nút test quay tất cả giải */}
-          <button
+          {/* <button
             onClick={() => {
               const ketQua = quayTatCaGiai(DataThamGia);
               console.log("Kết quả quay tất cả giải:", ketQua);
@@ -436,7 +437,7 @@ export default function LotteryDraw() {
             }}
             className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm">
             Test Quay Tất Cả
-          </button>
+          </button> */}
         </div>
 
         {/* Data stas */}

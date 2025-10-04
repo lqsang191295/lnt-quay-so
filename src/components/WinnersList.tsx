@@ -107,7 +107,7 @@ export default function WinnersList({ DataThamGia }: IWinnersListProps) {
       </div>
 
       <div className="p-2 flex justify-center items-center bg-amber-500">
-        <Label className="text-white font-semibold">
+        <Label className="text-white font-semibold uppercase">
           Danh sách trúng thưởng
         </Label>
       </div>
