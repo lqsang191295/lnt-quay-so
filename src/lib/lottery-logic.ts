@@ -74,7 +74,8 @@ export const getDanhSachThamGia = (
     loaiDS
   ).length;
 
-  const slGiaiConLai = QUAT_QUY_QUAY_SO[loaiGiai]["soLanQuay"] - slTrungGiai;
+  const slGiaiConLai =
+    QUAT_QUY_QUAY_SO[loaiGiai]["soLanQuay"] - slTrungGiai - dataGiaiFix.length;
 
   // Lọc bỏ người đã trúng giải và trong danh sách cố định
   let filtered = danhSachNguoi.filter(
