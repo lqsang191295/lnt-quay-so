@@ -16,9 +16,7 @@ import { formatDate } from "@/lib/format";
 import {
   IDataGiaiThuong,
   IDataUser,
-  getDanhSachThamGia,
   getDanhSachTrungGiai,
-  quayChoNguoiTrungGiai,
 } from "@/lib/lottery-logic";
 import { useUserDataStore } from "@/store/data-user";
 import { ShieldUserIcon, Trophy } from "lucide-react";
@@ -33,7 +31,8 @@ const DataInitGiaiThuong: IDataGiaiThuong[] = [
 ];
 
 export default function LotteryDraw() {
-  const { DataThamGia } = useUserDataStore();
+  const { DataThamGia, dataGiai1, dataGiai2, dataGiai3, dataGiaiDb } =
+    useUserDataStore();
   const [slGiai, setSlGiai] = useState(DataInitGiaiThuong[3].sl);
   const [dataGiaiThuong] = useState(DataInitGiaiThuong);
   const [currGiaiThuong, setCurrGiaiThuong] = useState(DataInitGiaiThuong[3]);
@@ -41,51 +40,27 @@ export default function LotteryDraw() {
   const [winner, setWinner] = useState<IDataUser | null>(null);
   const [showWinnerModal, setShowWinnerModal] = useState(false);
 
-  // Hàm quay số cho một lần quay cụ thể
-  const quayMotLan = (
-    loaiGiai: string,
-    lanQuayThu: number
-  ): IDataUser | null => {
-    const totalLanQuay =
-      DataInitGiaiThuong.find((g) => g.id === loaiGiai)?.sl || 1;
-    return quayChoNguoiTrungGiai(
-      DataThamGia,
-      loaiGiai,
-      lanQuayThu,
-      totalLanQuay
-    );
-  };
-
-  const shuffleArray = <T,>(array: T[]): T[] => {
-    const newArr = [...array];
-    for (let i = newArr.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [newArr[i], newArr[j]] = [newArr[j], newArr[i]];
-    }
-    return newArr;
-  };
-
   const getDataTrungThuong = (): IDataUser[] | null => {
     // Trả về danh sách người tham gia theo loại giải
     let data;
     switch (currGiaiThuong.id) {
       case "3": // Giải ba - chỉ khách mời
-        data = getDanhSachThamGia(DataThamGia, currGiaiThuong.id, ["kh"]);
+        data = dataGiai3;
         break;
       case "2": // Giải nhì - chỉ khách mời
-        data = getDanhSachThamGia(DataThamGia, currGiaiThuong.id, ["kh"]);
+        data = dataGiai2;
         break;
       case "1": // Giải nhất - cả nhân viên và khách mời
-        data = getDanhSachThamGia(DataThamGia, currGiaiThuong.id, ["nv", "kh"]);
+        data = dataGiai1;
         break;
       case "db": // Giải đặc biệt - chỉ nhân viên
-        data = getDanhSachThamGia(DataThamGia, currGiaiThuong.id, ["nv"]);
+        data = dataGiaiDb;
         break;
       default:
         data = null;
     }
 
-    return data ? shuffleArray<IDataUser>(data) : null;
+    return data;
   };
 
   const getSLDataTrungThuong = useCallback((): number => {
@@ -156,11 +131,6 @@ export default function LotteryDraw() {
   const handleNext = () => {
     setSlGiai((prev) => prev - 1);
 
-    // DataThamGia.map((item) => {
-    //   if (item.Stt === winner?.Stt) {
-    //     item.GiaiTrung = currGiaiThuong.id;
-    //   }
-    // });
     if (winner) {
       winner.GiaiTrung = currGiaiThuong.id;
       winner.NgayQuaySo = formatDate(new Date());
@@ -172,12 +142,6 @@ export default function LotteryDraw() {
   };
 
   const handleCancel = () => {
-    // DataThamGia.map((item) => {
-    //   if (item.Stt === winner?.Stt) {
-    //     item.GiaiTrung = currGiaiThuong.id;
-    //     item.HuyBo = true;
-    //   }
-    // });
     if (winner) {
       winner.GiaiTrung = currGiaiThuong.id;
       winner.HuyBo = true;

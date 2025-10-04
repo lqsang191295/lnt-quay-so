@@ -1,5 +1,6 @@
 // Logic quay số cho hệ thống quay số may mắn
 
+import { shuffleArray } from "@/actions/act_data";
 import { formatDate } from "./format";
 
 export interface IDataUser {
@@ -15,6 +16,7 @@ export interface IDataUser {
   GiaiTrung: string | null;
   GiaiFix: string | null; // id giải thưởng được chỉ định trước
   HuyBo?: boolean; // id giải thưởng được chỉ định trước
+  TrangThai: number;
 }
 
 export interface IDataGiaiThuong {
@@ -22,6 +24,8 @@ export interface IDataGiaiThuong {
   ten: string;
   sl: number;
 }
+
+type LoaiGiai = "1" | "2" | "3" | "db";
 
 // Quy tắc quay số theo từng loại giải
 export const QUAT_QUY_QUAY_SO = {
@@ -60,26 +64,48 @@ export const QUAT_QUY_QUAY_SO = {
  */
 export const getDanhSachThamGia = (
   danhSachNguoi: IDataUser[],
-  loaiGiai: string,
+  loaiGiai: LoaiGiai,
   loaiDS?: string[]
 ): IDataUser[] => {
-  // Lọc bỏ người đã trúng giải
-  let filtered = danhSachNguoi.filter((user) => !user.GiaiTrung && !user.HuyBo);
+  const dataGiaiFix = getGiaiFix(danhSachNguoi, loaiGiai);
+  const slTrungGiai = getDanhSachTrungGiai(
+    danhSachNguoi,
+    loaiGiai,
+    loaiDS
+  ).length;
+
+  const slGiaiConLai = QUAT_QUY_QUAY_SO[loaiGiai]["soLanQuay"] - slTrungGiai;
+
+  // Lọc bỏ người đã trúng giải và trong danh sách cố định
+  let filtered = danhSachNguoi.filter(
+    (user) =>
+      !user.GiaiTrung &&
+      !user.HuyBo &&
+      !dataGiaiFix.some((i) => i.Stt === user.Stt)
+  );
 
   // Lọc theo loại danh sách nếu được chỉ định
   if (loaiDS && loaiDS.length > 0) {
     filtered = filtered.filter((user) => loaiDS.includes(user.LoaiDS || ""));
   }
 
-  if (loaiGiai === "db") {
-    filtered = filtered.filter((user) => user.GiaiFix === loaiGiai);
-  } else {
-    filtered = filtered.filter(
-      (user) => user.GiaiFix === loaiGiai || !user.GiaiFix
-    );
-  }
+  // Xáo trộn danh sách filtered
+  const shuffled = shuffleArray<IDataUser>(filtered);
 
-  return filtered;
+  // Lấy đúng số lượng còn lại
+  const dataRnd = shuffled.slice(0, slGiaiConLai);
+
+  // Kết hợp danh sách cố định và danh sách random
+  return shuffleArray([...dataGiaiFix, ...dataRnd]);
+};
+
+export const getGiaiFix = (
+  danhSachNguoi: IDataUser[],
+  loaiGiai: string
+): IDataUser[] => {
+  return danhSachNguoi.filter(
+    (user) => !user.GiaiTrung && !user.HuyBo && user.GiaiFix === loaiGiai
+  );
 };
 
 export const getDanhSachTrungGiai = (
@@ -138,7 +164,7 @@ export const phanBoGiaiFix = (
  */
 export const quayChoNguoiTrungGiai = (
   danhSachNguoi: IDataUser[],
-  loaiGiai: string,
+  loaiGiai: LoaiGiai,
   lanQuayThu: number,
   totalLanQuay: number
 ): IDataUser | null => {
@@ -295,6 +321,7 @@ export const taoDataMau = (): IDataUser[] => {
       NgayQuaySo: null,
       GiaiTrung: null,
       GiaiFix: i <= 3 ? (i === 1 ? "db" : "1") : null, // 1 người trúng DB, 2 người trúng giải 1
+      TrangThai: 1,
     });
   }
 
@@ -312,6 +339,7 @@ export const taoDataMau = (): IDataUser[] => {
       NgayQuaySo: null,
       GiaiTrung: null,
       GiaiFix: i <= 8 ? (i <= 3 ? "3" : i <= 6 ? "2" : "1") : null, // 3 người giải 3, 3 người giải 2, 2 người giải 1
+      TrangThai: 1,
     });
   }
 

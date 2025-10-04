@@ -1,4 +1,5 @@
 import { post } from "@/api/client";
+import { IDataUser } from "@/lib/lottery-logic";
 
 const Mock_Data_Giai_Db = [
   {
@@ -198,20 +199,16 @@ export const getDataGiai3 = async () => {
 };
 
 export const getDataThamGia = async () => {
-  // if (mockData) {
-  //   await new Promise((resolve) => setTimeout(resolve, 1000));
-  //   return DataThamGia;
-  // }
-
-  // let data = getLocalStorageByKey("DATA_THAM_GIA");
-
-  // if (data) {
-  //   return data;
-  // }
-
   const data = await getDataGiaiServer("");
 
-  // setLocalStorageByKey("DATA_THAM_GIA", data);
-
-  return data;
+  return shuffleArray<IDataUser>(data);
 };
+
+export function shuffleArray<T>(array: T[]): T[] {
+  const newArr = [...array];
+  for (let i = newArr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [newArr[i], newArr[j]] = [newArr[j], newArr[i]];
+  }
+  return newArr;
+}
