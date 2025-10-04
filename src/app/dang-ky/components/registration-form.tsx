@@ -15,6 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { formatDate } from "@/lib/format";
+import { useUserDataStore } from "@/store/data-user";
 import { Calendar, MapPin, Users } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -32,6 +33,7 @@ interface RegistrationFormProps {
 }
 
 export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
+  const { DataThamGia } = useUserDataStore();
   const [formData, setFormData] = useState({
     fullName: "",
     phone: "",
@@ -50,8 +52,6 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
 
     if (!formData.phone.trim()) {
       newErrors.phone = "Vui lòng nhập số điện thoại";
-    } else if (!/^[0-9]{10,11}$/.test(formData.phone.replace(/\s/g, ""))) {
-      newErrors.phone = "Số điện thoại không hợp lệ";
     }
 
     if (!formData.organization.trim()) {
@@ -175,7 +175,7 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
                 <p className="text-sm font-medium text-muted-foreground">
                   Đã đăng ký
                 </p>
-                <p className="font-semibold">248 người</p>
+                <p className="font-semibold">{DataThamGia.length} người</p>
               </div>
             </CardContent>
           </Card>
