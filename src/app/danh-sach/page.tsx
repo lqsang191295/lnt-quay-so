@@ -124,6 +124,8 @@ export default function NhanVienTable() {
 
       await data.map(async (user) => {
         user.GiaiTrung = null;
+        user.HuyBo = false;
+        user.NgayQuaySo = null;
 
         await act_UpdateUser(user);
       });

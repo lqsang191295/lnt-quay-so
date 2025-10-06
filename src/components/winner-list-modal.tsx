@@ -1,10 +1,7 @@
 "use client";
 
 import { IDataUser } from "@/lib/lottery-logic";
-import { FullscreenIcon, MinusIcon, PlusSquareIcon } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
-import { Button } from "./ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
 import { Label } from "./ui/label";
 
@@ -19,16 +16,6 @@ export default function WinnersListDialog({
   onClose,
   DataThamGia,
 }: IWinnersListProps) {
-  const [zoom, setZoom] = useState(false);
-
-  const getDataTrungGiai = () => {
-    const order = ["db", "1", "2", "3"]; // thứ tự ưu tiên
-    return DataThamGia.filter((item) => item.GiaiTrung && !item.HuyBo).sort(
-      (a, b) =>
-        order.indexOf(a.GiaiTrung || "") - order.indexOf(b.GiaiTrung || "")
-    );
-  };
-
   const getStyleByGiai = (giai: string) => {
     switch (giai) {
       case "db":
@@ -74,76 +61,47 @@ export default function WinnersListDialog({
     }
   };
 
-  const winners = getDataTrungGiai();
-
-  console.log("winners == ", winners);
+  const winners = DataThamGia.filter((item) => item.GiaiTrung && !item.HuyBo);
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-3xl w-full p-0 rounded-2xl overflow-hidden">
+      <DialogContent className="w-screen h-screen !max-w-full !max-h-screen p-0 rounded-none gap-0 !flex !flex-col">
         {/* Header */}
-        <DialogHeader className="flex justify-between items-center bg-amber-500 p-2">
-          <DialogTitle className="text-white font-semibold uppercase flex-1">
+        <DialogHeader className="flex justify-between items-center bg-amber-500 p-4 !h-12">
+          <DialogTitle className="text-white font-bold uppercase">
             Danh sách trúng thưởng
           </DialogTitle>
-          <div className="flex gap-2">
-            <Button
-              className="cursor-pointer"
-              variant="ghost"
-              onClick={() => setZoom((prev) => !prev)}>
-              <FullscreenIcon />
-            </Button>
-            <Button
-              className="cursor-pointer"
-              variant="ghost"
-              onClick={() => setZoom((prev) => !prev)}>
-              {zoom ? <MinusIcon /> : <PlusSquareIcon />}
-            </Button>
-          </div>
         </DialogHeader>
 
         {/* Body */}
-        <div
-          className={`flex flex-col gap-1 p-2 bg-black/50 overflow-y-auto max-h-[70vh] ${
-            zoom ? "" : "hidden"
-          }`}>
+        <div className="p-2 bg-black/90 h-full overflow-y-auto ">
           {(!winners || winners.length === 0) && (
             <div className="text-white text-center">Chưa có dữ liệu</div>
           )}
 
-          {winners &&
-            winners.length > 0 &&
-            winners.map((winner, index) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {winners.map((winner, index) => (
               <div
                 key={index}
-                className={`relative p-3 rounded-2xl ${getStyleByGiai(
+                className={`relative p-2 rounded-2xl flex flex-col items-center text-center ${getStyleByGiai(
                   winner.GiaiTrung || ""
                 )}`}>
-                <div className="flex items-center space-x-4">
-                  <Image
-                    className="rounded-full w-12 h-12"
-                    src={getImageByGiai(winner.GiaiTrung || "")}
-                    width={48}
-                    height={48}
-                    alt="Logo"
-                  />
-                  <div className="flex flex-col">
-                    <div className="flex space-x-2 uppercase font-bold ">
-                      <Label className="text-2xl font-bold">
-                        #{winner.Stt}
-                      </Label>
-                      <Label className="text-2xl">-</Label>
-                      <Label className="text-2xl font-bold">
-                        {winner.Hoten}
-                      </Label>
-                    </div>
-                    <Label className="uppercase text-xl">
-                      {getNameGiai(winner.GiaiTrung || "")}
-                    </Label>
-                  </div>
-                </div>
+                <Image
+                  className="rounded-full w-16 h-16 mb-2"
+                  src={getImageByGiai(winner.GiaiTrung || "")}
+                  width={64}
+                  height={64}
+                  alt="Cup"
+                />
+                <Label className="text-lg font-bold uppercase">
+                  #{winner.Stt} - {winner.Hoten}
+                </Label>
+                <Label className="uppercase text-sm mt-1">
+                  {getNameGiai(winner.GiaiTrung || "")}
+                </Label>
               </div>
             ))}
+          </div>
         </div>
       </DialogContent>
     </Dialog>

@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/select";
 import WinnerModal from "@/components/winner-modal";
 import WinnersList from "@/components/WinnersList";
-import { formatDate } from "@/lib/format";
+import { formatDateTime } from "@/lib/format";
 import {
   IDataGiaiThuong,
   IDataUser,
@@ -23,7 +23,7 @@ import { ShieldUserIcon, Trophy } from "lucide-react";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 
-const DataInitGiaiThuong: IDataGiaiThuong[] = [
+export const DataInitGiaiThuong: IDataGiaiThuong[] = [
   { id: "db", ten: "Giải đặc biệt", sl: 1 },
   { id: "1", ten: "Giải nhất", sl: 15 },
   { id: "2", ten: "Giải nhì", sl: 10 },
@@ -174,7 +174,7 @@ export default function LotteryDraw() {
 
     if (winner) {
       winner.GiaiTrung = currGiaiThuong.id;
-      winner.NgayQuaySo = formatDate(new Date());
+      winner.NgayQuaySo = formatDateTime(new Date());
 
       updateUser(winner);
       removeWinner(winner);
@@ -187,7 +187,7 @@ export default function LotteryDraw() {
     if (winner) {
       winner.GiaiTrung = currGiaiThuong.id;
       winner.HuyBo = true;
-      winner.NgayQuaySo = formatDate(new Date());
+      winner.NgayQuaySo = formatDateTime(new Date());
 
       updateUser(winner);
       removeWinner(winner);
@@ -395,7 +395,10 @@ export default function LotteryDraw() {
 
         {/* List trung thuong */}
         <div className="absolute bottom-2 right-2">
-          <WinnersList DataThamGia={DataThamGia} />
+          <WinnersList
+            DataThamGia={DataThamGia}
+            currGiaiThuong={currGiaiThuong}
+          />
         </div>
 
         {/* Winner modal */}

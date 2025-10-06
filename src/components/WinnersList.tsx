@@ -1,5 +1,5 @@
 "use client";
-import { IDataUser } from "@/lib/lottery-logic";
+import { IDataGiaiThuong, IDataUser } from "@/lib/lottery-logic";
 import { FullscreenIcon, MinusIcon, PlusSquareIcon } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
@@ -9,19 +9,25 @@ import WinnersListDialog from "./winner-list-modal";
 
 interface IWinnersListProps {
   DataThamGia: IDataUser[];
+  currGiaiThuong: IDataGiaiThuong;
 }
 
-export default function WinnersList({ DataThamGia }: IWinnersListProps) {
+export default function WinnersList({
+  DataThamGia,
+  currGiaiThuong,
+}: IWinnersListProps) {
   const [zoom, setZoom] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
 
   const getDataTrungGiai = () => {
-    const order = ["db", "1", "2", "3"]; // thứ tự ưu tiên
-
-    return DataThamGia.filter((item) => item.GiaiTrung && !item.HuyBo).sort(
-      (a, b) =>
-        order.indexOf(a.GiaiTrung || "") - order.indexOf(b.GiaiTrung || "")
-    );
+    return DataThamGia.filter(
+      (item) =>
+        item.GiaiTrung && !item.HuyBo && item.GiaiTrung === currGiaiThuong.id
+    ).sort((a, b) => {
+      const dateA = new Date(a.NgayQuaySo || "").getTime();
+      const dateB = new Date(b.NgayQuaySo || "").getTime();
+      return dateB - dateA; // giảm dần: mới nhất trước
+    });
   };
 
   const getStyleByGiai = (giai: string) => {
@@ -84,7 +90,10 @@ export default function WinnersList({ DataThamGia }: IWinnersListProps) {
         <Button
           className="cursor-pointer ml-4"
           variant="ghost"
-          onClick={() => setOpenDialog(true)}>
+          onClick={() => {
+            setOpenDialog(true);
+            setZoom(false);
+          }}>
           <FullscreenIcon />
         </Button>
         <Button
@@ -136,7 +145,7 @@ export default function WinnersList({ DataThamGia }: IWinnersListProps) {
       <WinnersListDialog
         open={openDialog}
         onClose={() => setOpenDialog(false)}
-        DataThamGia={DataThamGia}
+        DataThamGia={getDataTrungGiai()}
       />
     </div>
   );
