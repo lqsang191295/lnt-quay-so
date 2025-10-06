@@ -132,18 +132,21 @@ export default function NhanVienTable() {
 
   const handleReset = async () => {
     try {
+      console.log("restttttttt ", data);
       if (!data || !data.length) return;
       setLoading(true); // bật loading
 
+      const dataF = data.filter((user) => user.GiaiTrung || user.HuyBo);
+
+      console.log("dataF === ", dataF);
+
       await Promise.all(
-        data
-          .filter((user) => user.GiaiTrung && user.HuyBo && user.NgayQuaySo)
-          .map(async (user) => {
-            user.GiaiTrung = null;
-            user.HuyBo = false;
-            user.NgayQuaySo = null;
-            await act_UpdateUser(user);
-          })
+        dataF.map(async (user) => {
+          user.GiaiTrung = null;
+          user.HuyBo = false;
+          user.NgayQuaySo = null;
+          await act_UpdateUser(user);
+        })
       );
 
       setData(data);

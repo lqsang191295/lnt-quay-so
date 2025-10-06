@@ -115,14 +115,14 @@ export const getDanhSachTrungGiai = (
   loaiDS?: string[]
 ): IDataUser[] => {
   // Lọc bỏ người đã trúng giải
-  let filtered = danhSachNguoi.filter(
+  const filtered = danhSachNguoi.filter(
     (user) => user.GiaiTrung === loaiGiai && !user.HuyBo
   );
 
-  // Lọc theo loại danh sách nếu được chỉ định
-  if (loaiDS && loaiDS.length > 0) {
-    filtered = filtered.filter((user) => loaiDS.includes(user.LoaiDS || ""));
-  }
+  // // Lọc theo loại danh sách nếu được chỉ định
+  // if (loaiDS && loaiDS.length > 0) {
+  //   filtered = filtered.filter((user) => loaiDS.includes(user.LoaiDS || ""));
+  // }
 
   return filtered;
 };
