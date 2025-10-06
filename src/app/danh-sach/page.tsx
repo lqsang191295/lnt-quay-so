@@ -352,48 +352,62 @@ export default function NhanVienTable() {
         </Button>
       </div>
 
-      <Table className="border rounded-lg shadow">
+      <Table className="border border-gray-300 rounded-lg shadow divide-y divide-gray-300">
         <TableHeader>
-          <TableRow>
-            <TableHead>STT</TableHead>
-            <TableHead>Họ tên</TableHead>
-            <TableHead>Nơi công tác</TableHead>
-            <TableHead>Số phiếu</TableHead>
-            <TableHead>Loại DS</TableHead>
-            <TableHead>Số điện thoại</TableHead>
-            <TableHead>Ngày tạo</TableHead>
-            <TableHead>Ngày tham dự</TableHead>
-            <TableHead>Ngày quay số</TableHead>
-            <TableHead>Giải trúng</TableHead>
-            <TableHead>Giải fix</TableHead>
-            <TableHead>Hủy bỏ</TableHead>
-            <TableHead>Trạng thái</TableHead>
-            <TableHead>Hành động</TableHead>
+          <TableRow className="bg-gray-100">
+            <TableHead className="border border-gray-300">STT</TableHead>
+            <TableHead className="border border-gray-300 w-12">
+              Họ tên
+            </TableHead>
+            <TableHead className="border border-gray-300">
+              Nơi công tác
+            </TableHead>
+            <TableHead className="border border-gray-300">Số phiếu</TableHead>
+            <TableHead className="border border-gray-300">Loại DS</TableHead>
+            <TableHead className="border border-gray-300">
+              Số điện thoại
+            </TableHead>
+            <TableHead className="border border-gray-300">Ngày tạo</TableHead>
+            <TableHead className="border border-gray-300">
+              Ngày tham dự
+            </TableHead>
+            <TableHead className="border border-gray-300">
+              Ngày quay số
+            </TableHead>
+            <TableHead className="border border-gray-300">Giải trúng</TableHead>
+            <TableHead className="border border-gray-300">Giải fix</TableHead>
+            <TableHead className="border border-gray-300">Hủy bỏ</TableHead>
+            <TableHead className="border border-gray-300">Trạng thái</TableHead>
+            <TableHead className="border border-gray-300">Hành động</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {paginatedData.map((row, i) => (
-            <TableRow key={row.Stt}>
-              <TableCell>{row.Stt}</TableCell>
-              <TableCell>
+            <TableRow key={row.Stt} className="border border-gray-300">
+              <TableCell className="border border-gray-300 p-0.5 text-center">
+                {row.Stt}
+              </TableCell>
+              <TableCell className="border border-gray-300 p-0.5">
                 <Input
+                  className="border-0 !rounded-0 !w-24 p-0.5"
                   value={row.Hoten}
                   onChange={(e) =>
                     handleChangeByKey(row.Stt, "Hoten", e.target.value)
                   }
                 />
               </TableCell>
-              <TableCell>
+              <TableCell className="border border-gray-300 p-0.5">
                 <Input
+                  className="border-0 !rounded-0 !w-24  p-0.5"
                   value={row.NoiCongTac}
                   onChange={(e) =>
                     handleChangeByKey(row.Stt, "NoiCongTac", e.target.value)
                   }
                 />
               </TableCell>
-              <TableCell>
+              <TableCell className="border border-gray-300 p-0.5">
                 <Input
-                  className="w-18"
+                  className="w-18 border-0 text-center  p-0.5"
                   type="number"
                   value={row.SoPhieu ?? ""}
                   onChange={(e) =>
@@ -405,13 +419,13 @@ export default function NhanVienTable() {
                   }
                 />
               </TableCell>
-              <TableCell>
+              <TableCell className="border border-gray-300 p-0.5">
                 <Select
                   value={row.LoaiDS ?? ""}
                   onValueChange={(val) =>
                     handleChangeByKey(row.Stt, "LoaiDS", val)
                   }>
-                  <SelectTrigger className="w-[100px]">
+                  <SelectTrigger className="w-[100px] border-0  p-0.5">
                     <SelectValue placeholder="Chọn loại" />
                   </SelectTrigger>
                   <SelectContent>
@@ -420,17 +434,18 @@ export default function NhanVienTable() {
                   </SelectContent>
                 </Select>
               </TableCell>
-              <TableCell>
+              <TableCell className="border border-gray-300 p-0.5">
                 <Input
-                  className="w-28"
+                  className="w-20 border-0 p-0.5"
                   value={row.SoDienThoai}
                   onChange={(e) =>
                     handleChangeByKey(row.Stt, "SoDienThoai", e.target.value)
                   }
                 />
               </TableCell>
-              <TableCell>
+              <TableCell className="border border-gray-300 p-0.5">
                 <Input
+                  className="w-30 border-0 p-0.5"
                   type="date"
                   value={
                     row.NgayTao
@@ -442,8 +457,9 @@ export default function NhanVienTable() {
                   }
                 />
               </TableCell>
-              <TableCell>
+              <TableCell className="border border-gray-300 p-0.5">
                 <Input
+                  className="w-30 border-0 p-0.5"
                   type="date"
                   value={
                     row.NgayThamDu
@@ -455,8 +471,9 @@ export default function NhanVienTable() {
                   }
                 />
               </TableCell>
-              <TableCell>
+              <TableCell className="border border-gray-300 p-0.5">
                 <Input
+                  className="w-30 border-0 p-0.5"
                   type="date"
                   value={
                     row.NgayQuaySo
@@ -468,7 +485,7 @@ export default function NhanVienTable() {
                   }
                 />
               </TableCell>
-              <TableCell>
+              <TableCell className="border border-gray-300 p-0.5">
                 <Select
                   value={row.GiaiTrung ?? ""}
                   onValueChange={(val) =>
@@ -478,7 +495,7 @@ export default function NhanVienTable() {
                       val === "-1" ? "" : val
                     )
                   }>
-                  <SelectTrigger className="w-[100px]">
+                  <SelectTrigger className="w-[100px] border-0 p-0.5">
                     <SelectValue placeholder="Chọn giải" />
                   </SelectTrigger>
                   <SelectContent>
@@ -490,7 +507,7 @@ export default function NhanVienTable() {
                   </SelectContent>
                 </Select>
               </TableCell>
-              <TableCell>
+              <TableCell className="border border-gray-300 p-0.5">
                 <Select
                   value={row.GiaiFix ?? ""}
                   onValueChange={(val) =>
@@ -500,7 +517,7 @@ export default function NhanVienTable() {
                       val === "-1" ? "" : val // luôn string, không null
                     )
                   }>
-                  <SelectTrigger className="w-[100px]">
+                  <SelectTrigger className="w-[100px] border-0 p-0.5">
                     <SelectValue placeholder="Chọn giải" />
                   </SelectTrigger>
                   <SelectContent>
@@ -512,7 +529,7 @@ export default function NhanVienTable() {
                   </SelectContent>
                 </Select>
               </TableCell>
-              <TableCell>
+              <TableCell className="border border-gray-300 p-0.5 text-center">
                 <Checkbox
                   checked={row.HuyBo}
                   onCheckedChange={(val) =>
@@ -520,10 +537,10 @@ export default function NhanVienTable() {
                   }
                 />
               </TableCell>
-              <TableCell>
+              <TableCell className="border border-gray-300 p-0.5 text-center">
                 {row.TrangThai === 1 ? row.TrangThai : "Xoá"}
               </TableCell>
-              <TableCell>
+              <TableCell className="border border-gray-300 p-0.5 text-center">
                 <Button
                   variant="outline"
                   className="cursor-pointer"
