@@ -25,7 +25,9 @@ import { useUserDataStore } from "@/store/data-user";
 import { useEffect, useRef, useState } from "react";
 
 import { act_UpdateUser } from "@/actions/act_user";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { saveAs } from "file-saver";
+import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import * as XLSX from "xlsx";
 
@@ -36,6 +38,7 @@ export default function NhanVienTable() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterLoai, setFilterLoai] = useState("all");
   const [filterGiai, setFilterGiai] = useState("all");
+  const [loading, setLoading] = useState(false);
 
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10; // mỗi trang 10 item
@@ -100,12 +103,18 @@ export default function NhanVienTable() {
       console.log("Save data:", data);
       if (!data || !data.length) return;
 
-      await data.map(async (user) => await act_UpdateUser(user));
+      setLoading(true); // bật loading
+
+      await Promise.all(
+        await data.map(async (user) => await act_UpdateUser(user))
+      );
 
       setDataAll(data);
       toast("Thành công");
     } catch (ex) {
       console.log(ex);
+    } finally {
+      setLoading(false); // tắt loading
     }
   };
 
@@ -121,19 +130,25 @@ export default function NhanVienTable() {
   const handleReset = async () => {
     try {
       if (!data || !data.length) return;
+      setLoading(true); // bật loading
 
-      await data.map(async (user) => {
-        user.GiaiTrung = null;
-        user.HuyBo = false;
-        user.NgayQuaySo = null;
-
-        await act_UpdateUser(user);
-      });
+      await Promise.all(
+        data
+          .filter((user) => user.GiaiTrung && user.HuyBo && user.NgayQuaySo)
+          .map(async (user) => {
+            user.GiaiTrung = null;
+            user.HuyBo = false;
+            user.NgayQuaySo = null;
+            await act_UpdateUser(user);
+          })
+      );
 
       setDataAll(data);
       toast("Thành công");
     } catch (ex) {
       console.log(ex);
+    } finally {
+      setLoading(false); // tắt loading
     }
   };
 
@@ -262,8 +277,16 @@ export default function NhanVienTable() {
           Thêm nhân viên
         </Button> */}
 
-        <Button onClick={handleSaveAll}>Lưu tất cả</Button>
-        <Button onClick={() => fileInputRef.current?.click()}>
+        <Button
+          variant="outline"
+          className="cursor-pointer"
+          onClick={handleSaveAll}>
+          Lưu tất cả
+        </Button>
+        <Button
+          variant="outline"
+          className="cursor-pointer"
+          onClick={() => fileInputRef.current?.click()}>
           Import excel
         </Button>
         <input
@@ -273,8 +296,18 @@ export default function NhanVienTable() {
           accept=".xlsx, .xls"
           onChange={handleImportExcel}
         />
-        <Button onClick={handleExportExcel}>Export excel</Button>
-        <Button onClick={handleReset}>Reset data</Button>
+        <Button
+          variant="outline"
+          className="cursor-pointer"
+          onClick={handleExportExcel}>
+          Export excel
+        </Button>
+        <Button
+          variant="outline"
+          className="cursor-pointer"
+          onClick={handleReset}>
+          Reset data
+        </Button>
       </div>
 
       <Table className="border rounded-lg shadow">
@@ -482,8 +515,8 @@ export default function NhanVienTable() {
               </TableCell>
               <TableCell>
                 <Button
+                  variant="outline"
                   className="cursor-pointer"
-                  variant="secondary"
                   size="sm"
                   onClick={() => {
                     handleSave(row);
@@ -491,7 +524,8 @@ export default function NhanVienTable() {
                   Lưu
                 </Button>
                 <Button
-                  className="ml-2 cursor-pointer bg-blue-600"
+                  variant="outline"
+                  className="ml-2 cursor-pointer "
                   size="sm"
                   onClick={() => {
                     handlePhucHoi(row);
@@ -499,8 +533,8 @@ export default function NhanVienTable() {
                   Phục hồi
                 </Button>
                 <Button
+                  variant="outline"
                   className="ml-2 cursor-pointer"
-                  variant="destructive"
                   size="sm"
                   onClick={() => {
                     handleDel(row);
@@ -516,6 +550,8 @@ export default function NhanVienTable() {
       {/* Pagination */}
       <div className="flex justify-center items-center gap-4 mt-4">
         <Button
+          variant="outline"
+          className="cursor-pointer"
           disabled={currentPage === 1}
           onClick={() => setCurrentPage((prev) => prev - 1)}>
           Prev
@@ -526,11 +562,20 @@ export default function NhanVienTable() {
         </span>
 
         <Button
+          variant="outline"
+          className="cursor-pointer"
           disabled={currentPage === totalPages}
           onClick={() => setCurrentPage((prev) => prev + 1)}>
           Next
         </Button>
       </div>
+
+      <Dialog open={loading} onOpenChange={() => {}}>
+        <DialogContent className="w-32 h-32 flex flex-col items-center justify-center gap-2 rounded-lg">
+          <Loader2 className="w-8 h-8 animate-spin text-amber-500" />
+          <span className="text-sm font-medium">Đang xử lý...</span>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
