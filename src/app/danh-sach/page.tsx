@@ -24,7 +24,8 @@ import { IDataUser } from "@/lib/lottery-logic";
 import { useUserDataStore } from "@/store/data-user";
 import { useEffect, useRef, useState } from "react";
 
-import { act_UpdateUser } from "@/actions/act_user";
+import { getDataThamGia } from "@/actions/act_data";
+import { act_DangKy, act_UpdateUser } from "@/actions/act_user";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { saveAs } from "file-saver";
 import { Loader2 } from "lucide-react";
@@ -109,7 +110,7 @@ export default function NhanVienTable() {
         await data.map(async (user) => await act_UpdateUser(user))
       );
 
-      setDataAll(data);
+      setData(data);
       toast("Thành công");
     } catch (ex) {
       console.log(ex);
@@ -143,7 +144,24 @@ export default function NhanVienTable() {
           })
       );
 
-      setDataAll(data);
+      setData(data);
+      toast("Thành công");
+    } catch (ex) {
+      console.log(ex);
+    } finally {
+      setLoading(false); // tắt loading
+    }
+  };
+
+  const handleFreshData = async () => {
+    try {
+      if (!data || !data.length) return;
+      setLoading(true); // bật loading
+
+      const DATA_THAM_GIA = await getDataThamGia();
+
+      setDataAll(DATA_THAM_GIA);
+      setData([...DATA_THAM_GIA]);
       toast("Thành công");
     } catch (ex) {
       console.log(ex);
@@ -157,19 +175,32 @@ export default function NhanVienTable() {
     if (!file) return;
 
     const reader = new FileReader();
-    reader.onload = (evt) => {
-      const binary = evt.target?.result;
-      if (!binary) return;
+    reader.onload = async (evt) => {
+      try {
+        const binary = evt.target?.result;
+        if (!binary) return;
+        setLoading(true);
+        const workbook = XLSX.read(binary, { type: "binary" });
+        const sheetName = workbook.SheetNames[0];
+        const sheet = workbook.Sheets[sheetName];
+        const importedData: IDataUser[] = XLSX.utils.sheet_to_json(sheet);
 
-      const workbook = XLSX.read(binary, { type: "binary" });
-      const sheetName = workbook.SheetNames[0];
-      const sheet = workbook.Sheets[sheetName];
-      const importedData: IDataUser[] = XLSX.utils.sheet_to_json(sheet);
+        console.log("importedData ======= ", importedData);
 
-      console.log("importedData ======= ", importedData);
+        await Promise.all(
+          importedData.map(async (user) => {
+            await act_DangKy(user);
+          })
+        );
 
-      setData(importedData);
-      setCurrentPage(1); // reset page khi import
+        setData(importedData);
+
+        setCurrentPage(1); // reset page khi import
+      } catch (ex) {
+        console.log(ex);
+      } finally {
+        setLoading(false); // tắt loading
+      }
     };
     reader.readAsBinaryString(file);
   };
@@ -183,7 +214,7 @@ export default function NhanVienTable() {
     const newData = DataAll.map((user) =>
       user.Stt === updatedUser.Stt ? { ...user, ...updatedUser } : user
     );
-    setDataAll(newData);
+    setData(newData);
   };
 
   // filter theo search + loại
@@ -307,6 +338,12 @@ export default function NhanVienTable() {
           className="cursor-pointer"
           onClick={handleReset}>
           Reset data
+        </Button>
+        <Button
+          variant="outline"
+          className="cursor-pointer"
+          onClick={handleFreshData}>
+          Refresh data
         </Button>
       </div>
 

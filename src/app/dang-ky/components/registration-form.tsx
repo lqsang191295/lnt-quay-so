@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { formatDate } from "@/lib/format";
+import { IDataUser } from "@/lib/lottery-logic";
 import { useUserDataStore } from "@/store/data-user";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -64,19 +65,24 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
 
     setIsSubmitting(true);
 
+    const user: IDataUser = {
+      Stt: "",
+      Hoten: formData.fullName,
+      NoiCongTac: formData.organization,
+      SoDienThoai: formData.phone,
+      SoPhieu: null, // nếu có số phiếu thì thay vào
+      LoaiDS: formData.attendeeType, // "nv" hoặc "kh"
+      NgayTao: formatDate(new Date()), // yyyy-MM-dd HH:mm:ss
+      NgayThamDu: null,
+      NgayQuaySo: null,
+      GiaiTrung: null,
+      GiaiFix: null,
+      HuyBo: false,
+      TrangThai: 1,
+    };
+
     // Simulate API call
-    const data = await act_DangKy(
-      formData.fullName,
-      formData.organization,
-      "",
-      formData.attendeeType,
-      formatDate(new Date()),
-      "",
-      "",
-      "",
-      "",
-      formData.phone
-    );
+    const data = await act_DangKy(user);
 
     console.log("data === ", data);
 
