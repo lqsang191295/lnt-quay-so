@@ -46,13 +46,15 @@ export default function NhanVienTable() {
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  const handleChange = (
-    index: number,
-    key: keyof IDataUser,
+  const handleChangeByKey = (
+    keyId: string, // Stt
+    field: keyof IDataUser,
     value: string | number | boolean | undefined
   ) => {
     setData((prev) =>
-      prev.map((item, i) => (i === index ? { ...item, [key]: value } : item))
+      prev.map((item) =>
+        item.Stt === keyId ? { ...item, [field]: value } : item
+      )
     );
   };
 
@@ -374,11 +376,7 @@ export default function NhanVienTable() {
                 <Input
                   value={row.Hoten}
                   onChange={(e) =>
-                    handleChange(
-                      i + (currentPage - 1) * pageSize,
-                      "Hoten",
-                      e.target.value
-                    )
+                    handleChangeByKey(row.Stt, "Hoten", e.target.value)
                   }
                 />
               </TableCell>
@@ -386,11 +384,7 @@ export default function NhanVienTable() {
                 <Input
                   value={row.NoiCongTac}
                   onChange={(e) =>
-                    handleChange(
-                      i + (currentPage - 1) * pageSize,
-                      "NoiCongTac",
-                      e.target.value
-                    )
+                    handleChangeByKey(row.Stt, "NoiCongTac", e.target.value)
                   }
                 />
               </TableCell>
@@ -400,8 +394,8 @@ export default function NhanVienTable() {
                   type="number"
                   value={row.SoPhieu ?? ""}
                   onChange={(e) =>
-                    handleChange(
-                      i + (currentPage - 1) * pageSize,
+                    handleChangeByKey(
+                      row.Stt,
                       "SoPhieu",
                       Number(e.target.value)
                     )
@@ -412,11 +406,7 @@ export default function NhanVienTable() {
                 <Select
                   value={row.LoaiDS ?? ""}
                   onValueChange={(val) =>
-                    handleChange(
-                      i + (currentPage - 1) * pageSize,
-                      "LoaiDS",
-                      val
-                    )
+                    handleChangeByKey(row.Stt, "LoaiDS", val)
                   }>
                   <SelectTrigger className="w-[100px]">
                     <SelectValue placeholder="Chọn loại" />
@@ -432,11 +422,7 @@ export default function NhanVienTable() {
                   className="w-28"
                   value={row.SoDienThoai}
                   onChange={(e) =>
-                    handleChange(
-                      i + (currentPage - 1) * pageSize,
-                      "SoDienThoai",
-                      e.target.value
-                    )
+                    handleChangeByKey(row.Stt, "SoDienThoai", e.target.value)
                   }
                 />
               </TableCell>
@@ -449,11 +435,7 @@ export default function NhanVienTable() {
                       : ""
                   }
                   onChange={(e) =>
-                    handleChange(
-                      i + (currentPage - 1) * pageSize,
-                      "NgayTao",
-                      e.target.value
-                    )
+                    handleChangeByKey(row.Stt, "NgayTao", e.target.value)
                   }
                 />
               </TableCell>
@@ -466,11 +448,7 @@ export default function NhanVienTable() {
                       : ""
                   }
                   onChange={(e) =>
-                    handleChange(
-                      i + (currentPage - 1) * pageSize,
-                      "NgayThamDu",
-                      e.target.value
-                    )
+                    handleChangeByKey(row.Stt, "NgayThamDu", e.target.value)
                   }
                 />
               </TableCell>
@@ -483,11 +461,7 @@ export default function NhanVienTable() {
                       : ""
                   }
                   onChange={(e) =>
-                    handleChange(
-                      i + (currentPage - 1) * pageSize,
-                      "NgayQuaySo",
-                      e.target.value
-                    )
+                    handleChangeByKey(row.Stt, "NgayQuaySo", e.target.value)
                   }
                 />
               </TableCell>
@@ -495,8 +469,8 @@ export default function NhanVienTable() {
                 <Select
                   value={row.GiaiTrung ?? ""}
                   onValueChange={(val) =>
-                    handleChange(
-                      i + (currentPage - 1) * pageSize,
+                    handleChangeByKey(
+                      row.Stt,
                       "GiaiTrung",
                       val === "-1" ? "" : val
                     )
@@ -517,8 +491,8 @@ export default function NhanVienTable() {
                 <Select
                   value={row.GiaiFix ?? ""}
                   onValueChange={(val) =>
-                    handleChange(
-                      i + (currentPage - 1) * pageSize,
+                    handleChangeByKey(
+                      row.Stt,
                       "GiaiFix",
                       val === "-1" ? "" : val // luôn string, không null
                     )
@@ -539,11 +513,7 @@ export default function NhanVienTable() {
                 <Checkbox
                   checked={row.HuyBo}
                   onCheckedChange={(val) =>
-                    handleChange(
-                      i + (currentPage - 1) * pageSize,
-                      "HuyBo",
-                      val === true
-                    )
+                    handleChangeByKey(row.Stt, "HuyBo", val === true)
                   }
                 />
               </TableCell>
