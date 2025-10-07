@@ -231,7 +231,20 @@ export default function NhanVienTable() {
 
     const matchLoai = filterLoai === "all" || row.LoaiDS === filterLoai;
 
-    const matchGiai = filterGiai === "all" || row.GiaiFix === filterGiai;
+    // Điều kiện filter giải:
+    // - "all": không filter 2 cột này
+    // - "a": filter những record có GiaiTrung hoặc GiaiFix thuộc ["db", "1", "2", "3"]
+    // - các giá trị khác: filter theo giá trị cụ thể
+    let matchGiai = true;
+    if (filterGiai === "all") {
+      matchGiai = true; // không filter
+    } else if (filterGiai === "a") {
+      const validGiaiValues = ["db", "1", "2", "3"];
+      matchGiai = !!(row.GiaiTrung && validGiaiValues.includes(row.GiaiTrung)) || 
+                  !!(row.GiaiFix && validGiaiValues.includes(row.GiaiFix));
+    } else {
+      matchGiai = row.GiaiFix === filterGiai || row.GiaiTrung === filterGiai;
+    }
 
     return matchSearch && matchLoai && matchGiai;
   });
@@ -281,7 +294,8 @@ export default function NhanVienTable() {
             <SelectValue placeholder="Lọc theo giải" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">— Tất cả giải —</SelectItem>
+            <SelectItem value="all" className="italic text-gray-500">Chọn giải</SelectItem>
+            <SelectItem value="a">Tất cả giải</SelectItem>
             <SelectItem value="db">ĐB - Giải Đặc biệt</SelectItem>
             <SelectItem value="1">1 - Giải nhất</SelectItem>
             <SelectItem value="2">2 - Giải nhì</SelectItem>
@@ -382,8 +396,23 @@ export default function NhanVienTable() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {paginatedData.map((row, i) => (
-            <TableRow key={row.Stt} className="border border-gray-300">
+          {paginatedData.map((row) => (
+            <TableRow 
+              key={row.Stt} 
+              className={`border border-gray-300 ${
+                row.TrangThai === -1 
+                  ? "italic text-gray-500" // Đã xóa: font in nghiêng
+                  : row.GiaiTrung === "db"
+                  ? "text-red-600 font-bold" // Giải đặc biệt: màu đỏ, in đậm
+                  : row.GiaiTrung === "1"
+                  ? "text-blue-600 font-bold" // Giải nhất: màu xanh dương, in đậm
+                  : row.GiaiTrung === "2"
+                  ? "text-orange-600 font-bold" // Giải nhì: màu cam, in đậm
+                  : row.GiaiTrung === "3"
+                  ? "text-green-600 font-bold" // Giải ba: màu xanh lá, in đậm
+                  : ""
+              }`}
+            >
               <TableCell className="border border-gray-300 p-0.5 text-center">
                 {row.Stt}
               </TableCell>
