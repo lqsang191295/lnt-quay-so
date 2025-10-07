@@ -231,7 +231,7 @@ export default function NhanVienTable() {
 
     const matchLoai = filterLoai === "all" || row.LoaiDS === filterLoai;
 
-    const matchGiai = filterGiai === "all" || row.GiaiFix === filterGiai;
+    const matchGiai = filterGiai === "all" || row.GiaiFix === filterGiai || row.GiaiTrung === filterGiai;
 
     return matchSearch && matchLoai && matchGiai;
   });
@@ -383,7 +383,22 @@ export default function NhanVienTable() {
         </TableHeader>
         <TableBody>
           {paginatedData.map((row, i) => (
-            <TableRow key={row.Stt} className="border border-gray-300">
+            <TableRow 
+              key={row.Stt} 
+              className={`border border-gray-300 ${
+                row.TrangThai === -1 
+                  ? "italic text-gray-500" // Đã xóa: font in nghiêng
+                  : row.GiaiTrung === "db"
+                  ? "text-red-600 font-bold" // Giải đặc biệt: màu đỏ, in đậm
+                  : row.GiaiTrung === "1"
+                  ? "text-blue-600 font-bold" // Giải nhất: màu xanh dương, in đậm
+                  : row.GiaiTrung === "2"
+                  ? "text-orange-600 font-bold" // Giải nhì: màu cam, in đậm
+                  : row.GiaiTrung === "3"
+                  ? "text-green-600 font-bold" // Giải ba: màu xanh lá, in đậm
+                  : ""
+              }`}
+            >
               <TableCell className="border border-gray-300 p-0.5 text-center">
                 {row.Stt}
               </TableCell>
