@@ -294,8 +294,8 @@ export default function NhanVienTable() {
             <SelectValue placeholder="Lọc theo giải" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">——</SelectItem>
-            <SelectItem value="a">— Tất cả giải —</SelectItem>
+            <SelectItem value="all" className="italic text-gray-500">Chọn giải</SelectItem>
+            <SelectItem value="a">Tất cả giải</SelectItem>
             <SelectItem value="db">ĐB - Giải Đặc biệt</SelectItem>
             <SelectItem value="1">1 - Giải nhất</SelectItem>
             <SelectItem value="2">2 - Giải nhì</SelectItem>
