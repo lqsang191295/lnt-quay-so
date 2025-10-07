@@ -85,7 +85,7 @@ export default function WinnersList({
       }}>
       <div className="p-2 flex justify-center items-center bg-amber-500">
         <Label className="text-white font-semibold uppercase flex-1">
-          Danh sách trúng thưởng
+          DANH SÁCH TRÚNG GIẢI
         </Label>
         <Button
           className="cursor-pointer ml-4"
