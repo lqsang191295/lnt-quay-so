@@ -198,7 +198,6 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
                 </Label>
                 <Input
                   id="fullName"
-                  placeholder="Nguyễn Văn A"
                   value={formData.fullName}
                   onChange={(e) =>
                     handleInputChange("fullName", e.target.value)
@@ -220,7 +219,6 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
                 <Input
                   id="phone"
                   type="tel"
-                  placeholder="0912345678"
                   value={formData.phone}
                   onChange={(e) => handleInputChange("phone", e.target.value)}
                   className={errors.phone ? "border-destructive" : ""}
@@ -240,7 +238,6 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
                 </Label>
                 <Input
                   id="organization"
-                  placeholder="Bệnh viện Đa khoa Trung ương"
                   value={formData.organization}
                   onChange={(e) =>
                     handleInputChange("organization", e.target.value)

@@ -83,12 +83,12 @@ export default function WinnersList({
       style={{
         maxHeight: "88vh",
       }}>
-      <div className="p-2 flex justify-center items-center bg-amber-500">
+      <div className="p-2 flex justify-center items-center bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500">
         <Label className="text-white font-semibold uppercase flex-1">
           Danh sách trúng thưởng
         </Label>
         <Button
-          className="cursor-pointer ml-4"
+          className="cursor-pointer ml-4 "
           variant="ghost"
           onClick={() => {
             setOpenDialog(true);

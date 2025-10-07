@@ -67,7 +67,7 @@ export default function WinnersListDialog({
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="w-screen h-screen !max-w-full !max-h-screen p-0 rounded-none gap-0 !flex !flex-col">
         {/* Header */}
-        <DialogHeader className="flex justify-between items-center bg-amber-500 p-4 !h-12">
+        <DialogHeader className="flex justify-between items-center  bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 p-4 !h-12">
           <DialogTitle className="text-white font-bold uppercase">
             Danh sách trúng thưởng
           </DialogTitle>
