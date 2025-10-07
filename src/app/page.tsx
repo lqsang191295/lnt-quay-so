@@ -305,10 +305,11 @@ export default function LotteryDraw() {
           ))}
         </div>
       )}
-      <div className="w-full flex justify-center items-center bg-[#ffffff20]">
+      <div className="w-full flex justify-center items-center bg-green-500">
         <Label
-          className="text-5xl font-black text-amber-600 
-  [text-shadow:_2px_2px_0_#b45309,3px_3px_0_#92400e,4px_4px_0_#78350f] leading-normal uppercase">
+          className="text-5xl font-black text-red-500 
+          [text-shadow:_2px_2px_0_#7f1d1d,4px_4px_0_#450a0a,6px_6px_0_rgba(0,0,0,0.6)] 
+          leading-normal uppercase">
           Hội nghị khoa học kỹ thuật lần thứ X
         </Label>
       </div>
@@ -378,7 +379,7 @@ export default function LotteryDraw() {
                 setSlGiai(found.sl - getSLDataTrungThuong());
               }
             }}>
-            <SelectTrigger className="w-[200px]">
+            <SelectTrigger className="w-[200px]  text-white">
               <SelectValue placeholder="Chọn giải" />
             </SelectTrigger>
             <SelectContent>
