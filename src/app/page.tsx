@@ -305,11 +305,8 @@ export default function LotteryDraw() {
           ))}
         </div>
       )}
-      <div className="w-full flex justify-center items-center bg-green-500">
-        <Label
-          className="text-5xl font-black text-red-500 
-          [text-shadow:_2px_2px_0_#7f1d1d,4px_4px_0_#450a0a,6px_6px_0_rgba(0,0,0,0.6)] 
-          leading-normal uppercase">
+      <div className="w-full flex justify-center items-center">
+        <Label className="text-5xl font-black text-red-500 leading-normal uppercase">
           Hội nghị khoa học kỹ thuật lần thứ X
         </Label>
       </div>
