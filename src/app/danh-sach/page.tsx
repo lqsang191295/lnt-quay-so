@@ -231,7 +231,20 @@ export default function NhanVienTable() {
 
     const matchLoai = filterLoai === "all" || row.LoaiDS === filterLoai;
 
-    const matchGiai = filterGiai === "all" || row.GiaiFix === filterGiai || row.GiaiTrung === filterGiai;
+    // Điều kiện filter giải:
+    // - "all": không filter 2 cột này
+    // - "a": filter những record có GiaiTrung hoặc GiaiFix thuộc ["db", "1", "2", "3"]
+    // - các giá trị khác: filter theo giá trị cụ thể
+    let matchGiai = true;
+    if (filterGiai === "all") {
+      matchGiai = true; // không filter
+    } else if (filterGiai === "a") {
+      const validGiaiValues = ["db", "1", "2", "3"];
+      matchGiai = !!(row.GiaiTrung && validGiaiValues.includes(row.GiaiTrung)) || 
+                  !!(row.GiaiFix && validGiaiValues.includes(row.GiaiFix));
+    } else {
+      matchGiai = row.GiaiFix === filterGiai || row.GiaiTrung === filterGiai;
+    }
 
     return matchSearch && matchLoai && matchGiai;
   });
@@ -281,7 +294,8 @@ export default function NhanVienTable() {
             <SelectValue placeholder="Lọc theo giải" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">— Tất cả giải —</SelectItem>
+            <SelectItem value="all">——</SelectItem>
+            <SelectItem value="a">— Tất cả giải —</SelectItem>
             <SelectItem value="db">ĐB - Giải Đặc biệt</SelectItem>
             <SelectItem value="1">1 - Giải nhất</SelectItem>
             <SelectItem value="2">2 - Giải nhì</SelectItem>
@@ -382,7 +396,7 @@ export default function NhanVienTable() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {paginatedData.map((row, i) => (
+          {paginatedData.map((row) => (
             <TableRow 
               key={row.Stt} 
               className={`border border-gray-300 ${
