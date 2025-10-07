@@ -140,7 +140,7 @@ export function TicketDisplay({
                   Loại:
                 </span>
                 <span className="font-semibold">
-                  {registrationData.attendeeType === "staff"
+                  {registrationData.attendeeType === "nv"
                     ? "Nhân viên bệnh viện"
                     : "Khách mời (Đại biểu)"}
                 </span>

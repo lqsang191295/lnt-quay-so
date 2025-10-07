@@ -141,13 +141,13 @@ export default function LotteryDraw() {
   const handleBeforeSpin = () => {
     const dataTrungThuong = getDataTrungThuong();
 
-    if (!dataTrungThuong || dataTrungThuong.length === 0) {
-      alert("Không còn nhân viên đủ điều kiện để nhận giải!");
+    if (slGiai <= 0) {
+      alert(`Hết lượt quay ${currGiaiThuong.ten}`);
       return false;
     }
 
-    if (slGiai <= 0) {
-      alert(`Hết lượt quay ${currGiaiThuong.ten}`);
+    if (!dataTrungThuong || dataTrungThuong.length === 0) {
+      alert("Không còn nhân viên đủ điều kiện để nhận giải!");
       return false;
     }
 
