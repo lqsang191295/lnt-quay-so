@@ -263,14 +263,15 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
                     handleInputChange("attendeeType", value)
                   }
                   className="flex gap-6">
+                    <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="kh" id="guest" />
+                    <Label htmlFor="guest">Khách mời (Đại biểu)</Label>
+                  </div>
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="nv" id="staff" />
                     <Label htmlFor="staff"> Nhân viên bệnh viện</Label>
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="kh" id="guest" />
-                    <Label htmlFor="guest">Khách mời (Đại biểu)</Label>
-                  </div>
+                  
                 </RadioGroup>
               </div>
 
