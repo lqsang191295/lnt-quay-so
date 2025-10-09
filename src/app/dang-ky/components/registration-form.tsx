@@ -10,7 +10,6 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { formatDate } from "@/lib/format";
 import { IDataUser } from "@/lib/lottery-logic";
-import { useUserDataStore } from "@/store/data-user";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -27,12 +26,11 @@ interface RegistrationFormProps {
 }
 
 export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
-  const { DataThamGia } = useUserDataStore();
   const [formData, setFormData] = useState({
     fullName: "",
     phone: "",
     organization: "",
-    attendeeType: "nv",
+    attendeeType: "kh",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -117,6 +115,8 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
       setErrors((prev) => ({ ...prev, [field]: "" }));
     }
   };
+
+  console.log("formData === ", formData);
 
   return (
     <div className="container mx-auto p-1 md:p-4 flex flex-col justify-center items-center h-full">
@@ -263,7 +263,7 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
                     handleInputChange("attendeeType", value)
                   }
                   className="flex gap-6">
-                    <div className="flex items-center space-x-2">
+                  <div className="flex items-center space-x-2">
                     <RadioGroupItem value="kh" id="guest" />
                     <Label htmlFor="guest">Khách mời (Đại biểu)</Label>
                   </div>
@@ -271,7 +271,6 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
                     <RadioGroupItem value="nv" id="staff" />
                     <Label htmlFor="staff"> Nhân viên bệnh viện</Label>
                   </div>
-                  
                 </RadioGroup>
               </div>
 
