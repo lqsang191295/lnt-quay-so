@@ -38,13 +38,13 @@ export const QUAT_QUY_QUAY_SO = {
   "2": {
     // Giải nhì
     soLanQuay: 10,
-    loaiDS: ["kh"], // Chỉ khách mời
+    loaiDS: ["nv"], // Chỉ khách mời
     moTa: "Giải nhì - 10 giải cho khách mời",
   },
   "1": {
     // Giải nhất
     soLanQuay: 15,
-    loaiDS: ["nv", "kh"], // Cả nhân viên và khách mời
+    loaiDS: ["nv"], // Cả nhân viên và khách mời
     moTa: "Giải nhất - 15 giải cho nhân viên và khách mời",
   },
   db: {

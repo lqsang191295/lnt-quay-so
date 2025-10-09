@@ -1,6 +1,10 @@
 "use client";
 
-import { getDanhSachThamGia, IDataUser } from "@/lib/lottery-logic";
+import {
+  getDanhSachThamGia,
+  IDataUser,
+  QUAT_QUY_QUAY_SO,
+} from "@/lib/lottery-logic";
 import { useUserDataStore } from "@/store/data-user";
 import { useCallback, useEffect } from "react";
 
@@ -26,16 +30,32 @@ export default function StoreProvider({
       let data;
       switch (giai) {
         case "3": // Giải ba - chỉ khách mời
-          data = getDanhSachThamGia(dataThamGia, "3", ["kh"]);
+          data = getDanhSachThamGia(
+            dataThamGia,
+            "3",
+            QUAT_QUY_QUAY_SO["3"].loaiDS
+          );
           break;
         case "2": // Giải nhì - chỉ khách mời
-          data = getDanhSachThamGia(dataThamGia, "2", ["kh"]);
+          data = getDanhSachThamGia(
+            dataThamGia,
+            "2",
+            QUAT_QUY_QUAY_SO["2"].loaiDS
+          );
           break;
         case "1": // Giải nhất - cả nhân viên và khách mời
-          data = getDanhSachThamGia(dataThamGia, "1", ["nv", "kh"]);
+          data = getDanhSachThamGia(
+            dataThamGia,
+            "1",
+            QUAT_QUY_QUAY_SO["1"].loaiDS
+          );
           break;
         case "db": // Giải đặc biệt - chỉ nhân viên
-          data = getDanhSachThamGia(dataThamGia, "db", ["nv"]);
+          data = getDanhSachThamGia(
+            dataThamGia,
+            "db",
+            QUAT_QUY_QUAY_SO["db"].loaiDS
+          );
           break;
         default:
           data = null;
