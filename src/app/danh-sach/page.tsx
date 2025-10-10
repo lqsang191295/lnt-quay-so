@@ -385,11 +385,9 @@ export default function NhanVienTable() {
             <TableHead className="border border-gray-300">
               Ngày tham dự
             </TableHead>
-            <TableHead className="border border-gray-300">
-              Ngày quay số
-            </TableHead>
+            {/* <TableHead className="border border-gray-300">Ngày quay số</TableHead> */}
             <TableHead className="border border-gray-300">Giải trúng</TableHead>
-            <TableHead className="border border-gray-300">Giải FIX</TableHead>
+            <TableHead className="border border-gray-300">&nbsp;</TableHead>
             <TableHead className="border border-gray-300">Hủy giải</TableHead>
             {/* <TableHead className="border border-gray-300">Trạng thái</TableHead> */}
             <TableHead className="border border-gray-300">Hành động</TableHead>
@@ -431,9 +429,9 @@ export default function NhanVienTable() {
                   }
                 />
               </TableCell>
-              <TableCell className="!w-40 border border-gray-300 p-0">
+              <TableCell className="!w-70 border border-gray-300 p-0">
                 <Input
-                  className="w-40 h-full border-0 rounded-none p-2"
+                  className="w-70 h-full border-0 rounded-none p-2"
                   value={row.Hoten}
                   onChange={(e) =>
                     handleChangeByKey(row.Stt, "Hoten", e.target.value)
@@ -449,9 +447,9 @@ export default function NhanVienTable() {
                   }
                 />
               </TableCell>
-              <TableCell className="!w-40 border border-gray-300 p-0">
+              <TableCell className="!w-70 border border-gray-300 p-0">
                 <Input
-                  className="w-40 h-full border-0 rounded-none p-2"
+                  className="w-70 h-full border-0 rounded-none p-2"
                   value={row.NoiCongTac}
                   onChange={(e) =>
                     handleChangeByKey(row.Stt, "NoiCongTac", e.target.value)
@@ -489,7 +487,7 @@ export default function NhanVienTable() {
               </TableCell> */}
               <TableCell className="border border-gray-300 p-0">
                 <Input
-                  className="w-40 h-full border-0 rounded-none p-2"
+                  className="w-35 h-full border-0 rounded-none p-2"
                   type="datetime-local"
                   value={
                     row.NgayThamDu
@@ -508,7 +506,7 @@ export default function NhanVienTable() {
                   }
                 />
               </TableCell>
-              <TableCell className="border border-gray-300 p-0">
+              {/* <TableCell className="border border-gray-300 p-0">
                 <Input
                   className="w-40 h-full border-0 rounded-none p-2"
                   type="datetime-local"
@@ -528,7 +526,7 @@ export default function NhanVienTable() {
                     handleChangeByKey(row.Stt, "NgayQuaySo", e.target.value)
                   }
                 />
-              </TableCell>
+              </TableCell> */}
               <TableCell className="border border-gray-300 p-0">
                 <Select
                   value={row.GiaiTrung ?? ""}
