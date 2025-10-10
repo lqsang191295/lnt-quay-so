@@ -507,7 +507,7 @@ export default function NhanVienTable() {
               {!noiCongTac && (
                 <TableCell className="border border-gray-300 p-0">
                   <Input
-                    className=" h-full border-0 rounded-none p-2"
+                    className="w-80 h-full border-0 rounded-none p-2"
                     value={row.NoiCongTac}
                     onChange={(e) =>
                       handleChangeByKey(row.Stt, "NoiCongTac", e.target.value)
@@ -549,7 +549,7 @@ export default function NhanVienTable() {
               {!ngayThamDu && (
                 <TableCell className="border border-gray-300 p-0">
                   <Input
-                    className="w-40 h-full border-0 rounded-none p-2"
+                    className="w-35 h-full border-0 rounded-none p-2"
                     type="datetime-local"
                     value={
                       row.NgayThamDu
