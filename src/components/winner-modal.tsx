@@ -63,7 +63,7 @@ export default function WinnerModal({
           </div>
 
           <div className="w-full flex justify-center">
-            <Image src="/congra.png" width={280} height={280} alt="Gift" />
+            <Image src="/congra.png" width={200} height={200} alt="Gift" />
           </div>
 
           <div className="text-center space-y-4">

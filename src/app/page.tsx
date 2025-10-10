@@ -305,13 +305,13 @@ export default function LotteryDraw() {
           ))}
         </div>
       )}
-      <div className="w-full flex justify-center items-center">
+      <div className="mt-12 w-full flex justify-center items-center">
         <Label className="text-5xl font-black text-red-500 leading-normal uppercase">
           Hội nghị khoa học kỹ thuật lần thứ X
         </Label>
       </div>
       <div className="relative z-10 px-4 py-8 h-full w-full flex justify-center items-center">
-        <div className="w-6xl mx-auto text-center mb-8">
+        <div className="w-6xl mx-auto text-center mb-8 absolute top-42">
           <div className="text-center mb-8 animate-slide-up flex flex-col justify-center items-center">
             <Label
               className="uppercase text-5xl font-bold text-accent mb-2"
