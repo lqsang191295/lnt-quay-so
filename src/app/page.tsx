@@ -16,7 +16,9 @@ import { formatDateTime } from "@/lib/format";
 import {
   IDataGiaiThuong,
   IDataUser,
+  QUAT_QUY_QUAY_SO,
   getDanhSachTrungGiai,
+  getRandomOneUser,
 } from "@/lib/lottery-logic";
 import { useUserDataStore } from "@/store/data-user";
 import { ShieldUserIcon, Trophy } from "lucide-react";
@@ -80,6 +82,93 @@ export default function LotteryDraw() {
       setData(newData); // cập nhật state
     }
   };
+
+  const removeWinnerAndRandomNewUserForCancelUser = (user: IDataUser) => {
+    let data: IDataUser[] | null = null;
+    let setData: ((val: IDataUser[]) => void) | null = null;
+    let newUser: IDataUser | null = null;
+
+    switch (currGiaiThuong.id) {
+      case "3": // Giải ba - chỉ khách mời
+        data = dataGiai3;
+        setData = setDataGiai3;
+        newUser = randomDataTrungThuong("3");
+        break;
+      case "2": // Giải nhì - chỉ khách mời
+        data = dataGiai2;
+        setData = setDataGiai2;
+        newUser = randomDataTrungThuong("2");
+        break;
+      case "1": // Giải nhất - cả nhân viên và khách mời
+        data = dataGiai1;
+        setData = setDataGiai1;
+        newUser = randomDataTrungThuong("1");
+        break;
+      case "db": // Giải đặc biệt - chỉ nhân viên
+        data = dataGiaiDb;
+        setData = setDataGiaiDb;
+        newUser = randomDataTrungThuong("db");
+        break;
+      default:
+        return;
+    }
+
+    console.log("newUser === ", newUser);
+
+    if (data && setData) {
+      // remove user bị hủy
+      const newData = data.filter((u) => u.Stt !== user.Stt);
+
+      // nếu random được user mới thì thêm vào
+      if (newUser) {
+        setData([...newData, newUser]);
+      } else {
+        setData(newData);
+      }
+    }
+  };
+
+  const randomDataTrungThuong = useCallback(
+    (giai: string): IDataUser | null => {
+      // Trả về danh sách người tham gia theo loại giải
+      let data;
+      switch (giai) {
+        case "3": // Giải ba - chỉ khách mời
+          data = getRandomOneUser(
+            DataThamGia,
+            "3",
+            QUAT_QUY_QUAY_SO["3"].loaiDS
+          );
+          break;
+        case "2": // Giải nhì - chỉ khách mời
+          data = getRandomOneUser(
+            DataThamGia,
+            "2",
+            QUAT_QUY_QUAY_SO["2"].loaiDS
+          );
+          break;
+        case "1": // Giải nhất - cả nhân viên và khách mời
+          data = getRandomOneUser(
+            DataThamGia,
+            "1",
+            QUAT_QUY_QUAY_SO["1"].loaiDS
+          );
+          break;
+        case "db": // Giải đặc biệt - chỉ nhân viên
+          data = getRandomOneUser(
+            DataThamGia,
+            "db",
+            QUAT_QUY_QUAY_SO["db"].loaiDS
+          );
+          break;
+        default:
+          data = null;
+      }
+
+      return data;
+    },
+    [DataThamGia]
+  );
 
   const getDataTrungThuong = (): IDataUser[] | null => {
     // Trả về danh sách người tham gia theo loại giải
@@ -190,7 +279,7 @@ export default function LotteryDraw() {
       winner.NgayQuaySo = formatDateTime(new Date());
 
       updateUser(winner);
-      removeWinner(winner);
+      removeWinnerAndRandomNewUserForCancelUser(winner);
     }
 
     setShowWinnerModal(false);

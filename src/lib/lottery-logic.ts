@@ -54,7 +54,33 @@ export const QUAT_QUY_QUAY_SO = {
     moTa: "Giải đặc biệt - 1 giải dành cho nhân viên",
   },
 };
+export const getRandomOneUser = (
+  danhSachNguoi: IDataUser[],
+  loaiGiai: LoaiGiai,
+  loaiDS?: string[]
+): IDataUser | null => {
+  const dataGiaiFix = getGiaiFix(danhSachNguoi, loaiGiai);
 
+  // Lọc bỏ người đã trúng giải, bị hủy, và trong danh sách cố định
+  let filtered = danhSachNguoi.filter(
+    (user) =>
+      !user.GiaiTrung &&
+      !user.HuyBo &&
+      !user.GiaiFix &&
+      !dataGiaiFix.some((i) => i.Stt === user.Stt)
+  );
+
+  // Nếu có lọc theo loại DS
+  if (loaiDS && loaiDS.length > 0) {
+    filtered = filtered.filter((user) => loaiDS.includes(user.LoaiDS || ""));
+  }
+
+  if (filtered.length === 0) return null;
+
+  // Random 1 user từ filtered
+  const rndIndex = Math.floor(Math.random() * filtered.length);
+  return filtered[rndIndex];
+};
 /**
  * Lấy danh sách người tham gia theo loại giải và loại danh sách
  * @param danhSachNguoi - Danh sách tất cả người tham gia
@@ -96,7 +122,7 @@ export const getDanhSachThamGia = (
   // Lấy đúng số lượng còn lại
   const dataRnd = shuffled.slice(0, slGiaiConLai);
 
-  dataRnd.forEach((user) => (user.GiaiTrung = loaiGiai));
+  dataRnd.forEach((user) => (user.GiaiFix = loaiGiai));
   // Kết hợp danh sách cố định và danh sách random
   return shuffleArray([...dataGiaiFix, ...dataRnd]);
 };
