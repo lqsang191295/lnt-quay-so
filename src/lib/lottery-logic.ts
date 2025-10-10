@@ -96,6 +96,7 @@ export const getDanhSachThamGia = (
   loaiDS?: string[]
 ): IDataUser[] => {
   const dataGiaiFix = getGiaiFix(danhSachNguoi, loaiGiai);
+
   const slTrungGiai = getDanhSachTrungGiai(
     danhSachNguoi,
     loaiGiai,
@@ -110,6 +111,7 @@ export const getDanhSachThamGia = (
     (user) =>
       !user.GiaiTrung &&
       !user.HuyBo &&
+      !user.GiaiFix &&
       !dataGiaiFix.some((i) => i.Stt === user.Stt)
   );
 

@@ -31,28 +31,28 @@ export default function StoreProvider({
       switch (giai) {
         case "3": // Giải ba - chỉ khách mời
           data = getDanhSachThamGia(
-            dataThamGia,
+            dataThamGia.filter((item) => item.TrangThai === 1),
             "3",
             QUAT_QUY_QUAY_SO["3"].loaiDS
           );
           break;
         case "2": // Giải nhì - chỉ khách mời
           data = getDanhSachThamGia(
-            dataThamGia,
+            dataThamGia.filter((item) => item.TrangThai === 1),
             "2",
             QUAT_QUY_QUAY_SO["2"].loaiDS
           );
           break;
         case "1": // Giải nhất - cả nhân viên và khách mời
           data = getDanhSachThamGia(
-            dataThamGia,
+            dataThamGia.filter((item) => item.TrangThai === 1),
             "1",
             QUAT_QUY_QUAY_SO["1"].loaiDS
           );
           break;
         case "db": // Giải đặc biệt - chỉ nhân viên
           data = getDanhSachThamGia(
-            dataThamGia,
+            dataThamGia.filter((item) => item.TrangThai === 1),
             "db",
             QUAT_QUY_QUAY_SO["db"].loaiDS
           );
