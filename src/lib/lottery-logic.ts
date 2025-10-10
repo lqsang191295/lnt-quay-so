@@ -96,6 +96,7 @@ export const getDanhSachThamGia = (
   // Lấy đúng số lượng còn lại
   const dataRnd = shuffled.slice(0, slGiaiConLai);
 
+  dataRnd.forEach((user) => (user.GiaiTrung = loaiGiai));
   // Kết hợp danh sách cố định và danh sách random
   return shuffleArray([...dataGiaiFix, ...dataRnd]);
 };
