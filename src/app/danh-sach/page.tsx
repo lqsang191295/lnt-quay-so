@@ -29,6 +29,7 @@ import { act_DangKy, act_UpdateUser } from "@/actions/act_user";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { saveAs } from "file-saver";
 import { Loader2 } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import * as XLSX from "xlsx";
 
@@ -45,6 +46,19 @@ export default function NhanVienTable() {
   const pageSize = 20; // mỗi trang 20 item
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const searchParams = useSearchParams();
+  const giaiTrung = searchParams.get("gt");
+  const giaiFix = searchParams.get("gf");
+  const huyGiai = searchParams.get("hg");
+  const hanhDong = searchParams.get("hd");
+  const stt = searchParams.get("stt");
+  const soPhieu = searchParams.get("sp");
+  const loaiDS = searchParams.get("lds");
+  const ngayThamDu = searchParams.get("ntd");
+  const noiCongTac = searchParams.get("nct");
+  const soDienThoai = searchParams.get("sdt");
+  const hoTen = searchParams.get("ht");
 
   const handleChangeByKey = (
     keyId: string, // Stt
@@ -240,8 +254,9 @@ export default function NhanVienTable() {
       matchGiai = true; // không filter
     } else if (filterGiai === "a") {
       const validGiaiValues = ["db", "1", "2", "3"];
-      matchGiai = !!(row.GiaiTrung && validGiaiValues.includes(row.GiaiTrung)) || 
-                  !!(row.GiaiFix && validGiaiValues.includes(row.GiaiFix));
+      matchGiai =
+        !!(row.GiaiTrung && validGiaiValues.includes(row.GiaiTrung)) ||
+        !!(row.GiaiFix && validGiaiValues.includes(row.GiaiFix));
     } else {
       matchGiai = row.GiaiFix === filterGiai || row.GiaiTrung === filterGiai;
     }
@@ -294,7 +309,9 @@ export default function NhanVienTable() {
             <SelectValue placeholder="Lọc theo giải" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all" className="italic text-gray-500">Chọn giải</SelectItem>
+            <SelectItem value="all" className="italic text-gray-500">
+              Chọn giải
+            </SelectItem>
             <SelectItem value="a">Tất cả giải</SelectItem>
             <SelectItem value="db">ĐB - Giải Đặc biệt</SelectItem>
             <SelectItem value="1">1 - Giải nhất</SelectItem>
@@ -369,38 +386,69 @@ export default function NhanVienTable() {
       <Table className="border border-gray-300 rounded-lg shadow divide-y divide-gray-300">
         <TableHeader>
           <TableRow className="bg-gray-100">
-            <TableHead className="border border-gray-300">STT</TableHead>
-            <TableHead className="border border-gray-300">Số phiếu</TableHead>
-            <TableHead className="border border-gray-300 w-40">
-              Họ tên
-            </TableHead>
-            <TableHead className="border border-gray-300">
-              Số điện thoại
-            </TableHead>
-            <TableHead className="border border-gray-300 w-40">
-              Nơi công tác
-            </TableHead>
-            <TableHead className="border border-gray-300">Loại DS</TableHead>
+            {!stt && (
+              <TableHead className="border border-gray-300 w-12 text-center">
+                STT
+              </TableHead>
+            )}
+            {!soPhieu && (
+              <TableHead className="border border-gray-300 w-16 text-center">
+                Số phiếu
+              </TableHead>
+            )}
+            {!hoTen && (
+              <TableHead className="border border-gray-300 w-80">
+                Họ tên
+              </TableHead>
+            )}
+            {!soDienThoai && (
+              <TableHead className="border border-gray-300 w-24">
+                Số điện thoại
+              </TableHead>
+            )}
+            {!noiCongTac && (
+              <TableHead className="border border-gray-300 w-36">
+                Nơi công tác
+              </TableHead>
+            )}
+            {!loaiDS && (
+              <TableHead className="border border-gray-300 w-20">
+                Loại DS
+              </TableHead>
+            )}
             {/* <TableHead className="border border-gray-300">Ngày tạo</TableHead> */}
-            <TableHead className="border border-gray-300">
-              Ngày tham dự
-            </TableHead>
-            <TableHead className="border border-gray-300">
-              Ngày quay số
-            </TableHead>
-            <TableHead className="border border-gray-300">Giải trúng</TableHead>
-            <TableHead className="border border-gray-300">Giải FIX</TableHead>
-            <TableHead className="border border-gray-300">Hủy giải</TableHead>
+            {!ngayThamDu && (
+              <TableHead className="border border-gray-300 w-30">
+                Ngày tham dự
+              </TableHead>
+            )}
+            {!giaiTrung && (
+              <TableHead className="border border-gray-300 w-30">
+                Giải trúng
+              </TableHead>
+            )}
+            {!giaiFix && (
+              <TableHead className="border border-gray-300 w-30"></TableHead>
+            )}
+            {!huyGiai && (
+              <TableHead className="border border-gray-300 w-18 text-center">
+                Hủy giải
+              </TableHead>
+            )}
             {/* <TableHead className="border border-gray-300">Trạng thái</TableHead> */}
-            <TableHead className="border border-gray-300">Hành động</TableHead>
+            {!hanhDong && (
+              <TableHead className="border border-gray-300 w-18">
+                Hành động
+              </TableHead>
+            )}
           </TableRow>
         </TableHeader>
         <TableBody>
           {paginatedData.map((row) => (
-            <TableRow 
-              key={row.Stt} 
+            <TableRow
+              key={row.Stt}
               className={`border border-gray-300 ${
-                row.TrangThai === -1 
+                row.TrangThai === -1
                   ? "italic text-gray-500" // Đã xóa: font in nghiêng
                   : row.GiaiTrung === "db"
                   ? "text-red-600 font-bold" // Giải đặc biệt: màu đỏ, in đậm
@@ -411,68 +459,79 @@ export default function NhanVienTable() {
                   : row.GiaiTrung === "3"
                   ? "text-green-600 font-bold" // Giải ba: màu xanh lá, in đậm
                   : ""
-              }`}
-            >
-              <TableCell className="border border-gray-300 p-0.5 text-center">
-                {row.Stt}
-              </TableCell>
-              
-              <TableCell className="w-13 border border-gray-300 p-0">
-                <Input
-                  className="w-full h-8 border-0 text-center p-0 rounded-none"
-                  type="number"
-                  value={row.SoPhieu ?? ""}
-                  onChange={(e) =>
-                    handleChangeByKey(
-                      row.Stt,
-                      "SoPhieu",
-                      Number(e.target.value)
-                    )
-                  }
-                />
-              </TableCell>
-              <TableCell className="!w-40 border border-gray-300 p-0">
-                <Input
-                  className="w-40 h-full border-0 rounded-none p-2"
-                  value={row.Hoten}
-                  onChange={(e) =>
-                    handleChangeByKey(row.Stt, "Hoten", e.target.value)
-                  }
-                />
-              </TableCell>
-              <TableCell className="border border-gray-300 p-0">
-                <Input
-                  className="w-full h-full border-0 rounded-none p-2"
-                  value={row.SoDienThoai}
-                  onChange={(e) =>
-                    handleChangeByKey(row.Stt, "SoDienThoai", e.target.value)
-                  }
-                />
-              </TableCell>
-              <TableCell className="!w-40 border border-gray-300 p-0">
-                <Input
-                  className="w-40 h-full border-0 rounded-none p-2"
-                  value={row.NoiCongTac}
-                  onChange={(e) =>
-                    handleChangeByKey(row.Stt, "NoiCongTac", e.target.value)
-                  }
-                />
-              </TableCell>
-              <TableCell className="border border-gray-300 p-0">
-                <Select
-                  value={row.LoaiDS ?? ""}
-                  onValueChange={(val) =>
-                    handleChangeByKey(row.Stt, "LoaiDS", val)
-                  }>
-                  <SelectTrigger className="w-full h-full border-0 rounded-none">
-                    <SelectValue placeholder="Chọn loại" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="nv">Nhân viên</SelectItem>
-                    <SelectItem value="kh">Khách mời</SelectItem>
-                  </SelectContent>
-                </Select>
-              </TableCell>
+              }`}>
+              {!stt && (
+                <TableCell className="border border-gray-300 p-0.5 text-center">
+                  {row.Stt}
+                </TableCell>
+              )}
+
+              {!soPhieu && (
+                <TableCell className="w-13 border border-gray-300 p-0">
+                  <Input
+                    className="w-full h-8 border-0 text-center p-0 rounded-none"
+                    type="number"
+                    value={row.SoPhieu ?? ""}
+                    onChange={(e) =>
+                      handleChangeByKey(
+                        row.Stt,
+                        "SoPhieu",
+                        Number(e.target.value)
+                      )
+                    }
+                  />
+                </TableCell>
+              )}
+              {!hoTen && (
+                <TableCell className="border border-gray-300 p-0">
+                  <Input
+                    className="h-full border-0 rounded-none p-2"
+                    value={row.Hoten}
+                    onChange={(e) =>
+                      handleChangeByKey(row.Stt, "Hoten", e.target.value)
+                    }
+                  />
+                </TableCell>
+              )}
+              {!soDienThoai && (
+                <TableCell className="border border-gray-300 p-0">
+                  <Input
+                    className="w-full h-full border-0 rounded-none p-2"
+                    value={row.SoDienThoai}
+                    onChange={(e) =>
+                      handleChangeByKey(row.Stt, "SoDienThoai", e.target.value)
+                    }
+                  />
+                </TableCell>
+              )}
+              {!noiCongTac && (
+                <TableCell className="border border-gray-300 p-0">
+                  <Input
+                    className=" h-full border-0 rounded-none p-2"
+                    value={row.NoiCongTac}
+                    onChange={(e) =>
+                      handleChangeByKey(row.Stt, "NoiCongTac", e.target.value)
+                    }
+                  />
+                </TableCell>
+              )}
+              {!loaiDS && (
+                <TableCell className="border border-gray-300 p-0">
+                  <Select
+                    value={row.LoaiDS ?? ""}
+                    onValueChange={(val) =>
+                      handleChangeByKey(row.Stt, "LoaiDS", val)
+                    }>
+                    <SelectTrigger className="w-full h-full border-0 rounded-none">
+                      <SelectValue placeholder="Chọn loại" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="nv">Nhân viên</SelectItem>
+                      <SelectItem value="kh">Khách mời</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </TableCell>
+              )}
               {/* <TableCell className="border border-gray-300 p-0">
                 <Input
                   className="w-22 h-full border-0 rounded-none p-2"
@@ -487,135 +546,128 @@ export default function NhanVienTable() {
                   }
                 />
               </TableCell> */}
-              <TableCell className="border border-gray-300 p-0">
-                <Input
-                  className="w-40 h-full border-0 rounded-none p-2"
-                  type="datetime-local"
-                  value={
-                    row.NgayThamDu
-                      ? (() => {
-                          const date = new Date(row.NgayThamDu);
-                          // Kiểm tra nếu là 31/12/1899 thì để trống
-                          if (date.getFullYear() === 1899 && date.getMonth() === 11 && date.getDate() === 31) {
-                            return "";
-                          }
-                          return date.toISOString().slice(0, 16);
-                        })()
-                      : ""
-                  }
-                  onChange={(e) =>
-                    handleChangeByKey(row.Stt, "NgayThamDu", e.target.value)
-                  }
-                />
-              </TableCell>
-              <TableCell className="border border-gray-300 p-0">
-                <Input
-                  className="w-40 h-full border-0 rounded-none p-2"
-                  type="datetime-local"
-                  value={
-                    row.NgayQuaySo
-                      ? (() => {
-                          const date = new Date(row.NgayQuaySo);
-                          // Kiểm tra nếu là 31/12/1899 thì để trống
-                          if (date.getFullYear() === 1899 && date.getMonth() === 11 && date.getDate() === 31) {
-                            return "";
-                          }
-                          return date.toISOString().slice(0, 16);
-                        })()
-                      : ""
-                  }
-                  onChange={(e) =>
-                    handleChangeByKey(row.Stt, "NgayQuaySo", e.target.value)
-                  }
-                />
-              </TableCell>
-              <TableCell className="border border-gray-300 p-0">
-                <Select
-                  value={row.GiaiTrung ?? ""}
-                  onValueChange={(val) =>
-                    handleChangeByKey(
-                      row.Stt,
-                      "GiaiTrung",
-                      val === "-1" ? "" : val
-                    )
-                  }>
-                  <SelectTrigger className="w-full h-full border-0 rounded-none">
-                    <SelectValue placeholder="-" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="-1">—</SelectItem>
-                    <SelectItem value="db">ĐB - Giải Đặc biệt</SelectItem>
-                    <SelectItem value="1">1 - Giải nhất</SelectItem>
-                    <SelectItem value="2">2 - Giải nhì</SelectItem>
-                    <SelectItem value="3">3 - Giải ba</SelectItem>
-                  </SelectContent>
-                </Select>
-              </TableCell>
-              <TableCell className="border border-gray-300 p-0">
-                <Select
-                  value={row.GiaiFix ?? ""}
-                  onValueChange={(val) =>
-                    handleChangeByKey(
-                      row.Stt,
-                      "GiaiFix",
-                      val === "-1" ? "" : val // luôn string, không null
-                    )
-                  }>
-                  <SelectTrigger className="w-full h-full border-0 rounded-none">
-                    <SelectValue placeholder="-" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="-1">—</SelectItem>
-                    <SelectItem value="db">ĐB - Giải Đặc biệt</SelectItem>
-                    <SelectItem value="1">1 - Giải nhất</SelectItem>
-                    <SelectItem value="2">2 - Giải nhì</SelectItem>
-                    <SelectItem value="3">3 - Giải ba</SelectItem>
-                  </SelectContent>
-                </Select>
-              </TableCell>
-              <TableCell className="border border-gray-300 p-0.5 text-center">
-                <Checkbox
-                  checked={row.HuyBo}
-                  onCheckedChange={(val) =>
-                    handleChangeByKey(row.Stt, "HuyBo", val === true)
-                  }
-                />
-              </TableCell>
+              {!ngayThamDu && (
+                <TableCell className="border border-gray-300 p-0">
+                  <Input
+                    className="w-40 h-full border-0 rounded-none p-2"
+                    type="datetime-local"
+                    value={
+                      row.NgayThamDu
+                        ? (() => {
+                            const date = new Date(row.NgayThamDu);
+                            // Kiểm tra nếu là 31/12/1899 thì để trống
+                            if (
+                              date.getFullYear() === 1899 &&
+                              date.getMonth() === 11 &&
+                              date.getDate() === 31
+                            ) {
+                              return "";
+                            }
+                            return date.toISOString().slice(0, 16);
+                          })()
+                        : ""
+                    }
+                    onChange={(e) =>
+                      handleChangeByKey(row.Stt, "NgayThamDu", e.target.value)
+                    }
+                  />
+                </TableCell>
+              )}
+              {!giaiTrung && (
+                <TableCell className="border border-gray-300 p-0">
+                  <Select
+                    value={row.GiaiTrung ?? ""}
+                    onValueChange={(val) =>
+                      handleChangeByKey(
+                        row.Stt,
+                        "GiaiTrung",
+                        val === "-1" ? "" : val
+                      )
+                    }>
+                    <SelectTrigger className="w-full h-full border-0 rounded-none">
+                      <SelectValue placeholder="-" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="-1">—</SelectItem>
+                      <SelectItem value="db">ĐB - Giải Đặc biệt</SelectItem>
+                      <SelectItem value="1">1 - Giải nhất</SelectItem>
+                      <SelectItem value="2">2 - Giải nhì</SelectItem>
+                      <SelectItem value="3">3 - Giải ba</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </TableCell>
+              )}
+              {!giaiFix && (
+                <TableCell className="border border-gray-300 p-0">
+                  <Select
+                    value={row.GiaiFix ?? ""}
+                    onValueChange={(val) =>
+                      handleChangeByKey(
+                        row.Stt,
+                        "GiaiFix",
+                        val === "-1" ? "" : val // luôn string, không null
+                      )
+                    }>
+                    <SelectTrigger className="w-full h-full border-0 rounded-none">
+                      <SelectValue placeholder="-" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="-1">—</SelectItem>
+                      <SelectItem value="db">ĐB - Giải Đặc biệt</SelectItem>
+                      <SelectItem value="1">1 - Giải nhất</SelectItem>
+                      <SelectItem value="2">2 - Giải nhì</SelectItem>
+                      <SelectItem value="3">3 - Giải ba</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </TableCell>
+              )}
+              {!huyGiai && (
+                <TableCell className="border border-gray-300 p-0.5 text-center">
+                  <Checkbox
+                    checked={row.HuyBo}
+                    onCheckedChange={(val) =>
+                      handleChangeByKey(row.Stt, "HuyBo", val === true)
+                    }
+                  />
+                </TableCell>
+              )}
               {/* <TableCell className="border border-gray-300 p-0.5 text-center">
                 {row.TrangThai === 1 ? row.TrangThai : "Xoá"}
               </TableCell> */}
-              <TableCell className="border border-gray-300 p-0.5 text-left">
-                <Button
-                  variant="outline"
-                  className="cursor-pointer font-color-red-600"
-                  size="sm"
-                  onClick={() => {
-                    handleSave(row);
-                  }}>
-                  Lưu
-                </Button>
-                {row.TrangThai === -1 ? (
+              {!hanhDong && (
+                <TableCell className="border border-gray-300 p-0.5 text-left">
                   <Button
                     variant="outline"
-                    className="ml-2 cursor-pointer !font-color-green-600 !font-italic"
+                    className="cursor-pointer font-color-red-600"
                     size="sm"
                     onClick={() => {
-                      handlePhucHoi(row);
+                      handleSave(row);
                     }}>
-                    Phục hồi
+                    Lưu
                   </Button>
-                ) : (
-                  <Button
-                    variant="outline"
-                    className="ml-2 cursor-pointer font-color-blue-600"
-                    size="sm"
-                    onClick={() => {
-                      handleDel(row);
-                    }}>
-                    Xóa
-                  </Button>
-                )}
-              </TableCell>
+                  {row.TrangThai === -1 ? (
+                    <Button
+                      variant="outline"
+                      className="ml-2 cursor-pointer !font-color-green-600 !font-italic"
+                      size="sm"
+                      onClick={() => {
+                        handlePhucHoi(row);
+                      }}>
+                      Phục hồi
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="outline"
+                      className="ml-2 cursor-pointer font-color-blue-600"
+                      size="sm"
+                      onClick={() => {
+                        handleDel(row);
+                      }}>
+                      Xóa
+                    </Button>
+                  )}
+                </TableCell>
+              )}
             </TableRow>
           ))}
         </TableBody>
