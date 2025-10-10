@@ -311,7 +311,7 @@ export default function LotteryDraw() {
         </Label>
       </div>
       <div className="relative z-10 px-4 py-8 h-full w-full flex justify-center items-center">
-        <div className="w-6xl mx-auto text-center mb-8 absolute top-42">
+        <div className="w-6xl mx-auto text-center mb-8 absolute top-24">
           <div className="text-center mb-8 animate-slide-up flex flex-col justify-center items-center">
             <Label
               className="uppercase text-5xl font-bold text-accent mb-2"
