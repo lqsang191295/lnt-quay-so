@@ -17,6 +17,8 @@ export interface IDataUser {
   GiaiFix: string | null; // id giải thưởng được chỉ định trước
   HuyBo?: boolean; // id giải thưởng được chỉ định trước
   TrangThai: number;
+
+  RndGiaiFix?: string | null;
 }
 
 export interface IDataGiaiThuong {
@@ -122,7 +124,10 @@ export const getDanhSachThamGia = (
   // Lấy đúng số lượng còn lại
   const dataRnd = shuffled.slice(0, slGiaiConLai);
 
-  dataRnd.forEach((user) => (user.GiaiFix = loaiGiai));
+  dataRnd.forEach((user) => {
+    user.RndGiaiFix = loaiGiai;
+    user.GiaiFix = loaiGiai;
+  });
   // Kết hợp danh sách cố định và danh sách random
   return shuffleArray([...dataGiaiFix, ...dataRnd]);
 };

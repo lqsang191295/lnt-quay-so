@@ -286,9 +286,11 @@ export default function LotteryDraw() {
   };
 
   const updateUser = async (user: IDataUser) => {
-    console.log("user", user);
+    const cloneUser = { ...user };
 
-    await act_UpdateUser(user);
+    if (cloneUser.RndGiaiFix) cloneUser.GiaiFix = null;
+
+    await act_UpdateUser(cloneUser);
   };
 
   useEffect(() => {
