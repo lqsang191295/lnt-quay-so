@@ -1,0 +1,31 @@
+
+
+
+
+
+- Giải Đặc biệt : 1 giải => dành cho nhân viên bệnh viện (bao gồm nhân viên  + BS của bệnh viện)
+- Giải nhất : 15 giải => dành cho nhân viên bệnh viện (nhân viên + BS)  + Khách mời (BS bên ngoài) + Cty Dược
+- Giải nhì : 10 giải =>  Khách mời + Cty dược
+- Giải ba : 20 giải => Khách mời + Cty dược
+
+ 
+
+- Giải Đặc biệt : 1 giải => dành cho nhân viên bệnh viện  
+- Giải nhất : 15 giải => dành cho nhân viên bệnh viện  + Khách mời  
+- Giải nhì : 10 giải =>  Khách mời  
+- Giải ba : 20 giải => Khách mời  
+
+quy tắc quay tuần tự:
+
+- Giải ba : 20 giải, quay 20 lần mỗi lần chọn người trúng giải trong ds Khách mời trong đó có số người được chỉ định trúng giải
+
+- Giải nhì : 10 giải, quay 10 lần mỗi lần chọn người trúng giải trong ds Khách mời trong đó có số người được chỉ định trúng giải
+- Giải nhất : 15 giải, quay 15 lần mỗi lần chọn người trúng giải trong ds nhân viên bệnh viện và Khách mời trong đó có số người được chỉ định trúng giải cả 2 danh sách
+
+- Giải Đặc biệt : 1 giải, quay 1 lần, dành cho nhân viên bệnh viện  lấy cố định từ danh sách với người có GiaiFix, nếu k có thì chọn trong ds nv
+với yêu cầu người trúng giải sau khi xác nhận sẽ loại ra khỏi lần quay sau
+phân bố người có giải fix cố định thì sẽ cho trúng giải đều ở các lần quay
+ví dụ: giải 3, 20 lần quay, có 5 người trúng giải định sẵn thì cho phân bố 5 người này trúng giải ở các lần quay ngẫu nhiên để tạo độ chân thực
+
+
+ 
