@@ -3,9 +3,9 @@ import { IDataUser } from "@/lib/lottery-logic";
 
 export const act_DangKy = async (user: IDataUser) => {
   try {
-    const response = await post(`/his/call`, {
+    const response = await post(`/quayso/call`, {
       userId: "",
-      optionId: "3",
+      optionId: "7",
       funcName: "dbo.QS_ins_KhachHang",
       paraData: [
         { paraName: "Hoten", paraValue: user.Hoten },
@@ -46,9 +46,9 @@ export const act_DangKy = async (user: IDataUser) => {
 
 export const act_UpdateUser = async (user: IDataUser) => {
   try {
-    const response = await post(`/his/call`, {
+    const response = await post(`/quayso/call`, {
       userId: "",
-      optionId: "3",
+      optionId: "7",
       funcName: "dbo.QS_upd_KhachHang",
       paraData: [
         { paraName: "Stt", paraValue: user.Stt },

@@ -112,9 +112,9 @@ const getDataGiaiServer = async (giai: string) => {
   }
 
   try {
-    const response = await post(`/his/call`, {
+    const response = await post(`/quayso/call`, {
       userId: "",
-      optionId: "3",
+      optionId: "7",
       funcName: store,
       paraData: [],
     });
