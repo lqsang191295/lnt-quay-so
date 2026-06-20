@@ -30,7 +30,7 @@ import { toast } from "sonner";
 const PRIZE_ID = "v1";
 const SPIN_TIME = 2400;
 const DEFAULT_WHEEL_SIZE = 100;
-const WHEEL_SIZE_OPTIONS = [50, 100, 200, 300];
+const WHEEL_SIZE_OPTIONS = [10, 20, 50, 100, 200, 300];
 const WHEEL_COLORS = [
   "#d9ff43",
   "#ff6b4a",
@@ -274,6 +274,13 @@ export default function LotteryV1Page() {
 
   return (
     <main className="relative h-screen overflow-hidden bg-[#02050b] font-[Arial,sans-serif] text-white selection:bg-[#f6bf48] selection:text-black">
+      <Image
+        className="w-full h-full absolute inset-0 object-cover opacity-30"
+        src={"/bg-luxury.png"}
+        width={1920}
+        height={1080}
+        alt="Cup"
+      />
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute -left-40 -top-56 h-[650px] w-[650px] rounded-full bg-[#f6bf48]/[.05] blur-[140px]" />
         <div className="absolute -bottom-64 right-[12%] h-[620px] w-[620px] rounded-full bg-[#7c6cff]/[.08] blur-[150px]" />
@@ -366,12 +373,6 @@ export default function LotteryV1Page() {
                   label="Đã trúng thưởng"
                   color="green"
                 />
-                <DashboardStat
-                  icon={UserRound}
-                  value={availableEmployees.length}
-                  label="Chưa trúng"
-                  color="gold"
-                />
               </div>
             </section>
             <section className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border border-[#25304a] bg-[#070d18]/95 p-4">
@@ -415,21 +416,28 @@ export default function LotteryV1Page() {
           </aside>
 
           <section className="relative flex min-h-0 flex-col items-center overflow-hidden rounded-2xl border border-[#27254b] bg-[radial-gradient(circle_at_50%_18%,#25145d_0%,#0b0922_44%,#070b16_100%)] px-4 py-3 shadow-[0_30px_80px_rgba(0,0,0,.35)]">
+            <Image
+              className="w-full h-full absolute inset-0 object-cover opacity-50"
+              src={"/bg-luxury.png"}
+              width={1920}
+              height={1080}
+              alt="Cup"
+            />
             <div className="relative shrink-0 text-center">
               <h2 className="bg-linear-to-b from-[#fff7d6] to-[#e6a628] bg-clip-text font-['Arial_Narrow',Arial,sans-serif] text-[20px] font-black uppercase leading-tight text-transparent">
                 AI SẼ LÀ NGƯỜI MAY MẮN TIẾP THEO?
               </h2>
             </div>
 
-            <div className="relative flex min-h-0 flex-1 items-center justify-center py-2">
-              <div className="pointer-events-none absolute left-1/2 top-1 z-30 -translate-x-1/2">
-                <div
-                  ref={pointerRef}
-                  className="h-0 w-0 origin-top border-l-[15px] border-r-[15px] border-t-[38px] border-l-transparent border-r-transparent border-t-[#f6bf48]"
-                />
-                <div className="absolute left-1/2 top-[-5px] h-7 w-7 -translate-x-1/2 rounded-full border-4 border-[#090a0a] bg-[#f6bf48]" />
-              </div>
-              <div className="relative h-[35vh] min-h-[250px] max-h-[350px] w-[35vh] min-w-[250px] max-w-[350px] shrink-0 rounded-full bg-gradient-to-br from-[#ffe28b] via-[#f6bf48] to-[#9a5a08] p-[7px] shadow-[0_0_0_3px_rgba(246,191,72,.12),0_20px_50px_rgba(0,0,0,.5)]">
+            <div className="relative flex min-h-0 flex-1 items-end justify-center pb-1 pt-5">
+              <div className="relative h-[42vh] min-h-[300px] max-h-[420px] w-[42vh] min-w-[300px] max-w-[420px] shrink-0 rounded-full bg-gradient-to-br from-[#ffe28b] via-[#f6bf48] to-[#9a5a08] p-[7px] shadow-[0_0_0_3px_rgba(246,191,72,.12),0_20px_50px_rgba(0,0,0,.5)]">
+                <div className="pointer-events-none absolute left-1/2 top-[-30px] z-30 -translate-x-1/2">
+                  <div
+                    ref={pointerRef}
+                    className="h-0 w-0 origin-top border-l-[15px] border-r-[15px] border-t-[38px] border-l-transparent border-r-transparent border-t-[#f6bf48]"
+                  />
+                  <div className="absolute left-1/2 top-[-5px] h-7 w-7 -translate-x-1/2 rounded-full border-4 border-[#090a0a] bg-[#f6bf48]" />
+                </div>
                 <div
                   ref={wheelRef}
                   className="lottery-wheel relative h-full w-full overflow-hidden rounded-full border-[2px] border-white/30"
@@ -465,7 +473,7 @@ export default function LotteryV1Page() {
                   type="button"
                   onClick={handleSpin}
                   disabled={isSpinning || availableEmployees.length === 0}
-                  className="absolute left-1/2 top-1/2 z-30 flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full border-[6px] border-[#171919] bg-[#f6bf48] text-[#351f00] shadow-[0_10px_28px_rgba(0,0,0,.45)] transition hover:scale-105 disabled:cursor-not-allowed sm:h-24 sm:w-24">
+                  className="absolute left-1/2 top-1/2 z-30 flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full border-[6px] border-[#3c4646] bg-[#f6bf48] text-[#351f00] shadow-[0_10px_28px_rgba(0,0,0,.45)] transition hover:scale-105 disabled:cursor-not-allowed sm:h-24 sm:w-24">
                   <Gift
                     className={`mb-1 h-5 w-5 ${isSpinning ? "animate-bounce" : ""}`}
                   />
@@ -477,7 +485,7 @@ export default function LotteryV1Page() {
             </div>
 
             <div
-              className={`relative mb-1 flex w-full max-w-xl shrink-0 items-center gap-3 rounded-2xl border px-4 py-2.5 ${latestWinner ? "border-[#f6bf48]/70 bg-gradient-to-r from-[#21150d] to-[#17111f] shadow-[0_0_28px_rgba(246,191,72,.16)]" : "border-white/10 bg-black/25"}`}>
+              className={`relative mt-3 mb-1 flex w-full max-w-xl shrink-0 items-center gap-3 rounded-2xl border px-4 py-2.5 ${latestWinner ? "border-[#f6bf48]/70 bg-gradient-to-r from-[#21150d] to-[#17111f] shadow-[0_0_28px_rgba(246,191,72,.16)]" : "border-white/10 bg-black/25"}`}>
               <div
                 className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full border-2 ${latestWinner ? "border-[#f6bf48] bg-[#f6bf48]/10 text-[#f6bf48]" : "border-white/15 text-white/25"}`}>
                 <UserRound className="h-6 w-6" />
@@ -743,7 +751,7 @@ export default function LotteryV1Page() {
         }
         .wheel-bulb {
           transform: translate(-50%, -50%) rotate(var(--bulb-angle))
-            translateY(calc(-1 * clamp(117px, 16.5vh, 164px)));
+            translateY(calc(-1 * clamp(143px, 19.5vh, 199px)));
         }
       `}</style>
     </main>

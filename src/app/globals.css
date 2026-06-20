@@ -160,7 +160,8 @@
     box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
   }
   50% {
-    box-shadow: 0 0 40px rgba(59, 130, 246, 0.8),
+    box-shadow:
+      0 0 40px rgba(59, 130, 246, 0.8),
       0 0 60px rgba(59, 130, 246, 0.4);
   }
 }
@@ -203,7 +204,8 @@
     --responsive-card-background-override,
     var(--color-card-background)
   );
-  box-shadow: 0px 1px 2px var(--shadow-primary-color),
+  box-shadow:
+    0px 1px 2px var(--shadow-primary-color),
     0px 0px 2px var(--shadow-secondary-color);
   color: var(
     --color-neutral-foreground-1-override,
@@ -213,7 +215,8 @@
 }
 
 .box-real:hover {
-  box-shadow: 0px 2px 4px var(--shadow-primary-color),
+  box-shadow:
+    0px 2px 4px var(--shadow-primary-color),
     0px 0px 2px var(--shadow-secondary-color);
   transform: translateY(-1);
 }
@@ -284,10 +287,26 @@
 
 /* Ẩn scrollbar nhưng vẫn scroll được */
 .hide-scrollbar {
-  -ms-overflow-style: none;  /* IE và Edge */
-  scrollbar-width: none;     /* Firefox */
+  -ms-overflow-style: none; /* IE và Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
 .hide-scrollbar::-webkit-scrollbar {
-  display: none;             /* Chrome, Safari */
+  display: none; /* Chrome, Safari */
+}
+
+/* Scrollbar customizations */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
 }
