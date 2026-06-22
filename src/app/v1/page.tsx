@@ -5,7 +5,6 @@ import { formatDateTime } from "@/lib/format";
 import { IDataUser } from "@/lib/lottery-logic";
 import { useUserDataStore } from "@/store/data-user";
 import {
-  Boxes,
   Building2,
   CalendarDays,
   Gift,
@@ -273,7 +272,7 @@ export default function LotteryV1Page() {
   };
 
   return (
-    <main className="relative h-screen overflow-hidden bg-[#02050b] font-[Arial,sans-serif] text-white selection:bg-[#f6bf48] selection:text-black">
+    <main className="relative h-screen overflow-hidden bg-[#02050b] text-white selection:bg-[#f6bf48] selection:text-black">
       <Image
         className="w-full h-full absolute inset-0 object-cover opacity-30"
         src={"/bg-luxury.png"}
@@ -290,16 +289,22 @@ export default function LotteryV1Page() {
       <div className="relative mx-auto flex h-screen max-w-[1600px] flex-col px-3 py-2.5 sm:px-5">
         <header className="relative mb-2.5 flex h-[78px] shrink-0 items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <div className="relative flex h-12 w-12 items-center justify-center rounded-lg border border-[#f6bf48]/50 bg-[#f6bf48]/10 text-[#f6bf48]">
-              <Boxes className="h-7 w-7" strokeWidth={2.4} />
+            <div className="relative flex h-12 w-12 items-center justify-center">
+              <Image
+                className="w-12 h-9"
+                src={"/logo.png"}
+                width={48}
+                height={48}
+                alt="Cup"
+              />
             </div>
             <div>
-              <p className="text-[8px] font-bold uppercase tracking-[.2em] text-[#f6bf48]">
-                Together we grow
-              </p>
-              <h1 className="font-['Arial_Narrow',Arial,sans-serif] text-lg font-black uppercase tracking-[.04em]">
-                Company
+              <h1 className="text-lg font-black uppercase tracking-[.04em]">
+                BV LÊ NGỌC TÙNG
               </h1>
+              <p className="text-[8px] font-bold uppercase tracking-[.2em] text-[#f6bf48]">
+                Bệnh viện đa khoa Lê Ngọc Tùng
+              </p>
             </div>
           </div>
           <div className="pointer-events-none absolute left-1/2 hidden -translate-x-1/2 text-center lg:block">
@@ -311,7 +316,7 @@ export default function LotteryV1Page() {
                 height={24}
                 alt="Cup"
               />
-              <h1 className="whitespace-nowrap font-['Arial_Narrow',Arial,sans-serif] text-[21px] font-black uppercase leading-none tracking-[.02em]">
+              <h1 className="whitespace-nowrap text-[21px] font-black uppercase leading-none tracking-[.02em]">
                 Chương trình{" "}
                 <span className="bg-linear-to-r from-[#ffe08a] via-[#f6bf48] to-[#c98912] bg-clip-text text-transparent drop-shadow-[0_1px_1px_rgba(0,0,0,0.4)]">
                   quay số may mắn
@@ -325,7 +330,7 @@ export default function LotteryV1Page() {
                 alt="Cup"
               />
             </div>
-            <p className="mt-1 font-serif text-[16px] italic leading-none bg-linear-to-r from-[#ffe08a] via-[#f6bf48] to-[#c98912] bg-clip-text text-transparent drop-shadow-[0_1px_1px_rgba(0,0,0,0.4)]">
+            <p className="mt-1 bg-linear-to-r from-[#ffe08a] via-[#f6bf48] to-[#c98912] bg-clip-text text-[16px] italic leading-none text-transparent drop-shadow-[0_1px_1px_rgba(0,0,0,0.4)]">
               Kết nối · Gắn kết · Vươn xa
             </p>
           </div>
@@ -357,14 +362,14 @@ export default function LotteryV1Page() {
         <div className="grid min-h-0 flex-1 gap-3 lg:grid-cols-[313px_minmax(560px,1fr)_332px]">
           <aside className="hidden min-h-0 flex-col gap-3 lg:flex">
             <section className="shrink-0 rounded-2xl border border-[#25304a] bg-[#070d18]/95 p-4">
-              <h2 className="mb-3 text-center font-['Arial_Narrow',Arial,sans-serif] text-[12px] font-black uppercase text-white/85">
+              <h2 className="mb-3 text-center text-[12px] font-black uppercase text-white/85">
                 Thống kê chương trình
               </h2>
               <div className="grid gap-2">
                 <DashboardStat
                   icon={Users}
                   value={employees.length}
-                  label="Tổng nhân viên"
+                  label="Tổng người tham gia"
                   color="violet"
                 />
                 <DashboardStat
@@ -376,8 +381,8 @@ export default function LotteryV1Page() {
               </div>
             </section>
             <section className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border border-[#25304a] bg-[#070d18]/95 p-4">
-              <h2 className="mb-3 shrink-0 text-center font-['Arial_Narrow',Arial,sans-serif] text-[12px] font-black uppercase text-white/85">
-                Danh sách người tham gia
+              <h2 className="mb-3 shrink-0 text-center text-[12px] font-black uppercase text-white/85">
+                Danh sách quay số
               </h2>
               <label className="mb-2 flex shrink-0 items-center gap-2 rounded-lg border border-[#2b3650] bg-black/20 px-3 py-2 text-white/35 focus-within:border-[#f6bf48]/60">
                 <Search className="h-3.5 w-3.5" />
@@ -394,7 +399,7 @@ export default function LotteryV1Page() {
                     <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-[#7367f0] text-[9px] font-black">
                       {index + 1}
                     </span>
-                    <span className="w-12 shrink-0 font-mono text-[10px] text-[#62d8ff]">
+                    <span className="w-12 shrink-0 text-[10px] text-[#62d8ff]">
                       {ticketNumber(user)}
                     </span>
                     <div className="min-w-0">
@@ -424,13 +429,13 @@ export default function LotteryV1Page() {
               alt="Cup"
             />
             <div className="relative shrink-0 text-center">
-              <h2 className="bg-linear-to-b from-[#fff7d6] to-[#e6a628] bg-clip-text font-['Arial_Narrow',Arial,sans-serif] text-[20px] font-black uppercase leading-tight text-transparent">
+              <h2 className="bg-linear-to-b from-[#fff7d6] to-[#e6a628] bg-clip-text text-[20px] font-black uppercase leading-tight text-transparent">
                 AI SẼ LÀ NGƯỜI MAY MẮN TIẾP THEO?
               </h2>
             </div>
 
-            <div className="relative flex min-h-0 flex-1 items-end justify-center pb-1 pt-5">
-              <div className="relative h-[42vh] min-h-[300px] max-h-[420px] w-[42vh] min-w-[300px] max-w-[420px] shrink-0 rounded-full bg-gradient-to-br from-[#ffe28b] via-[#f6bf48] to-[#9a5a08] p-[7px] shadow-[0_0_0_3px_rgba(246,191,72,.12),0_20px_50px_rgba(0,0,0,.5)]">
+            <div className="relative flex min-h-0 flex-1 items-center justify-center p-0">
+              <div className="relative h-[55vh] min-h-[360px] max-h-[540px] w-[55vh] min-w-[360px] max-w-[540px] shrink-0 rounded-full bg-gradient-to-br from-[#ffe28b] via-[#f6bf48] to-[#9a5a08] p-[7px] shadow-[0_0_0_3px_rgba(246,191,72,.12),0_20px_50px_rgba(0,0,0,.5)]">
                 <div className="pointer-events-none absolute left-1/2 top-[-30px] z-30 -translate-x-1/2">
                   <div
                     ref={pointerRef}
@@ -499,7 +504,7 @@ export default function LotteryV1Page() {
                       ? "Đang lựa chọn người may mắn"
                       : "Sẵn sàng quay số"}
                 </p>
-                <h3 className="truncate font-['Arial_Narrow',Arial,sans-serif] text-lg font-black text-white">
+                <h3 className="truncate text-lg font-black text-white">
                   {displayUser?.Hoten || "Chưa có kết quả"}
                 </h3>
                 <p className="truncate text-xs text-white/40">
@@ -507,7 +512,7 @@ export default function LotteryV1Page() {
                   {displayUser?.NoiCongTac || "Nhấn Quay ngay để bắt đầu"}
                 </p>
               </div>
-              <span className="font-mono text-sm font-black text-[#f6bf48]">
+              <span className="text-sm font-black text-[#f6bf48]">
                 {ticketNumber(displayUser)}
               </span>
             </div>
@@ -520,8 +525,8 @@ export default function LotteryV1Page() {
                   <p className="mb-1 text-[9px] font-bold uppercase tracking-[.32em] text-[#f6bf48]">
                     Kết quả chương trình
                   </p>
-                  <h2 className="font-['Arial_Narrow',Arial,sans-serif] text-[16px] font-black uppercase">
-                    Người chiến thắng
+                  <h2 className="text-[16px] font-black uppercase">
+                    Người trúng giải
                   </h2>
                 </div>
                 <div className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-white/40">
@@ -549,7 +554,7 @@ export default function LotteryV1Page() {
                         key={user.Stt}
                         className="flex min-h-[66px] items-center gap-2 rounded-xl border border-[#202a3d] bg-[#101725]/85 px-3 py-2.5 transition hover:border-[#f6bf48]/30">
                         <RankBadge rank={index + 1} featured={index < 3} />
-                        <span className="w-12 shrink-0 font-mono text-[10px] font-bold text-[#f6bf48]">
+                        <span className="w-12 shrink-0 text-[10px] font-bold text-[#f6bf48]">
                           {ticketNumber(user)}
                         </span>
                         <div className="min-w-0 flex-1">
@@ -593,7 +598,7 @@ export default function LotteryV1Page() {
                   <Trophy className="h-6 w-6" />
                 </div>
                 <div>
-                  <h2 className="font-['Arial_Narrow',Arial,sans-serif] text-xl font-black uppercase ">
+                  <h2 className="text-xl font-black uppercase ">
                     Danh sách trúng thưởng
                   </h2>
                   <p className="text-[10px] text-white/40">
@@ -629,7 +634,7 @@ export default function LotteryV1Page() {
                       Hạng {index + 1}
                     </span>
                   </div>
-                  <span className="font-mono text-[11px] font-bold text-[#f6bf48]">
+                  <span className="text-[11px] font-bold text-[#f6bf48]">
                     {ticketNumber(user)}
                   </span>
                   <h3 className="truncate text-[13px] font-bold text-white/95">
@@ -685,7 +690,7 @@ export default function LotteryV1Page() {
               <h2 className="mt-2 text-3xl font-black uppercase text-white sm:text-4xl">
                 Người trúng thưởng
               </h2>
-              <div className="mx-auto my-5 w-fit rounded-full border border-white/10 bg-white/[.04] px-7 py-3 font-mono text-4xl font-black tracking-[.2em] text-white">
+              <div className="mx-auto my-5 w-fit rounded-full border border-white/10 bg-white/[.04] px-7 py-3 text-4xl font-black tracking-[.2em] text-white">
                 {ticketNumber(latestWinner)}
               </div>
               <h3 className="text-2xl font-semibold text-white sm:text-3xl">
@@ -751,7 +756,7 @@ export default function LotteryV1Page() {
         }
         .wheel-bulb {
           transform: translate(-50%, -50%) rotate(var(--bulb-angle))
-            translateY(calc(-1 * clamp(143px, 19.5vh, 199px)));
+            translateY(calc(-1 * clamp(172px, 26vh, 259px)));
         }
       `}</style>
     </main>
@@ -761,7 +766,7 @@ export default function LotteryV1Page() {
 function RankBadge({ rank, featured }: { rank: number; featured: boolean }) {
   return (
     <div
-      className={`relative flex h-5 w-5 shrink-0 items-center justify-center rounded-full font-mono text-[9px] font-black ${featured ? "bg-slate-200 text-slate-800" : "bg-slate-300/90 text-slate-800"}`}>
+      className={`relative flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[9px] font-black ${featured ? "bg-slate-200 text-slate-800" : "bg-slate-300/90 text-slate-800"}`}>
       {rank}
     </div>
   );
