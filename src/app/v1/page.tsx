@@ -272,18 +272,21 @@ export default function LotteryV1Page() {
   };
 
   return (
-    <main className="relative h-screen overflow-hidden bg-[#02050b] text-white selection:bg-[#f6bf48] selection:text-black">
+    <main className="relative h-screen overflow-hidden bg-[#d9efff] text-white selection:bg-[#7dd3fc] selection:text-[#06233d]">
       <Image
-        className="w-full h-full absolute inset-0 object-cover opacity-30"
+        className="absolute inset-0 h-full w-full object-cover opacity-100"
         src={"/bg-sn.jpg"}
         width={1920}
         height={1080}
         alt="Cup"
       />
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -left-40 -top-56 h-[650px] w-[650px] rounded-full bg-[#f6bf48]/[.05] blur-[140px]" />
-        <div className="absolute -bottom-64 right-[12%] h-[620px] w-[620px] rounded-full bg-[#7c6cff]/[.08] blur-[150px]" />
-        <div className="absolute inset-0 opacity-[.035] [background-image:linear-gradient(white_1px,transparent_1px),linear-gradient(90deg,white_1px,transparent_1px)] [background-size:72px_72px]" />
+        <div className="absolute inset-0 bg-[#0c4a6e]/20" />
+        <div className="absolute inset-x-0 top-0 h-44 bg-gradient-to-b from-[#0c4a6e]/55 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-[#0369a1]/45 to-transparent" />
+        <div className="absolute -left-40 -top-56 h-[650px] w-[650px] rounded-full bg-[#bae6fd]/25 blur-[140px]" />
+        <div className="absolute -bottom-64 right-[12%] h-[620px] w-[620px] rounded-full bg-[#38bdf8]/25 blur-[150px]" />
+        <div className="absolute inset-0 opacity-[.075] [background-image:linear-gradient(white_1px,transparent_1px),linear-gradient(90deg,white_1px,transparent_1px)] [background-size:72px_72px]" />
       </div>
 
       <div className="relative mx-auto flex h-screen max-w-[1600px] flex-col px-3 py-2.5 sm:px-5">
@@ -302,7 +305,7 @@ export default function LotteryV1Page() {
               <h1 className="text-lg font-black uppercase tracking-[.04em]">
                 BV LÊ NGỌC TÙNG
               </h1>
-              <p className="text-[8px] font-bold uppercase tracking-[.2em] text-[#f6bf48]">
+              <p className="text-[8px] font-bold uppercase tracking-[.2em] text-[#bae6fd]">
                 Bệnh viện đa khoa Lê Ngọc Tùng
               </p>
             </div>
@@ -318,7 +321,7 @@ export default function LotteryV1Page() {
               />
               <h1 className="whitespace-nowrap text-[21px] font-black uppercase leading-none tracking-[.02em]">
                 Chương trình{" "}
-                <span className="bg-linear-to-r from-[#ffe08a] via-[#f6bf48] to-[#c98912] bg-clip-text text-transparent drop-shadow-[0_1px_1px_rgba(0,0,0,0.4)]">
+                <span className="bg-linear-to-r from-[#e0f7ff] via-[#7dd3fc] to-[#38bdf8] bg-clip-text text-transparent drop-shadow-[0_1px_1px_rgba(0,0,0,0.35)]">
                   quay số may mắn
                 </span>
               </h1>
@@ -330,18 +333,18 @@ export default function LotteryV1Page() {
                 alt="Cup"
               />
             </div>
-            <p className="mt-1 bg-linear-to-r from-[#ffe08a] via-[#f6bf48] to-[#c98912] bg-clip-text text-[16px] italic leading-none text-transparent drop-shadow-[0_1px_1px_rgba(0,0,0,0.4)]">
+            <p className="mt-1 bg-linear-to-r from-[#e0f7ff] via-[#bae6fd] to-[#38bdf8] bg-clip-text text-[16px] italic leading-none text-transparent drop-shadow-[0_1px_1px_rgba(0,0,0,0.35)]">
               Kết nối · Gắn kết · Vươn xa
             </p>
           </div>
-          <div className="flex items-center overflow-hidden rounded-xl border border-[#263149] bg-[#08101d]">
-            <label className="hidden items-center gap-2 border-r border-[#263149] px-3 py-2 text-[10px] text-white/45 sm:flex">
-              <CalendarDays className="h-4 w-4 text-white/70" /> Số lát
+          <div className="flex items-center overflow-hidden rounded-xl border border-sky-100/35 bg-[#0ea5e9]/25 shadow-[0_12px_34px_rgba(14,165,233,.22)] backdrop-blur-md">
+            <label className="hidden items-center gap-2 border-r border-white/15 px-3 py-2 text-[10px] text-white/70 sm:flex">
+              <CalendarDays className="h-4 w-4 text-[#bae6fd]" /> Số lát
               <select
                 value={wheelSize}
                 onChange={(event) => setWheelSize(Number(event.target.value))}
                 disabled={isSpinning}
-                className="bg-transparent font-bold text-[#f6bf48] outline-none">
+                className="bg-transparent font-bold text-[#e0f7ff] outline-none">
                 {WHEEL_SIZE_OPTIONS.map((size) => (
                   <option key={size} value={size}>
                     {size} người
@@ -352,7 +355,7 @@ export default function LotteryV1Page() {
             <button
               type="button"
               onClick={() => document.documentElement.requestFullscreen?.()}
-              className="flex items-center gap-2 px-3 py-2 text-[10px] font-semibold text-white/80 hover:bg-white/5">
+              className="flex items-center gap-2 px-3 py-2 text-[10px] font-semibold text-white/90 transition hover:bg-white/10">
               <Maximize2 className="h-4 w-4" />
               Toàn màn hình
             </button>
@@ -361,7 +364,7 @@ export default function LotteryV1Page() {
 
         <div className="grid min-h-0 flex-1 gap-3 lg:grid-cols-[313px_minmax(560px,1fr)_332px]">
           <aside className="hidden min-h-0 flex-col gap-3 lg:flex">
-            <section className="shrink-0 rounded-2xl border border-[#25304a] bg-[#070d18]/95 p-4">
+            <section className="shrink-0 rounded-2xl border border-sky-100/30 bg-[#075985]/[.42] p-4 shadow-[0_18px_44px_rgba(14,116,144,.20)] backdrop-blur-xl">
               <h2 className="mb-3 text-center text-[12px] font-black uppercase text-white/85">
                 Thống kê chương trình
               </h2>
@@ -380,26 +383,26 @@ export default function LotteryV1Page() {
                 />
               </div>
             </section>
-            <section className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border border-[#25304a] bg-[#070d18]/95 p-4">
+            <section className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border border-sky-100/30 bg-[#075985]/[.42] p-4 shadow-[0_18px_44px_rgba(14,116,144,.20)] backdrop-blur-xl">
               <h2 className="mb-3 shrink-0 text-center text-[12px] font-black uppercase text-white/85">
                 Danh sách quay số
               </h2>
-              <label className="mb-2 flex shrink-0 items-center gap-2 rounded-lg border border-[#2b3650] bg-black/20 px-3 py-2 text-white/35 focus-within:border-[#f6bf48]/60">
+              <label className="mb-2 flex shrink-0 items-center gap-2 rounded-lg border border-sky-100/30 bg-sky-50/[.10] px-3 py-2 text-sky-50/70 transition focus-within:border-[#7dd3fc]/80 focus-within:bg-sky-50/[.16]">
                 <Search className="h-3.5 w-3.5" />
                 <input
                   value={participantQuery}
                   onChange={(event) => setParticipantQuery(event.target.value)}
                   placeholder="Tìm kiếm nhân viên..."
-                  className="min-w-0 flex-1 bg-transparent text-xs text-white outline-none placeholder:text-white/25"
+                  className="min-w-0 flex-1 bg-transparent text-xs text-white outline-none placeholder:text-white/45"
                 />
               </label>
-              <div className="min-h-0 flex-1 divide-y divide-white/[.06] overflow-y-auto pr-1">
+              <div className="min-h-0 flex-1 divide-y divide-white/[.10] overflow-y-auto pr-1">
                 {filteredParticipants.map((user, index) => (
                   <div key={user.Stt} className="flex items-center gap-2 py-2">
-                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-[#7367f0] text-[9px] font-black">
+                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-[#38bdf8] text-[9px] font-black text-[#073047]">
                       {index + 1}
                     </span>
-                    <span className="w-12 shrink-0 text-[10px] text-[#62d8ff]">
+                    <span className="w-12 shrink-0 text-[10px] font-semibold text-[#bae6fd]">
                       {ticketNumber(user)}
                     </span>
                     <div className="min-w-0">
@@ -413,39 +416,39 @@ export default function LotteryV1Page() {
                   </div>
                 ))}
               </div>
-              <p className="mt-2 shrink-0 text-[9px] text-white/30">
+              <p className="mt-2 shrink-0 text-[9px] text-white/50">
                 Hiển thị {filteredParticipants.length} / {employees.length} nhân
                 viên
               </p>
             </section>
           </aside>
 
-          <section className="relative flex min-h-0 flex-col items-center overflow-hidden rounded-2xl border border-[#27254b] bg-[radial-gradient(circle_at_50%_18%,#25145d_0%,#0b0922_44%,#070b16_100%)] px-4 py-3 shadow-[0_30px_80px_rgba(0,0,0,.35)]">
+          <section className="relative flex min-h-0 flex-col items-center overflow-hidden rounded-2xl border border-sky-100/35 bg-[radial-gradient(circle_at_50%_22%,rgba(186,230,253,.34)_0%,rgba(14,116,144,.38)_45%,rgba(8,47,73,.62)_100%)] px-4 py-3 shadow-[0_24px_70px_rgba(14,116,144,.30)] backdrop-blur-sm">
             <Image
-              className="w-full h-full absolute inset-0 object-cover opacity-50"
+              className="absolute inset-0 h-full w-full object-cover opacity-28"
               src={"/bg-sn.jpg"}
               width={1920}
               height={1080}
               alt="Cup"
             />
             <div className="relative shrink-0 text-center">
-              <h2 className="bg-linear-to-b from-[#fff7d6] to-[#e6a628] bg-clip-text text-[20px] font-black uppercase leading-tight text-transparent">
+              <h2 className="bg-linear-to-b from-[#f0fbff] to-[#7dd3fc] bg-clip-text text-[20px] font-black uppercase leading-tight text-transparent drop-shadow-[0_2px_12px_rgba(14,165,233,.35)]">
                 AI SẼ LÀ NGƯỜI MAY MẮN TIẾP THEO?
               </h2>
             </div>
 
             <div className="relative flex min-h-0 flex-1 items-center justify-center p-0">
-              <div className="relative h-[55vh] min-h-[360px] max-h-[540px] w-[55vh] min-w-[360px] max-w-[540px] shrink-0 rounded-full bg-gradient-to-br from-[#ffe28b] via-[#f6bf48] to-[#9a5a08] p-[7px] shadow-[0_0_0_3px_rgba(246,191,72,.12),0_20px_50px_rgba(0,0,0,.5)]">
+              <div className="relative h-[55vh] min-h-[360px] max-h-[540px] w-[55vh] min-w-[360px] max-w-[540px] shrink-0 rounded-full bg-gradient-to-br from-[#e0f7ff] via-[#7dd3fc] to-[#0284c7] p-[7px] shadow-[0_0_0_3px_rgba(224,247,255,.25),0_22px_55px_rgba(14,116,144,.32),0_0_70px_rgba(56,189,248,.25)]">
                 <div className="pointer-events-none absolute left-1/2 top-[-30px] z-30 -translate-x-1/2">
                   <div
                     ref={pointerRef}
-                    className="h-0 w-0 origin-top border-l-[15px] border-r-[15px] border-t-[38px] border-l-transparent border-r-transparent border-t-[#f6bf48]"
+                    className="h-0 w-0 origin-top border-l-[15px] border-r-[15px] border-t-[38px] border-l-transparent border-r-transparent border-t-[#7dd3fc]"
                   />
-                  <div className="absolute left-1/2 top-[-5px] h-7 w-7 -translate-x-1/2 rounded-full border-4 border-[#090a0a] bg-[#f6bf48]" />
+                  <div className="absolute left-1/2 top-[-5px] h-7 w-7 -translate-x-1/2 rounded-full border-4 border-[#0c4a6e] bg-[#7dd3fc]" />
                 </div>
                 <div
                   ref={wheelRef}
-                  className="lottery-wheel relative h-full w-full overflow-hidden rounded-full border-[2px] border-white/30"
+                  className="lottery-wheel relative h-full w-full overflow-hidden rounded-full border-[2px] border-white/60"
                   style={wheelStyle}>
                   {wheelEntries.map((user, index) => {
                     const angle =
@@ -478,7 +481,7 @@ export default function LotteryV1Page() {
                   type="button"
                   onClick={handleSpin}
                   disabled={isSpinning || availableEmployees.length === 0}
-                  className="absolute left-1/2 top-1/2 z-30 flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full border-[6px] border-[#3c4646] bg-[#f6bf48] text-[#351f00] shadow-[0_10px_28px_rgba(0,0,0,.45)] transition hover:scale-105 disabled:cursor-not-allowed sm:h-24 sm:w-24">
+                  className="absolute left-1/2 top-1/2 z-30 flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full border-[6px] border-[#075985] bg-[#7dd3fc] text-[#06233d] shadow-[0_10px_28px_rgba(14,116,144,.42),0_0_32px_rgba(125,211,252,.28)] transition hover:scale-105 disabled:cursor-not-allowed sm:h-24 sm:w-24">
                   <Gift
                     className={`mb-1 h-5 w-5 ${isSpinning ? "animate-bounce" : ""}`}
                   />
@@ -490,14 +493,14 @@ export default function LotteryV1Page() {
             </div>
 
             <div
-              className={`relative mt-3 mb-1 flex w-full max-w-xl shrink-0 items-center gap-3 rounded-2xl border px-4 py-2.5 ${latestWinner ? "border-[#f6bf48]/70 bg-gradient-to-r from-[#21150d] to-[#17111f] shadow-[0_0_28px_rgba(246,191,72,.16)]" : "border-white/10 bg-black/25"}`}>
+              className={`relative mt-3 mb-1 flex w-full max-w-xl shrink-0 items-center gap-3 rounded-2xl border px-4 py-2.5 backdrop-blur-md ${latestWinner ? "border-[#7dd3fc]/80 bg-gradient-to-r from-[#0e7490]/[.72] to-[#075985]/70 shadow-[0_0_30px_rgba(125,211,252,.22)]" : "border-sky-100/30 bg-[#075985]/35 shadow-[0_12px_38px_rgba(14,116,144,.20)]"}`}>
               <div
-                className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full border-2 ${latestWinner ? "border-[#f6bf48] bg-[#f6bf48]/10 text-[#f6bf48]" : "border-white/15 text-white/25"}`}>
+                className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full border-2 ${latestWinner ? "border-[#7dd3fc] bg-[#7dd3fc]/15 text-[#bae6fd]" : "border-sky-100/30 bg-sky-50/[.08] text-sky-50/65"}`}>
                 <UserRound className="h-6 w-6" />
               </div>
               <div className="min-w-0 flex-1">
                 <p
-                  className={`text-[9px] font-black uppercase tracking-[.2em] ${latestWinner ? "text-[#f6bf48]" : "text-white/30"}`}>
+                  className={`text-[9px] font-black uppercase tracking-[.2em] ${latestWinner ? "text-[#bae6fd]" : "text-sky-50/45"}`}>
                   {latestWinner
                     ? "Chúc mừng người trúng thưởng"
                     : isSpinning
@@ -512,37 +515,37 @@ export default function LotteryV1Page() {
                   {displayUser?.NoiCongTac || "Nhấn Quay ngay để bắt đầu"}
                 </p>
               </div>
-              <span className="text-sm font-black text-[#f6bf48]">
+              <span className="text-sm font-black text-[#bae6fd]">
                 {ticketNumber(displayUser)}
               </span>
             </div>
           </section>
 
-          <aside className="relative min-h-0 overflow-hidden rounded-2xl border border-[#25304a] bg-[#070d18]/95 shadow-[0_30px_80px_rgba(0,0,0,.3)]">
+          <aside className="relative min-h-0 overflow-hidden rounded-2xl border border-sky-100/30 bg-[#075985]/[.42] shadow-[0_18px_44px_rgba(14,116,144,.20)] backdrop-blur-xl">
             <div className="relative flex h-full min-h-0 flex-col p-4">
               <div className="mb-3 flex items-center justify-between border-b border-white/[.08] pb-3">
                 <div>
-                  <p className="mb-1 text-[9px] font-bold uppercase tracking-[.32em] text-[#f6bf48]">
+                  <p className="mb-1 text-[9px] font-bold uppercase tracking-[.32em] text-[#bae6fd]">
                     Kết quả chương trình
                   </p>
                   <h2 className="text-[16px] font-black uppercase">
                     Người trúng giải
                   </h2>
                 </div>
-                <div className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-white/40">
-                  <Trophy className="h-5 w-5 text-[#f6bf48]" />
+                <div className="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-white/[.06] text-white/60">
+                  <Trophy className="h-5 w-5 text-[#7dd3fc]" />
                 </div>
               </div>
 
               {filteredWinners.length === 0 ? (
                 <div className="flex min-h-0 flex-1 flex-col items-center justify-center text-center">
-                  <div className="mb-4 flex h-24 w-24 items-center justify-center rounded-full border border-cyan-300/20 bg-cyan-300/5 shadow-[0_0_40px_rgba(34,211,238,.12)]">
-                    <Trophy className="h-10 w-10 text-cyan-300/40" />
+                  <div className="mb-4 flex h-24 w-24 items-center justify-center rounded-full border border-sky-200/28 bg-sky-200/[.08] shadow-[0_0_40px_rgba(125,211,252,.16)]">
+                    <Trophy className="h-10 w-10 text-sky-200/60" />
                   </div>
                   <p className="font-bold text-white/70">
                     Bảng vàng đang chờ chủ nhân
                   </p>
-                  <p className="mt-2 max-w-56 text-sm text-cyan-100/35">
+                  <p className="mt-2 max-w-56 text-sm text-sky-50/60">
                     Kết quả sẽ tỏa sáng tại đây sau mỗi lượt quay
                   </p>
                 </div>
@@ -552,9 +555,9 @@ export default function LotteryV1Page() {
                     return (
                       <article
                         key={user.Stt}
-                        className="flex min-h-[66px] items-center gap-2 rounded-xl border border-[#202a3d] bg-[#101725]/85 px-3 py-2.5 transition hover:border-[#f6bf48]/30">
+                        className="flex min-h-[66px] items-center gap-2 rounded-xl border border-sky-100/25 bg-sky-50/[.09] px-3 py-2.5 backdrop-blur-md transition hover:border-[#7dd3fc]/55 hover:bg-sky-50/[.14]">
                         <RankBadge rank={index + 1} featured={index < 3} />
-                        <span className="w-12 shrink-0 text-[10px] font-bold text-[#f6bf48]">
+                        <span className="w-12 shrink-0 text-[10px] font-bold text-[#bae6fd]">
                           {ticketNumber(user)}
                         </span>
                         <div className="min-w-0 flex-1">
@@ -577,7 +580,7 @@ export default function LotteryV1Page() {
                 type="button"
                 onClick={() => setShowLeaderboardModal(true)}
                 disabled={winners.length === 0}
-                className="mt-3 flex h-11 shrink-0 items-center justify-center gap-2 rounded-lg border border-[#2a354d] bg-[#0b1220] text-[11px] font-bold text-white/80 transition hover:border-[#f6bf48]/50 hover:text-[#f6bf48] disabled:cursor-not-allowed disabled:opacity-40">
+                className="mt-3 flex h-11 shrink-0 items-center justify-center gap-2 rounded-lg border border-sky-100/30 bg-sky-50/[.09] text-[11px] font-bold text-sky-50 backdrop-blur-md transition hover:border-[#7dd3fc]/60 hover:bg-sky-50/[.16] hover:text-[#bae6fd] disabled:cursor-not-allowed disabled:opacity-40">
                 Xem tất cả <span aria-hidden="true">›</span>
               </button>
             </div>
@@ -587,14 +590,14 @@ export default function LotteryV1Page() {
 
       {showLeaderboardModal && (
         <div
-          className="fixed inset-0 z-40 flex bg-[#02050b]/95 p-2 backdrop-blur-xl"
+          className="fixed inset-0 z-40 flex bg-[#0c4a6e]/70 p-2 backdrop-blur-xl"
           role="dialog"
           aria-modal="true"
           aria-label="Toàn bộ danh sách trúng thưởng">
-          <div className="relative mx-auto flex h-full w-full max-w-[1500px] min-h-0 flex-col overflow-hidden rounded-2xl border border-[#33405c] bg-[#070d18] shadow-[0_30px_120px_rgba(0,0,0,.8)]">
-            <div className="flex shrink-0 items-center justify-between border-b border-[#263149] px-5 py-4 sm:px-7">
+          <div className="relative mx-auto flex h-full w-full max-w-[1500px] min-h-0 flex-col overflow-hidden rounded-2xl border border-sky-100/30 bg-[#075985]/[.82] shadow-[0_30px_120px_rgba(14,116,144,.42)] backdrop-blur-xl">
+            <div className="flex shrink-0 items-center justify-between border-b border-white/12 px-5 py-4 sm:px-7">
               <div className="flex items-center gap-4">
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-[#f6bf48]/40 bg-[#f6bf48]/10 text-[#f6bf48]">
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-[#7dd3fc]/55 bg-[#7dd3fc]/15 text-[#bae6fd]">
                   <Trophy className="h-6 w-6" />
                 </div>
                 <div>
@@ -610,12 +613,12 @@ export default function LotteryV1Page() {
                 type="button"
                 onClick={() => setShowLeaderboardModal(false)}
                 aria-label="Đóng danh sách"
-                className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 text-white/60 transition hover:border-[#f6bf48]/50 hover:text-[#f6bf48]">
+                className="flex h-10 w-10 items-center justify-center rounded-lg border border-sky-100/25 text-sky-50/70 transition hover:border-[#7dd3fc]/60 hover:text-[#bae6fd]">
                 <X className="h-5 w-5" />
               </button>
             </div>
 
-            <div className="mx-5 mt-4 hidden shrink-0 grid-cols-[70px_100px_minmax(180px,1fr)_minmax(180px,1fr)_130px] gap-4 border-b border-[#263149] px-4 pb-3 text-[9px] font-black uppercase tracking-[.16em] text-white/35 sm:grid sm:px-5">
+            <div className="mx-5 mt-4 hidden shrink-0 grid-cols-[70px_100px_minmax(180px,1fr)_minmax(180px,1fr)_130px] gap-4 border-b border-white/12 px-4 pb-3 text-[9px] font-black uppercase tracking-[.16em] text-white/45 sm:grid sm:px-5">
               <span>Hạng</span>
               <span>Mã số</span>
               <span>Họ và tên</span>
@@ -627,14 +630,14 @@ export default function LotteryV1Page() {
               {winners.map((user, index) => (
                 <article
                   key={user.Stt}
-                  className="grid items-center gap-2 rounded-xl border border-[#202a3d] bg-[#101725]/85 px-4 py-3 transition hover:border-[#f6bf48]/35 sm:grid-cols-[70px_100px_minmax(180px,1fr)_minmax(180px,1fr)_130px] sm:gap-4 sm:px-5">
+                  className="grid items-center gap-2 rounded-xl border border-sky-100/25 bg-sky-50/[.09] px-4 py-3 backdrop-blur-md transition hover:border-[#7dd3fc]/55 hover:bg-sky-50/[.14] sm:grid-cols-[70px_100px_minmax(180px,1fr)_minmax(180px,1fr)_130px] sm:gap-4 sm:px-5">
                   <div className="flex items-center gap-2">
                     <RankBadge rank={index + 1} featured={index < 3} />
                     <span className="text-[9px] text-white/30 sm:hidden">
                       Hạng {index + 1}
                     </span>
                   </div>
-                  <span className="text-[11px] font-bold text-[#f6bf48]">
+                  <span className="text-[11px] font-bold text-[#bae6fd]">
                     {ticketNumber(user)}
                   </span>
                   <h3 className="truncate text-[13px] font-bold text-white/95">
@@ -655,7 +658,7 @@ export default function LotteryV1Page() {
 
       {showWinnerModal && latestWinner && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-xl"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[#0c4a6e]/[.72] p-4 backdrop-blur-xl"
           role="dialog"
           aria-modal="true"
           aria-label="Người trúng thưởng">
@@ -665,14 +668,14 @@ export default function LotteryV1Page() {
             className="absolute inset-0 cursor-default"
             onClick={() => !isSpinning && setShowWinnerModal(false)}
           />
-          <div className="relative w-full max-w-lg overflow-hidden rounded-[32px] border border-white/10 bg-[#121414] px-6 py-8 text-center shadow-[0_30px_100px_rgba(0,0,0,.7)] sm:px-10">
+          <div className="relative w-full max-w-lg overflow-hidden rounded-[32px] border border-sky-100/30 bg-[#075985]/[.88] px-6 py-8 text-center shadow-[0_30px_100px_rgba(14,116,144,.50)] backdrop-blur-xl sm:px-10">
             <div className="absolute inset-x-12 top-0 h-px bg-gradient-to-r from-transparent via-white to-transparent" />
             <div className="absolute -left-16 -top-16 h-40 w-40 rounded-full bg-cyan-300/20 blur-3xl" />
             <div className="absolute -bottom-20 -right-12 h-48 w-48 rounded-full bg-fuchsia-400/20 blur-3xl" />
             {Array.from({ length: 12 }).map((_, index) => (
               <Star
                 key={index}
-                className="absolute h-3 w-3 fill-amber-300 text-amber-200 animate-pulse"
+                className="absolute h-3 w-3 fill-sky-200 text-cyan-100 animate-pulse"
                 style={{
                   left: `${8 + ((index * 31) % 86)}%`,
                   top: `${7 + ((index * 47) % 78)}%`,
@@ -681,10 +684,10 @@ export default function LotteryV1Page() {
               />
             ))}
             <div className="relative">
-              <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-[#f6bf48] shadow-[0_0_45px_rgba(246,191,72,.2)]">
-                <Trophy className="h-9 w-9 text-black" />
+              <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-[#7dd3fc] shadow-[0_0_45px_rgba(125,211,252,.32)]">
+                <Trophy className="h-9 w-9 text-[#06233d]" />
               </div>
-              <p className="text-xs font-black uppercase tracking-[.35em] text-[#f6bf48]">
+              <p className="text-xs font-black uppercase tracking-[.35em] text-[#bae6fd]">
                 Chúc mừng
               </p>
               <h2 className="mt-2 text-3xl font-black uppercase text-white sm:text-4xl">
@@ -704,7 +707,7 @@ export default function LotteryV1Page() {
                 type="button"
                 onClick={() => setShowWinnerModal(false)}
                 disabled={isSpinning}
-                className="mt-7 rounded-full bg-[#f6bf48] px-10 py-3 font-black uppercase tracking-[.12em] text-black transition hover:scale-105 disabled:opacity-60">
+                className="mt-7 rounded-full bg-[#7dd3fc] px-10 py-3 font-black uppercase tracking-[.12em] text-[#06233d] transition hover:scale-105 disabled:opacity-60">
                 {isSpinning ? "Đang lưu kết quả..." : "Tiếp tục"}
               </button>
             </div>
@@ -784,23 +787,23 @@ function DashboardStat({
   color: "violet" | "green" | "gold";
 }) {
   const tones = {
-    violet: "border-violet-500/30 bg-violet-500/10 text-violet-400",
-    green: "border-emerald-500/30 bg-emerald-500/10 text-emerald-400",
-    gold: "border-amber-500/30 bg-amber-500/10 text-amber-400",
+    violet: "border-sky-200/40 bg-sky-200/15 text-sky-100",
+    green: "border-cyan-200/40 bg-cyan-200/15 text-cyan-100",
+    gold: "border-blue-200/40 bg-blue-200/15 text-blue-100",
   };
 
   return (
-    <div className="flex items-center gap-3 rounded-xl border border-[#26314a] bg-[#111827]/80 p-2.5">
+    <div className="flex items-center gap-3 rounded-xl border border-white/15 bg-white/[.075] p-2.5 backdrop-blur-md">
       <div
         className={`flex h-10 w-10 items-center justify-center rounded-lg border ${tones[color]}`}>
         <Icon className="h-5 w-5" />
       </div>
       <div>
         <p
-          className={`text-xl font-black ${color === "green" ? "text-emerald-400" : color === "gold" ? "text-amber-400" : "text-violet-400"}`}>
+          className={`text-xl font-black ${color === "green" ? "text-cyan-100" : color === "gold" ? "text-blue-100" : "text-sky-100"}`}>
           {value}
         </p>
-        <p className="text-[10px] text-white/45">{label}</p>
+        <p className="text-[10px] text-white/60">{label}</p>
       </div>
     </div>
   );
