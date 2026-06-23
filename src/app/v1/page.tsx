@@ -275,7 +275,7 @@ export default function LotteryV1Page() {
     <main className="relative h-screen overflow-hidden bg-[#02050b] text-white selection:bg-[#f6bf48] selection:text-black">
       <Image
         className="w-full h-full absolute inset-0 object-cover opacity-30"
-        src={"/bg-luxury.png"}
+        src={"/bg-sn.jpg"}
         width={1920}
         height={1080}
         alt="Cup"
@@ -423,7 +423,7 @@ export default function LotteryV1Page() {
           <section className="relative flex min-h-0 flex-col items-center overflow-hidden rounded-2xl border border-[#27254b] bg-[radial-gradient(circle_at_50%_18%,#25145d_0%,#0b0922_44%,#070b16_100%)] px-4 py-3 shadow-[0_30px_80px_rgba(0,0,0,.35)]">
             <Image
               className="w-full h-full absolute inset-0 object-cover opacity-50"
-              src={"/bg-luxury.png"}
+              src={"/bg-sn.jpg"}
               width={1920}
               height={1080}
               alt="Cup"
