@@ -301,12 +301,12 @@ export default function LotteryV1Page() {
 
           {/* Logo + tên bệnh viện */}
           <div className="flex items-center gap-3">
-            <div className="relative flex h-[52px] w-[52px] shrink-0 items-center justify-center rounded-xl border border-[#7dd3fc]/50 bg-[#7dd3fc]/15 shadow-[0_0_16px_rgba(125,211,252,.25)]">
+            <div className="relative flex bg-white h-[52px] w-[52px] shrink-0 items-center justify-center rounded-xl border border-[#7dd3fc]/50 shadow-[0_0_16px_rgba(125,211,252,.25)]">
               <Image
                 className="w-10 h-9 drop-shadow-[0_2px_6px_rgba(0,0,0,.3)]"
                 src={"/logo.png"}
                 width={48}
-                height={48}
+                height={40}
                 alt="Logo"
               />
             </div>
