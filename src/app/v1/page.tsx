@@ -28,7 +28,7 @@ import { toast } from "sonner";
 
 const PRIZE_ID = "v1";
 const SPIN_TIME = 2400;
-const DEFAULT_WHEEL_SIZE = 100;
+const DEFAULT_WHEEL_SIZE = 20;
 const WHEEL_SIZE_OPTIONS = [10, 20, 50, 100, 200, 300];
 const WHEEL_COLORS = [
   "#d9ff43",
@@ -447,7 +447,7 @@ export default function LotteryV1Page() {
               alt="Cup"
             />
             <div className="relative shrink-0 text-center">
-              <h2 className="bg-linear-to-b from-[#f0fbff] to-[#7dd3fc] bg-clip-text text-[20px] font-black uppercase leading-tight text-transparent drop-shadow-[0_2px_12px_rgba(14,165,233,.35)]">
+              <h2 className="bg-linear-to-b from-[#fff8c2] via-[#ffd700] to-[#ffb800] bg-clip-text text-[20px] font-black uppercase leading-tight text-transparent drop-shadow-[0_2px_12px_rgba(255,215,0,.6)]">
                 AI SẼ LÀ NGƯỜI MAY MẮN TIẾP THEO?
               </h2>
             </div>
@@ -522,10 +522,10 @@ export default function LotteryV1Page() {
                       ? "Đang lựa chọn người may mắn"
                       : "Sẵn sàng quay số"}
                 </p>
-                <h3 className="truncate text-lg font-black text-white">
+                <h3 className="truncate text-lg font-black text-yellow-300 drop-shadow-[0_2px_12px_rgba(255,215,0,.6)]">
                   {displayUser?.Hoten || "Chưa có kết quả"}
                 </h3>
-                <p className="truncate text-xs text-white/40">
+                <p className="truncate text-xs text-white">
                   <Building2 className="mr-1 inline h-3.5 w-3.5" />
                   {displayUser?.NoiCongTac || "Nhấn Quay ngay để bắt đầu"}
                 </p>
@@ -543,7 +543,7 @@ export default function LotteryV1Page() {
                   <p className="mb-1 text-[9px] font-bold uppercase tracking-[.32em] text-[#bae6fd]">
                     Kết quả chương trình
                   </p>
-                  <h2 className="text-[16px] font-black uppercase">
+                  <h2 className="text-[16px] font-black uppercase text-yellow-300">
                     Người trúng giải
                   </h2>
                 </div>
@@ -572,20 +572,17 @@ export default function LotteryV1Page() {
                         key={user.Stt}
                         className="flex min-h-[66px] items-center gap-2 rounded-xl border border-sky-100/25 bg-sky-50/[.09] px-3 py-2.5 backdrop-blur-md transition hover:border-[#7dd3fc]/55 hover:bg-sky-50/[.14]">
                         <RankBadge rank={index + 1} featured={index < 3} />
-                        <span className="w-12 shrink-0 text-[10px] font-bold text-[#bae6fd]">
+                        <span className="w-8 shrink-0 text-[10px] font-bold text-[#bae6fd]">
                           {ticketNumber(user)}
                         </span>
                         <div className="min-w-0 flex-1">
-                          <h3 className="truncate text-[12px] font-bold text-white/95">
+                          <h3 className="truncate text-[14px] font-bold text-yellow-300">
                             {user.Hoten}
                           </h3>
-                          <p className="mt-0.5 truncate text-[9px] text-white/40">
+                          <p className="mt-0.5 truncate text-[9px] text-white">
                             {user.NoiCongTac || "Chưa cập nhật đơn vị"}
                           </p>
                         </div>
-                        <time className="shrink-0 text-[9px] text-white/45">
-                          {winnerTime(user)}
-                        </time>
                       </article>
                     );
                   })}
