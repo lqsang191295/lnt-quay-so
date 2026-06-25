@@ -377,30 +377,11 @@ export default function LotteryV1Page() {
           </div>
         </header>
 
-        <div className="grid min-h-0 flex-1 gap-3 lg:grid-cols-[313px_minmax(560px,1fr)_332px]">
+        <div className="grid min-h-0 flex-1 gap-3 lg:grid-cols-[313px_minmax(560px,1fr)_382px]">
           <aside className="hidden min-h-0 flex-col gap-3 lg:flex">
-            <section className="shrink-0 rounded-2xl border border-sky-100/30 bg-[#075985]/[.42] p-4 shadow-[0_18px_44px_rgba(14,116,144,.20)] backdrop-blur-xl">
-              <h2 className="mb-3 text-center text-[12px] font-black uppercase text-white/85">
-                Thống kê chương trình
-              </h2>
-              <div className="grid gap-2">
-                <DashboardStat
-                  icon={Users}
-                  value={employees.length}
-                  label="Tổng người tham gia"
-                  color="violet"
-                />
-                <DashboardStat
-                  icon={Gift}
-                  value={winners.length}
-                  label="Đã trúng thưởng"
-                  color="green"
-                />
-              </div>
-            </section>
             <section className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border border-sky-100/30 bg-[#075985]/[.42] p-4 shadow-[0_18px_44px_rgba(14,116,144,.20)] backdrop-blur-xl">
               <h2 className="mb-3 shrink-0 text-center text-[12px] font-black uppercase text-white/85">
-                Danh sách quay số
+                ({employees.length}) Danh sách quay số
               </h2>
               <label className="mb-2 flex shrink-0 items-center gap-2 rounded-lg border border-sky-100/30 bg-sky-50/[.10] px-3 py-2 text-sky-50/70 transition focus-within:border-[#7dd3fc]/80 focus-within:bg-sky-50/[.16]">
                 <Search className="h-3.5 w-3.5" />
@@ -414,14 +395,11 @@ export default function LotteryV1Page() {
               <div className="min-h-0 flex-1 divide-y divide-white/[.10] overflow-y-auto pr-1">
                 {filteredParticipants.map((user, index) => (
                   <div key={user.Stt} className="flex items-center gap-2 py-2">
-                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-[#38bdf8] text-[9px] font-black text-[#073047]">
-                      {index + 1}
-                    </span>
-                    <span className="w-12 shrink-0 text-[10px] font-semibold text-[#bae6fd]">
+                    <span className="w-8 shrink-0 text-[10px] font-semibold text-[#bae6fd]">
                       {ticketNumber(user)}
                     </span>
                     <div className="min-w-0">
-                      <p className="truncate text-[11px] font-semibold text-white/90">
+                      <p className="truncate text-[14px] font-semibold text-white/90">
                         {user.Hoten}
                       </p>
                       <p className="truncate text-[9px] text-white/35">
@@ -431,10 +409,6 @@ export default function LotteryV1Page() {
                   </div>
                 ))}
               </div>
-              <p className="mt-2 shrink-0 text-[9px] text-white/50">
-                Hiển thị {filteredParticipants.length} / {employees.length} nhân
-                viên
-              </p>
             </section>
           </aside>
 
@@ -544,7 +518,7 @@ export default function LotteryV1Page() {
                     Kết quả chương trình
                   </p>
                   <h2 className="text-[16px] font-black uppercase text-yellow-300">
-                    Người trúng giải
+                    {`Người trúng giải (${winners.length})`}
                   </h2>
                 </div>
                 <div className="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-white/[.06] text-white/60">
@@ -570,13 +544,15 @@ export default function LotteryV1Page() {
                     return (
                       <article
                         key={user.Stt}
-                        className="flex min-h-[66px] items-center gap-2 rounded-xl border border-sky-100/25 bg-sky-50/[.09] px-3 py-2.5 backdrop-blur-md transition hover:border-[#7dd3fc]/55 hover:bg-sky-50/[.14]">
-                        <RankBadge rank={index + 1} featured={index < 3} />
-                        <span className="w-8 shrink-0 text-[10px] font-bold text-[#bae6fd]">
-                          {ticketNumber(user)}
-                        </span>
+                        className="flex min-h-[66px] items-center gap-2 rounded-xl border border-sky-100/25 bg-sky-50/[.09] pl-2 pr-1 py-1 backdrop-blur-md transition hover:border-[#7dd3fc]/55 hover:bg-sky-50/[.14]">
+                        <div className="flex flex-col justify-center items-center gap-1">
+                          <RankBadge rank={index + 1} featured={index < 3} />
+                          <span className="w-8 shrink-0 text-[10px] font-bold text-[#bae6fd]">
+                            {ticketNumber(user)}
+                          </span>
+                        </div>
                         <div className="min-w-0 flex-1">
-                          <h3 className="truncate text-[14px] font-bold text-yellow-300">
+                          <h3 className="truncate text-[18px] font-bold text-yellow-300">
                             {user.Hoten}
                           </h3>
                           <p className="mt-0.5 truncate text-[9px] text-white">
@@ -636,7 +612,6 @@ export default function LotteryV1Page() {
               <span>Mã số</span>
               <span>Họ và tên</span>
               <span>Đơn vị</span>
-              <span className="text-right">Thời gian</span>
             </div>
 
             <div className="min-h-0 flex-1 space-y-2 overflow-y-auto p-4 sm:px-5 sm:pb-5">
@@ -650,18 +625,15 @@ export default function LotteryV1Page() {
                       Hạng {index + 1}
                     </span>
                   </div>
-                  <span className="text-[11px] font-bold text-[#bae6fd]">
+                  <span className="text-[18px] font-bold text-[#bae6fd]">
                     {ticketNumber(user)}
                   </span>
-                  <h3 className="truncate text-[13px] font-bold text-white/95">
+                  <h3 className="truncate text-[26px] font-bold text-yellow-300 drop-shadow-[0_2px_12px_rgba(255,215,0,.6)] sm:text-[18px]">
                     {user.Hoten}
                   </h3>
-                  <p className="truncate text-[11px] text-white/45">
+                  <p className="truncate text-[18px] text-white/45">
                     {user.NoiCongTac || "Chưa cập nhật đơn vị"}
                   </p>
-                  <time className="text-[10px] text-white/45 sm:text-right">
-                    {winnerTime(user)}
-                  </time>
                 </article>
               ))}
             </div>
