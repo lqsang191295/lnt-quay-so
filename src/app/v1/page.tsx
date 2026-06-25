@@ -290,53 +290,68 @@ export default function LotteryV1Page() {
       </div>
 
       <div className="relative mx-auto flex h-screen max-w-[1600px] flex-col px-3 py-2.5 sm:px-5">
-        <header className="relative mb-2.5 flex h-[78px] shrink-0 items-center justify-between gap-3">
+        {/* ── HEADER ── */}
+        <header className="relative mb-2.5 flex h-[82px] shrink-0 items-center justify-between gap-3 overflow-hidden rounded-2xl border border-[#7dd3fc]/40 bg-gradient-to-r from-[#0c4a6e]/80 via-[#075985]/70 to-[#0c4a6e]/80 px-4 shadow-[0_0_0_1px_rgba(125,211,252,.18),0_8px_40px_rgba(14,116,144,.45),0_0_80px_rgba(56,189,248,.15)] backdrop-blur-xl">
+          {/* Shimmer top */}
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#7dd3fc]/80 to-transparent" />
+          {/* Shimmer bottom */}
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[#38bdf8]/50 to-transparent" />
+          {/* Inner glow */}
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/[.05] to-transparent" />
+
+          {/* Logo + tên bệnh viện */}
           <div className="flex items-center gap-3">
-            <div className="relative flex h-12 w-12 items-center justify-center">
+            <div className="relative flex h-[52px] w-[52px] shrink-0 items-center justify-center rounded-xl border border-[#7dd3fc]/50 bg-[#7dd3fc]/15 shadow-[0_0_16px_rgba(125,211,252,.25)]">
               <Image
-                className="w-12 h-9"
+                className="w-10 h-9 drop-shadow-[0_2px_6px_rgba(0,0,0,.3)]"
                 src={"/logo.png"}
                 width={48}
                 height={48}
-                alt="Cup"
+                alt="Logo"
               />
             </div>
             <div>
-              <h1 className="text-lg font-black uppercase tracking-[.04em]">
+              <h1 className="text-[17px] font-black uppercase tracking-[.06em] drop-shadow-[0_1px_10px_rgba(125,211,252,.55)]">
                 BV LÊ NGỌC TÙNG
               </h1>
-              <p className="text-[8px] font-bold uppercase tracking-[.2em] text-[#bae6fd]">
+              <p className="text-[8px] font-bold uppercase tracking-[.22em] text-[#7dd3fc]">
                 Bệnh viện đa khoa Lê Ngọc Tùng
               </p>
             </div>
           </div>
+
+          {/* Tiêu đề giữa */}
           <div className="pointer-events-none absolute left-1/2 hidden -translate-x-1/2 text-center lg:block">
-            <div className="flex flex-row">
+            <div className="flex flex-row items-center">
               <Image
-                className="w-8 h-8 mr-3"
+                className="w-8 h-8 mr-3 drop-shadow-[0_2px_8px_rgba(125,211,252,.4)]"
                 src={"/la.png"}
                 width={24}
                 height={24}
-                alt="Cup"
+                alt=""
               />
-              <h1 className="whitespace-nowrap text-[21px] font-black uppercase leading-none tracking-[.02em]">
-                Chương trình{" "}
-                <span className="bg-linear-to-r from-[#e0f7ff] via-[#7dd3fc] to-[#38bdf8] bg-clip-text text-transparent drop-shadow-[0_1px_1px_rgba(0,0,0,0.35)]">
-                  quay số may mắn
-                </span>
-              </h1>
+              <div>
+                <h1 className="whitespace-nowrap text-[22px] font-black uppercase leading-none tracking-[.02em] drop-shadow-[0_2px_18px_rgba(125,211,252,.50)]">
+                  Chương trình{" "}
+                  <span className="bg-linear-to-r from-[#ffffff] via-[#7dd3fc] to-[#38bdf8] bg-clip-text text-transparent">
+                    quay số may mắn
+                  </span>
+                </h1>
+                <p className="mt-1.5 bg-linear-to-r from-[#e0f7ff] via-[#bae6fd] to-[#38bdf8] bg-clip-text text-[13px] font-semibold italic leading-none text-transparent">
+                  Kết nối · Gắn kết · Vươn xa
+                </p>
+              </div>
               <Image
-                className="w-8 h-8 ml-3 [-webkit-transform:scaleX(-1)] [transform:scaleX(-1)]"
+                className="w-8 h-8 ml-3 [-webkit-transform:scaleX(-1)] [transform:scaleX(-1)] drop-shadow-[0_2px_8px_rgba(125,211,252,.4)]"
                 src={"/la.png"}
                 width={24}
                 height={24}
-                alt="Cup"
+                alt=""
               />
             </div>
-            <p className="mt-1 bg-linear-to-r from-[#e0f7ff] via-[#bae6fd] to-[#38bdf8] bg-clip-text text-[16px] italic leading-none text-transparent drop-shadow-[0_1px_1px_rgba(0,0,0,0.35)]">
-              Kết nối · Gắn kết · Vươn xa
-            </p>
           </div>
+
+          {/* Controls */}
           <div className="flex items-center overflow-hidden rounded-xl border border-sky-100/35 bg-[#0ea5e9]/25 shadow-[0_12px_34px_rgba(14,165,233,.22)] backdrop-blur-md">
             <label className="hidden items-center gap-2 border-r border-white/15 px-3 py-2 text-[10px] text-white/70 sm:flex">
               <CalendarDays className="h-4 w-4 text-[#bae6fd]" /> Số lát
@@ -588,6 +603,7 @@ export default function LotteryV1Page() {
         </div>
       </div>
 
+      {/* ── LEADERBOARD MODAL ── */}
       {showLeaderboardModal && (
         <div
           className="fixed inset-0 z-40 flex bg-[#0c4a6e]/70 p-2 backdrop-blur-xl"
@@ -601,7 +617,7 @@ export default function LotteryV1Page() {
                   <Trophy className="h-6 w-6" />
                 </div>
                 <div>
-                  <h2 className="text-xl font-black uppercase ">
+                  <h2 className="text-xl font-black uppercase">
                     Danh sách trúng thưởng
                   </h2>
                   <p className="text-[10px] text-white/40">
@@ -656,9 +672,10 @@ export default function LotteryV1Page() {
         </div>
       )}
 
+      {/* ── WINNER MODAL ── */}
       {showWinnerModal && latestWinner && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-[#0c4a6e]/[.72] p-4 backdrop-blur-xl"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[#0c4a6e]/[.80] p-4 backdrop-blur-xl"
           role="dialog"
           aria-modal="true"
           aria-label="Người trúng thưởng">
@@ -668,47 +685,98 @@ export default function LotteryV1Page() {
             className="absolute inset-0 cursor-default"
             onClick={() => !isSpinning && setShowWinnerModal(false)}
           />
-          <div className="relative w-full max-w-lg overflow-hidden rounded-[32px] border border-sky-100/30 bg-[#075985]/[.88] px-6 py-8 text-center shadow-[0_30px_100px_rgba(14,116,144,.50)] backdrop-blur-xl sm:px-10">
-            <div className="absolute inset-x-12 top-0 h-px bg-gradient-to-r from-transparent via-white to-transparent" />
-            <div className="absolute -left-16 -top-16 h-40 w-40 rounded-full bg-cyan-300/20 blur-3xl" />
-            <div className="absolute -bottom-20 -right-12 h-48 w-48 rounded-full bg-fuchsia-400/20 blur-3xl" />
-            {Array.from({ length: 12 }).map((_, index) => (
+
+          {/* Confetti dots */}
+          {Array.from({ length: 22 }).map((_, i) => (
+            <div
+              key={i}
+              className="pointer-events-none absolute animate-bounce rounded-full"
+              style={{
+                left: `${5 + ((i * 37) % 90)}%`,
+                top: `${5 + ((i * 53) % 85)}%`,
+                width: `${4 + (i % 4) * 3}px`,
+                height: `${4 + (i % 4) * 3}px`,
+                backgroundColor: [
+                  "#7dd3fc",
+                  "#f5c451",
+                  "#de5ba7",
+                  "#63d49b",
+                  "#ff6b4a",
+                ][i % 5],
+                animationDelay: `${i * 0.08}s`,
+                animationDuration: `${0.8 + (i % 3) * 0.4}s`,
+                opacity: 0.75,
+              }}
+            />
+          ))}
+
+          <div className="relative w-full max-w-lg overflow-hidden rounded-[32px] border-2 border-[#7dd3fc]/60 bg-[#075985]/[.94] px-6 py-8 text-center shadow-[0_0_0_5px_rgba(125,211,252,.10),0_30px_100px_rgba(14,116,144,.65)] backdrop-blur-xl sm:px-10">
+            {/* Shimmer top */}
+            <div className="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-[#7dd3fc]/90 to-transparent" />
+            {/* Shimmer bottom */}
+            <div className="absolute inset-x-8 bottom-0 h-px bg-gradient-to-r from-transparent via-[#38bdf8]/50 to-transparent" />
+            {/* Glow blobs */}
+            <div className="pointer-events-none absolute -left-20 -top-20 h-52 w-52 rounded-full bg-cyan-300/15 blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-24 -right-16 h-56 w-56 rounded-full bg-fuchsia-400/15 blur-3xl" />
+            <div className="pointer-events-none absolute left-1/2 top-0 h-40 w-40 -translate-x-1/2 rounded-full bg-[#f5c451]/10 blur-3xl" />
+
+            {/* Stars */}
+            {Array.from({ length: 10 }).map((_, i) => (
               <Star
-                key={index}
+                key={i}
                 className="absolute h-3 w-3 fill-sky-200 text-cyan-100 animate-pulse"
                 style={{
-                  left: `${8 + ((index * 31) % 86)}%`,
-                  top: `${7 + ((index * 47) % 78)}%`,
-                  animationDelay: `${index * 0.12}s`,
+                  left: `${8 + ((i * 31) % 86)}%`,
+                  top: `${7 + ((i * 47) % 78)}%`,
+                  animationDelay: `${i * 0.12}s`,
                 }}
               />
             ))}
+
             <div className="relative">
-              <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-[#7dd3fc] shadow-[0_0_45px_rgba(125,211,252,.32)]">
-                <Trophy className="h-9 w-9 text-[#06233d]" />
+              {/* Trophy */}
+              <div className="mx-auto mb-5 flex h-24 w-24 items-center justify-center rounded-full border-4 border-[#f5c451]/70 bg-gradient-to-br from-[#f5c451]/25 to-[#7dd3fc]/15 shadow-[0_0_0_8px_rgba(245,196,81,.10),0_0_55px_rgba(245,196,81,.30)]">
+                <Trophy className="h-12 w-12 text-[#f5c451] drop-shadow-[0_2px_12px_rgba(245,196,81,.6)]" />
               </div>
-              <p className="text-xs font-black uppercase tracking-[.35em] text-[#bae6fd]">
-                Chúc mừng
-              </p>
-              <h2 className="mt-2 text-3xl font-black uppercase text-white sm:text-4xl">
+
+              {/* Badge */}
+              <div className="mx-auto mb-4 w-fit rounded-full border border-[#7dd3fc]/50 bg-[#7dd3fc]/15 px-6 py-1.5">
+                <p className="text-[11px] font-black uppercase tracking-[.4em] text-[#7dd3fc]">
+                  🎉 Chúc mừng
+                </p>
+              </div>
+
+              <h2 className="text-2xl font-black uppercase text-white drop-shadow-[0_2px_12px_rgba(125,211,252,.35)] sm:text-3xl">
                 Người trúng thưởng
               </h2>
-              <div className="mx-auto my-5 w-fit rounded-full border border-white/10 bg-white/[.04] px-7 py-3 text-4xl font-black tracking-[.2em] text-white">
-                {ticketNumber(latestWinner)}
+
+              {/* Số phiếu — nổi bật nhất */}
+              <div className="mx-auto my-5 w-fit rounded-2xl border-2 border-[#f5c451]/80 bg-gradient-to-br from-[#f5c451]/20 to-[#fbbf24]/10 px-10 py-4 shadow-[0_0_0_4px_rgba(245,196,81,.08),0_0_36px_rgba(245,196,81,.35),inset_0_1px_0_rgba(255,255,255,.12)]">
+                <p className="mb-1 text-[9px] font-black uppercase tracking-[.35em] text-[#f5c451]/75">
+                  Số phiếu may mắn
+                </p>
+                <p className="text-5xl font-black tracking-[.22em] text-[#f5c451] drop-shadow-[0_2px_20px_rgba(245,196,81,.55)] sm:text-6xl">
+                  {ticketNumber(latestWinner)}
+                </p>
               </div>
-              <h3 className="text-2xl font-semibold text-white sm:text-3xl">
+
+              {/* Tên — nổi bật thứ hai */}
+              <h3 className="text-3xl font-black text-white drop-shadow-[0_2px_20px_rgba(255,255,255,.20)] sm:text-4xl">
                 {latestWinner.Hoten}
               </h3>
-              <p className="mt-2 flex items-center justify-center gap-2 text-white/40">
-                <Building2 className="h-4 w-4" />
+
+              {/* Đơn vị */}
+              <p className="mx-auto mt-3 flex max-w-xs items-center justify-center gap-2 rounded-xl border border-white/12 bg-white/[.06] px-4 py-2.5 text-sm text-white/55">
+                <Building2 className="h-4 w-4 shrink-0 text-[#7dd3fc]" />
                 {latestWinner.NoiCongTac || "Chưa cập nhật đơn vị"}
               </p>
+
               <button
                 type="button"
                 onClick={() => setShowWinnerModal(false)}
                 disabled={isSpinning}
-                className="mt-7 rounded-full bg-[#7dd3fc] px-10 py-3 font-black uppercase tracking-[.12em] text-[#06233d] transition hover:scale-105 disabled:opacity-60">
-                {isSpinning ? "Đang lưu kết quả..." : "Tiếp tục"}
+                className="mt-7 rounded-full border-2 border-[#7dd3fc]/60 bg-[#7dd3fc] px-12 py-3.5 text-[15px] font-black uppercase tracking-[.12em] text-[#06233d] shadow-[0_0_30px_rgba(125,211,252,.45)] transition hover:scale-105 hover:shadow-[0_0_45px_rgba(125,211,252,.60)] disabled:opacity-60">
+                {isSpinning ? "Đang lưu kết quả..." : "✓ Tiếp tục"}
               </button>
             </div>
           </div>
