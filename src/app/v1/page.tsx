@@ -758,7 +758,7 @@ export default function LotteryV1Page() {
               </div>
 
               {/* Tên — nổi bật thứ hai */}
-              <h3 className="text-3xl font-black text-white drop-shadow-[0_2px_20px_rgba(255,255,255,.20)] sm:text-4xl">
+              <h3 className="text-3xl font-black text-yellow-300 drop-shadow-[0_2px_12px_rgba(255,215,0,.6)] sm:text-4xl">
                 {latestWinner.Hoten}
               </h3>
 
