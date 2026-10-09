@@ -22,38 +22,32 @@ export interface IDataUser {
 }
 
 export interface IDataGiaiThuong {
-  id: string;
+  id: LoaiGiai;
   ten: string;
   sl: number;
 }
 
-type LoaiGiai = "1" | "2" | "3" | "db";
+export type LoaiGiai = "1" | "2" | "3";
 
 // Quy tắc quay số theo từng loại giải
 export const QUAT_QUY_QUAY_SO = {
   "3": {
     // Giải ba
-    soLanQuay: 20,
+    soLanQuay: 5,
     loaiDS: ["kh"], // Chỉ khách mời
-    moTa: "Giải ba - 20 giải cho khách mời",
+    moTa: "Giải ba - 5 giải cho khách mời",
   },
   "2": {
     // Giải nhì
-    soLanQuay: 10,
-    loaiDS: ["nv"], // Chỉ khách mời
-    moTa: "Giải nhì - 10 giải cho khách mời",
+    soLanQuay: 5,
+    loaiDS: ["nv"], // Chỉ nhân viên
+    moTa: "Giải nhì - 5 giải cho nhân viên",
   },
   "1": {
     // Giải nhất
-    soLanQuay: 15,
-    loaiDS: ["nv"], // Cả nhân viên và khách mời
-    moTa: "Giải nhất - 15 giải cho nhân viên và khách mời",
-  },
-  db: {
-    // Giải đặc biệt
-    soLanQuay: 1,
+    soLanQuay: 5,
     loaiDS: ["nv"], // Chỉ nhân viên
-    moTa: "Giải đặc biệt - 1 giải dành cho nhân viên",
+    moTa: "Giải nhất - 5 giải cho nhân viên",
   },
 };
 export const getRandomOneUser = (
@@ -86,7 +80,7 @@ export const getRandomOneUser = (
 /**
  * Lấy danh sách người tham gia theo loại giải và loại danh sách
  * @param danhSachNguoi - Danh sách tất cả người tham gia
- * @param loaiGiai - Loại giải ("1", "2", "3", "db")
+ * @param loaiGiai - Loại giải ("1", "2", "3")
  * @param loaiDS - Mảng loại danh sách (["nv"], ["kh"], hoặc ["nv", "kh"])
  * @returns Danh sách người tham gia phù hợp
  */
@@ -192,7 +186,7 @@ export const phanBoGiaiFix = (
 /**
  * Quay số để chọn người trúng giải cho một lần quay cụ thể
  * @param danhSachNguoi - Danh sách tất cả người tham gia
- * @param loaiGiai - Loại giải ("1", "2", "3", "db")
+ * @param loaiGiai - Loại giải ("1", "2", "3")
  * @param lanQuayThu - Lần quay thứ mấy (bắt đầu từ 0)
  * @param totalLanQuay - Tổng số lần quay cho loại giải này
  * @returns Người trúng giải hoặc null
@@ -219,17 +213,6 @@ export const quayChoNguoiTrungGiai = (
   const nguoiGiaiFix = danhSachThamGia.filter(
     (user) => user.GiaiFix === loaiGiai
   );
-
-  // Xử lý đặc biệt cho giải đặc biệt
-  if (loaiGiai === "db") {
-    // Ưu tiên người có GiaiFix, nếu không có thì chọn ngẫu nhiên
-    if (nguoiGiaiFix.length > 0) {
-      const nguoiTrung = nguoiGiaiFix[0];
-      // nguoiTrung.GiaiTrung = loaiGiai;
-      nguoiTrung.NgayQuaySo = formatDate(new Date());
-      return nguoiTrung;
-    }
-  }
 
   // Phân bố người có giải fix
   const viTriGiaiFix = phanBoGiaiFix(totalLanQuay, nguoiGiaiFix);
@@ -260,7 +243,7 @@ export const quayChoNguoiTrungGiai = (
 };
 
 /**
- * Quay số cho tất cả các giải theo thứ tự: 3 -> 2 -> 1 -> db
+ * Quay số cho tất cả các giải theo thứ tự: 3 -> 2 -> 1
  * @param danhSachNguoi - Danh sách tất cả người tham gia
  * @returns Kết quả quay số cho từng loại giải
  */
@@ -271,7 +254,6 @@ export const quayTatCaGiai = (
     "3": [],
     "2": [],
     "1": [],
-    db: [],
   };
 
   // Reset trạng thái trúng giải
@@ -280,9 +262,9 @@ export const quayTatCaGiai = (
     user.NgayQuaySo = null;
   });
 
-  // Quay theo thứ tự: Giải ba -> Giải nhì -> Giải nhất -> Giải đặc biệt
+  // Quay theo thứ tự: Giải ba -> Giải nhì -> Giải nhất
 
-  // Quay giải ba (20 lần)
+  // Quay giải ba (5 lần)
   for (let i = 0; i < QUAT_QUY_QUAY_SO["3"].soLanQuay; i++) {
     const nguoiTrung = quayChoNguoiTrungGiai(
       danhSachNguoi,
@@ -295,7 +277,7 @@ export const quayTatCaGiai = (
     }
   }
 
-  // Quay giải nhì (10 lần)
+  // Quay giải nhì (5 lần)
   for (let i = 0; i < QUAT_QUY_QUAY_SO["2"].soLanQuay; i++) {
     const nguoiTrung = quayChoNguoiTrungGiai(
       danhSachNguoi,
@@ -308,7 +290,7 @@ export const quayTatCaGiai = (
     }
   }
 
-  // Quay giải nhất (15 lần)
+  // Quay giải nhất (5 lần)
   for (let i = 0; i < QUAT_QUY_QUAY_SO["1"].soLanQuay; i++) {
     const nguoiTrung = quayChoNguoiTrungGiai(
       danhSachNguoi,
@@ -319,17 +301,6 @@ export const quayTatCaGiai = (
     if (nguoiTrung) {
       ketQuaQuay["1"].push(nguoiTrung);
     }
-  }
-
-  // Quay giải đặc biệt (1 lần)
-  const nguoiTrungDB = quayChoNguoiTrungGiai(
-    danhSachNguoi,
-    "db",
-    0,
-    QUAT_QUY_QUAY_SO["db"].soLanQuay
-  );
-  if (nguoiTrungDB) {
-    ketQuaQuay["db"].push(nguoiTrungDB);
   }
 
   return ketQuaQuay;
@@ -355,7 +326,7 @@ export const taoDataMau = (): IDataUser[] => {
       NgayThamDu: formatDate(new Date()),
       NgayQuaySo: null,
       GiaiTrung: null,
-      GiaiFix: i <= 3 ? (i === 1 ? "db" : "1") : null, // 1 người trúng DB, 2 người trúng giải 1
+      GiaiFix: i <= 2 ? "1" : null,
       TrangThai: 1,
     });
   }

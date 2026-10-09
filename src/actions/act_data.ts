@@ -1,29 +1,5 @@
 import { post } from "@/api/client";
 
-const Mock_Data_Giai_Db = [
-  {
-    Stt: "3",
-    Hoten: "Test thu 3",
-    NoiCongTac: "Test noi cong tac 3",
-    SoDienThoai: "3333333",
-    NhanGiai: "",
-  },
-  {
-    Stt: "4",
-    Hoten: "Test thu 4",
-    NoiCongTac: "Test noi cong tac 4",
-    SoDienThoai: "4444444",
-    NhanGiai: "",
-  },
-  {
-    Stt: "5",
-    Hoten: "Test thu 5",
-    NoiCongTac: "Test noi cong tac 5",
-    SoDienThoai: "5555555",
-    NhanGiai: "",
-  },
-];
-
 const Mock_Data_Giai_1 = [
   {
     Stt: "3",
@@ -99,14 +75,15 @@ const Mock_Data_Giai_3 = [
 const getDataGiaiServer = async (giai: string) => {
   let store = "";
   switch (giai) {
-    case "db":
-      store = "dbo.QS_get_giai_db";
     case "1":
       store = "dbo.QS_get_giai_1";
+      break;
     case "2":
-      store = "dbo.QS_get_giai_1";
+      store = "dbo.QS_get_giai_2";
+      break;
     case "3":
-      store = "dbo.QS_get_giai_1";
+      store = "dbo.QS_get_giai_3";
+      break;
     default:
       store = "dbo.QS_get_KhachHang";
   }
@@ -132,22 +109,6 @@ const getDataGiaiServer = async (giai: string) => {
 };
 
 const mockData = true;
-
-export const getDataGiaiDb = async () => {
-  if (mockData) return Mock_Data_Giai_Db;
-
-  let data = getLocalStorageByKey("DATA_GIAI_DB");
-
-  if (data) {
-    return data;
-  }
-
-  data = await getDataGiaiServer("db");
-
-  setLocalStorageByKey("DATA_GIAI_DB", data);
-
-  return data;
-};
 
 export const getDataGiai1 = async () => {
   if (mockData) return Mock_Data_Giai_1;

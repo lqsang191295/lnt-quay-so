@@ -247,13 +247,13 @@ export default function NhanVienTable() {
 
     // Điều kiện filter giải:
     // - "all": không filter 2 cột này
-    // - "a": filter những record có GiaiTrung hoặc GiaiFix thuộc ["db", "1", "2", "3"]
+    // - "a": filter những record có GiaiTrung hoặc GiaiFix thuộc ["1", "2", "3"]
     // - các giá trị khác: filter theo giá trị cụ thể
     let matchGiai = true;
     if (filterGiai === "all") {
       matchGiai = true; // không filter
     } else if (filterGiai === "a") {
-      const validGiaiValues = ["db", "1", "2", "3"];
+      const validGiaiValues = ["1", "2", "3"];
       matchGiai =
         !!(row.GiaiTrung && validGiaiValues.includes(row.GiaiTrung)) ||
         !!(row.GiaiFix && validGiaiValues.includes(row.GiaiFix));
@@ -313,7 +313,6 @@ export default function NhanVienTable() {
               Chọn giải
             </SelectItem>
             <SelectItem value="a">Tất cả giải</SelectItem>
-            <SelectItem value="db">ĐB - Giải Đặc biệt</SelectItem>
             <SelectItem value="1">1 - Giải nhất</SelectItem>
             <SelectItem value="2">2 - Giải nhì</SelectItem>
             <SelectItem value="3">3 - Giải ba</SelectItem>
@@ -450,8 +449,6 @@ export default function NhanVienTable() {
               className={`border border-gray-300 ${
                 row.TrangThai === -1
                   ? "italic text-gray-500" // Đã xóa: font in nghiêng
-                  : row.GiaiTrung === "db"
-                  ? "text-red-600 font-bold" // Giải đặc biệt: màu đỏ, in đậm
                   : row.GiaiTrung === "1"
                   ? "text-blue-600 font-bold" // Giải nhất: màu xanh dương, in đậm
                   : row.GiaiTrung === "2"
@@ -589,7 +586,6 @@ export default function NhanVienTable() {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="-1">—</SelectItem>
-                      <SelectItem value="db">ĐB - Giải Đặc biệt</SelectItem>
                       <SelectItem value="1">1 - Giải nhất</SelectItem>
                       <SelectItem value="2">2 - Giải nhì</SelectItem>
                       <SelectItem value="3">3 - Giải ba</SelectItem>
@@ -613,7 +609,6 @@ export default function NhanVienTable() {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="-1">—</SelectItem>
-                      <SelectItem value="db">ĐB - Giải Đặc biệt</SelectItem>
                       <SelectItem value="1">1 - Giải nhất</SelectItem>
                       <SelectItem value="2">2 - Giải nhì</SelectItem>
                       <SelectItem value="3">3 - Giải ba</SelectItem>

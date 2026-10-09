@@ -22,8 +22,6 @@ export default function WinnersListDialog({
 
   const getStyleByGiai = (giai: string) => {
     switch (giai) {
-      case "db":
-        return "bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border border-yellow-500/30 text-yellow-500";
       case "1":
         return "bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30 text-purple-400";
       case "2":
@@ -37,8 +35,6 @@ export default function WinnersListDialog({
 
   const getImageByGiai = (giai: string) => {
     switch (giai) {
-      case "db":
-        return "/cup-db.jpg";
       case "1":
         return "/cup-1.jpg";
       case "2":
@@ -46,14 +42,12 @@ export default function WinnersListDialog({
       case "3":
         return "/cup-3.jpg";
       default:
-        return "/cup-db.jpg";
+        return "/cup-1.jpg";
     }
   };
 
   const getNameGiai = (giai: string) => {
     switch (giai) {
-      case "db":
-        return "Giải đặc biệt";
       case "1":
         return "Giải nhất";
       case "2":

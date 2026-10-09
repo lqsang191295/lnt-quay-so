@@ -26,10 +26,9 @@ import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 
 export const DataInitGiaiThuong: IDataGiaiThuong[] = [
-  { id: "db", ten: "Giải đặc biệt", sl: 1 },
-  { id: "1", ten: "Giải nhất", sl: 15 },
-  { id: "2", ten: "Giải nhì", sl: 10 },
-  { id: "3", ten: "Giải ba", sl: 20 },
+  { id: "1", ten: "Giải nhất", sl: 5 },
+  { id: "2", ten: "Giải nhì", sl: 5 },
+  { id: "3", ten: "Giải ba", sl: 5 },
 ];
 
 export default function LotteryDraw() {
@@ -41,13 +40,11 @@ export default function LotteryDraw() {
     setDataGiai2,
     dataGiai3,
     setDataGiai3,
-    dataGiaiDb,
-    setDataGiaiDb,
   } = useUserDataStore();
 
-  const [slGiai, setSlGiai] = useState(DataInitGiaiThuong[3].sl);
+  const [slGiai, setSlGiai] = useState(DataInitGiaiThuong[2].sl);
   const [dataGiaiThuong] = useState(DataInitGiaiThuong);
-  const [currGiaiThuong, setCurrGiaiThuong] = useState(DataInitGiaiThuong[3]);
+  const [currGiaiThuong, setCurrGiaiThuong] = useState(DataInitGiaiThuong[2]);
   const [showConfetti, setShowConfetti] = useState(false);
   const [winner, setWinner] = useState<IDataUser | null>(null);
   const [showWinnerModal, setShowWinnerModal] = useState(false);
@@ -68,10 +65,6 @@ export default function LotteryDraw() {
       case "1": // Giải nhất - cả nhân viên và khách mời
         data = dataGiai1;
         setData = setDataGiai1;
-        break;
-      case "db": // Giải đặc biệt - chỉ nhân viên
-        data = dataGiaiDb;
-        setData = setDataGiaiDb;
         break;
       default:
         return;
@@ -104,11 +97,6 @@ export default function LotteryDraw() {
         setData = setDataGiai1;
         newUser = randomDataTrungThuong("1");
         break;
-      case "db": // Giải đặc biệt - chỉ nhân viên
-        data = dataGiaiDb;
-        setData = setDataGiaiDb;
-        newUser = randomDataTrungThuong("db");
-        break;
       default:
         return;
     }
@@ -137,28 +125,21 @@ export default function LotteryDraw() {
           data = getRandomOneUser(
             DataThamGia,
             "3",
-            QUAT_QUY_QUAY_SO["3"].loaiDS
+            QUAT_QUY_QUAY_SO["3"].loaiDS,
           );
           break;
         case "2": // Giải nhì - chỉ khách mời
           data = getRandomOneUser(
             DataThamGia,
             "2",
-            QUAT_QUY_QUAY_SO["2"].loaiDS
+            QUAT_QUY_QUAY_SO["2"].loaiDS,
           );
           break;
         case "1": // Giải nhất - cả nhân viên và khách mời
           data = getRandomOneUser(
             DataThamGia,
             "1",
-            QUAT_QUY_QUAY_SO["1"].loaiDS
-          );
-          break;
-        case "db": // Giải đặc biệt - chỉ nhân viên
-          data = getRandomOneUser(
-            DataThamGia,
-            "db",
-            QUAT_QUY_QUAY_SO["db"].loaiDS
+            QUAT_QUY_QUAY_SO["1"].loaiDS,
           );
           break;
         default:
@@ -167,7 +148,7 @@ export default function LotteryDraw() {
 
       return data;
     },
-    [DataThamGia]
+    [DataThamGia],
   );
 
   const getDataTrungThuong = (): IDataUser[] | null => {
@@ -182,9 +163,6 @@ export default function LotteryDraw() {
         break;
       case "1": // Giải nhất - cả nhân viên và khách mời
         data = dataGiai1;
-        break;
-      case "db": // Giải đặc biệt - chỉ nhân viên
-        data = dataGiaiDb;
         break;
       default:
         data = null;
@@ -208,9 +186,6 @@ export default function LotteryDraw() {
           "nv",
           "kh",
         ]);
-        break;
-      case "db": // Giải đặc biệt - chỉ nhân viên
-        data = getDanhSachTrungGiai(DataThamGia, currGiaiThuong.id, ["nv"]);
         break;
       default:
         data = getDanhSachTrungGiai(DataThamGia, currGiaiThuong.id, [
@@ -302,14 +277,16 @@ export default function LotteryDraw() {
   return (
     <div
       className="relative w-screen h-screen flex flex-col justify-center items-center
-    bg-gradient-to-br from-[#0f1729] via-[#1a2847] to-[#0f1729] overflow-hidden">
+    bg-gradient-to-br from-[#0f1729] via-[#1a2847] to-[#0f1729] overflow-hidden"
+    >
       <div className="absolute top-20 left-[10%] w-16 h-16 animate-float opacity-60">
         <Image src={"/gift-3d.png"} width={48} height={48} alt="Gift" />
       </div>
 
       <div
         className="absolute top-40 right-[15%] w-12 h-12 animate-float-slow opacity-50"
-        style={{ animationDelay: "1s" }}>
+        style={{ animationDelay: "1s" }}
+      >
         <Image src={"/balloons-3d.png"} width={120} height={120} alt="Gift" />
       </div>
 
@@ -319,19 +296,22 @@ export default function LotteryDraw() {
 
       <div
         className="absolute bottom-[25%] right-[12%] w-12 h-12 animate-float-slow opacity-70"
-        style={{ animationDelay: "0.5s" }}>
+        style={{ animationDelay: "0.5s" }}
+      >
         <Image src={"/coin-3d.png"} width={120} height={120} alt="Gift" />
       </div>
 
       <div
         className="absolute top-[60%] left-[15%] w-10 h-10 animate-float opacity-60"
-        style={{ animationDelay: "1.5s" }}>
+        style={{ animationDelay: "1.5s" }}
+      >
         <Image src={"/gift-3d.png"} width={48} height={48} alt="Gift" />
       </div>
 
       <div
         className="absolute top-[50%] right-[8%] w-16 h-16 animate-float-slow opacity-70"
-        style={{ animationDelay: "0.8s" }}>
+        style={{ animationDelay: "0.8s" }}
+      >
         <svg viewBox="0 0 100 100" className="w-full h-full text-cyan-400">
           <path
             d="M50 10 L80 40 L70 80 L30 80 L20 40 Z"
@@ -345,7 +325,8 @@ export default function LotteryDraw() {
 
       <div
         className="absolute bottom-[40%] left-[20%] w-12 h-12 animate-float opacity-60"
-        style={{ animationDelay: "2s" }}>
+        style={{ animationDelay: "2s" }}
+      >
         <svg viewBox="0 0 100 100" className="w-full h-full text-blue-400">
           <path
             d="M50 10 L80 40 L70 80 L30 80 L20 40 Z"
@@ -368,7 +349,8 @@ export default function LotteryDraw() {
 
       <div
         className="absolute bottom-[30%] right-[30%] w-6 h-6 animate-spin-slow opacity-60"
-        style={{ animationDelay: "1s" }}>
+        style={{ animationDelay: "1s" }}
+      >
         <svg viewBox="0 0 100 100" className="w-full h-full text-cyan-300">
           <path
             d="M50 0 L55 45 L100 50 L55 55 L50 100 L45 55 L0 50 L45 45 Z"
@@ -398,7 +380,7 @@ export default function LotteryDraw() {
       )}
       <div className="mt-12 w-full flex justify-center items-center">
         <Label className="text-5xl font-black text-red-500 leading-normal uppercase">
-          Hội nghị khoa học kỹ thuật lần thứ X
+          Hội nghị khoa học kỹ thuật lần thứ XI
         </Label>
       </div>
       <div className="relative z-10 px-4 py-8 h-full w-full flex justify-center items-center">
@@ -406,7 +388,8 @@ export default function LotteryDraw() {
           <div className="text-center mb-8 animate-slide-up flex flex-col justify-center items-center">
             <Label
               className="uppercase text-5xl font-bold text-accent mb-2"
-              style={{ textShadow: "0 0 20px rgba(255, 215, 0, 0.8)" }}>
+              style={{ textShadow: "0 0 20px rgba(255, 215, 0, 0.8)" }}
+            >
               Hệ Thống Quay Số May Mắn
             </Label>
           </div>
@@ -417,7 +400,8 @@ export default function LotteryDraw() {
                 className="mb-1 md:mb-4 text-balance text-3xl font-bold tracking-tight 
             bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 
             leading-normal
-            bg-clip-text text-transparent uppercase">
+            bg-clip-text text-transparent uppercase"
+              >
                 {currGiaiThuong.ten} - Còn lại {slGiai} lần quay
               </h2>
             </div>
@@ -466,7 +450,8 @@ export default function LotteryDraw() {
                 setCurrGiaiThuong(found);
                 setSlGiai(found.sl - getSLDataTrungThuong());
               }
-            }}>
+            }}
+          >
             <SelectTrigger className="w-[200px]  text-white">
               <SelectValue placeholder="Chọn giải" />
             </SelectTrigger>

@@ -109,7 +109,12 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
   };
 
   const handleInputChange = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
+    const normalizedValue =
+      field === "fullName" || field === "organization"
+        ? value.toLocaleUpperCase("vi-VN")
+        : value;
+
+    setFormData((prev) => ({ ...prev, [field]: normalizedValue }));
     // Clear error when user starts typing
     if (errors[field]) {
       setErrors((prev) => ({ ...prev, [field]: "" }));
@@ -198,11 +203,12 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
                 </Label>
                 <Input
                   id="fullName"
+                  autoCapitalize="characters"
                   value={formData.fullName}
                   onChange={(e) =>
                     handleInputChange("fullName", e.target.value)
                   }
-                  className={errors.fullName ? "border-destructive" : ""}
+                  className={`uppercase ${errors.fullName ? "border-destructive" : ""}`}
                 />
                 {errors.fullName && (
                   <p className="text-sm text-destructive">{errors.fullName}</p>
@@ -221,7 +227,7 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
                   type="tel"
                   value={formData.phone}
                   onChange={(e) => handleInputChange("phone", e.target.value)}
-                  className={errors.phone ? "border-destructive" : ""}
+                  className={`uppercase ${errors.phone ? "border-destructive" : ""}`}
                 />
                 {errors.phone && (
                   <p className="text-sm text-destructive">{errors.phone}</p>
@@ -238,11 +244,12 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
                 </Label>
                 <Input
                   id="organization"
+                  autoCapitalize="characters"
                   value={formData.organization}
                   onChange={(e) =>
                     handleInputChange("organization", e.target.value)
                   }
-                  className={errors.organization ? "border-destructive" : ""}
+                  className={`uppercase ${errors.organization ? "border-destructive" : ""}`}
                 />
                 {errors.organization && (
                   <p className="text-sm text-destructive">

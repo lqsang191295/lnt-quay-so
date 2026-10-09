@@ -2,9 +2,6 @@ import { IDataUser } from "@/lib/lottery-logic";
 import { create } from "zustand";
 
 interface iUserState {
-  dataGiaiDb: IDataUser[];
-  setDataGiaiDb: (data: IDataUser[]) => void;
-
   dataGiai1: IDataUser[];
   setDataGiai1: (data: IDataUser[]) => void;
 
@@ -22,9 +19,6 @@ interface iUserState {
 }
 
 export const useUserDataStore = create<iUserState>((set) => ({
-  dataGiaiDb: [],
-  setDataGiaiDb: (d) => set({ dataGiaiDb: d }),
-
   dataGiai1: [],
   setDataGiai1: (d) => set({ dataGiai1: d }),
 

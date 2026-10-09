@@ -20,7 +20,6 @@ export default function StoreProvider({
     setDataGiai1,
     setDataGiai2,
     setDataGiai3,
-    setDataGiaiDb,
     setDataAll,
   } = useUserDataStore();
 
@@ -48,13 +47,6 @@ export default function StoreProvider({
             dataThamGia.filter((item) => item.TrangThai === 1),
             "1",
             QUAT_QUY_QUAY_SO["1"].loaiDS
-          );
-          break;
-        case "db": // Giải đặc biệt - chỉ nhân viên
-          data = getDanhSachThamGia(
-            dataThamGia.filter((item) => item.TrangThai === 1),
-            "db",
-            QUAT_QUY_QUAY_SO["db"].loaiDS
           );
           break;
         default:
@@ -101,18 +93,6 @@ export default function StoreProvider({
 
     setDataGiai3(data);
   }, [dataThamGia, setDataGiai3, getDataTrungThuong]);
-
-  useEffect(() => {
-    if (!dataThamGia) return;
-
-    const data = getDataTrungThuong("db");
-
-    if (!data) return;
-
-    console.log("daata dbbbbbb =========== ", data);
-
-    setDataGiaiDb(data);
-  }, [dataThamGia, setDataGiaiDb, getDataTrungThuong]);
 
   useEffect(() => {
     if (!dataThamGia) return;

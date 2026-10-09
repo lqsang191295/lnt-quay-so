@@ -48,7 +48,6 @@ const ketQua = quayTatCaGiai([...danhSachNguoi]); // Clone array để không th
 console.log('Kết quả chi tiết:');
 Object.entries(ketQua).forEach(([loaiGiai, danhSach]) => {
   const tenGiai = {
-    'db': 'Giải Đặc Biệt',
     '1': 'Giải Nhất', 
     '2': 'Giải Nhì',
     '3': 'Giải Ba'
