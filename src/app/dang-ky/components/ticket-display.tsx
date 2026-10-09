@@ -7,7 +7,6 @@ import { ArrowLeft, Download, Share2 } from "lucide-react";
 import { useRef } from "react";
 
 interface TicketDisplayProps {
-  ticketNumber: string;
   registrationData: {
     fullName: string;
     phone: string;
@@ -18,7 +17,6 @@ interface TicketDisplayProps {
 }
 
 export function TicketDisplay({
-  ticketNumber,
   registrationData,
   onBack,
 }: TicketDisplayProps) {
@@ -28,10 +26,10 @@ export function TicketDisplay({
     if (navigator.share) {
       try {
         await navigator.share({
-          title: "Số phiếu tham dự sự kiện",
-          text: `Số phiếu của tôi: ${ticketNumber}`,
+          title: "Đăng ký tham dự sự kiện",
+          text: "Tôi đã đăng ký tham dự sự kiện.",
         });
-      } catch (err) {
+      } catch {
         console.log("Share cancelled");
       }
     }
@@ -69,10 +67,7 @@ export function TicketDisplay({
             Đăng ký thành công!
           </h1>
           <p className="text-pretty text-xs md:text-xl text-red-600 italic">
-            Vui lòng chụp màn hình.
-          </p>
-          <p className="text-pretty text-xs md:text-xl text-red-600 italic">
-            Lưu lại số phiếu này để tham dự quay số.
+            Vui lòng xác nhận tham gia tại sự kiện để nhận số thứ tự quay thưởng.
           </p>
         </div>
 
@@ -87,18 +82,6 @@ export function TicketDisplay({
           </div>
 
           <CardContent className="relative px-8 py-2">
-            {/* Ticket Number - Large Display */}
-            <div className="mb-2 text-center">
-              <p className="mb-2 text-sm font-medium uppercase tracking-wider text-blue-600">
-                Số thứ tự
-              </p>
-              <div className="rounded-lg bg-accent/10 p-1 xs:px-4">
-                <p className="font-mono text-3xl font-bold tracking-wider md:text-4xl text-blue-600">
-                  {ticketNumber}
-                </p>
-              </div>
-            </div>
-
             {/* Divider */}
             <div className="relative p-2 xs:mb-8">
               <div className="absolute inset-0 flex items-center">

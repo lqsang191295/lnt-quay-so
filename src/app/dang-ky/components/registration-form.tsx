@@ -79,13 +79,9 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
       TrangThai: 0,
     };
 
-    // Simulate API call
     const data = await act_DangKy(user);
 
-    console.log("data === ", data);
-
-    // const randomNum = Math.floor(1000 + Math.random() * 9000);
-    let ticketNumber = ``;
+    let ticketNumber = "";
 
     if (data && data.length > 0) {
       ticketNumber = data[0].NewID;
@@ -94,7 +90,7 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
     setIsSubmitting(false);
 
     if (ticketNumber.toString() === "-1") {
-      toast("Thông tin đã được đăng ký!", {
+      toast("Số điện thoại này đã được đăng ký!", {
         style: {
           background: "#dc2626", // 🔥 Màu đỏ đậm
           color: "#fff", // Chữ trắng
@@ -105,14 +101,28 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
       return;
     }
 
+    if (!ticketNumber) {
+      toast("Không thể đăng ký lúc này. Vui lòng thử lại!", {
+        style: {
+          background: "#dc2626",
+          color: "#fff",
+          border: "1px solid #b91c1c",
+        },
+      });
+      return;
+    }
+
     onSuccess(formData, ticketNumber);
   };
 
   const handleInputChange = (field: string, value: string) => {
-    const normalizedValue =
-      field === "fullName" || field === "organization"
-        ? value.toLocaleUpperCase("vi-VN")
-        : value;
+    let normalizedValue = value;
+
+    if (field === "fullName" || field === "organization") {
+      normalizedValue = value.toLocaleUpperCase("vi-VN");
+    } else if (field === "phone") {
+      normalizedValue = value.replace(/\D/g, "");
+    }
 
     setFormData((prev) => ({ ...prev, [field]: normalizedValue }));
     // Clear error when user starts typing

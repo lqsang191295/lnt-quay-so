@@ -37,7 +37,6 @@ export default function EventRegistrationPage() {
         <RegistrationForm onSuccess={handleRegistrationSuccess} />
       ) : (
         <TicketDisplay
-          ticketNumber={ticketNumber}
           registrationData={registrationData!}
           onBack={handleBackToForm}
         />

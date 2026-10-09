@@ -25,8 +25,8 @@ BEGIN
         IF EXISTS (
             SELECT 1
             FROM dbo.QS_KhachHang WITH (UPDLOCK, HOLDLOCK)
-            WHERE Hoten = @Hoten
-              AND SoDienThoai = @SoDienThoai
+            WHERE REPLACE(REPLACE(REPLACE(LTRIM(RTRIM(SoDienThoai)), ' ', ''), '-', ''), '.', '') =
+                  REPLACE(REPLACE(REPLACE(LTRIM(RTRIM(@SoDienThoai)), ' ', ''), '-', ''), '.', '')
         )
         BEGIN
             ROLLBACK TRANSACTION;
@@ -131,7 +131,9 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    DECLARE @SoDienThoaiDaChuanHoa NVARCHAR(100) = LTRIM(RTRIM(@SoDienThoai));
+    DECLARE @SoDienThoaiDaChuanHoa NVARCHAR(100) =
+        REPLACE(REPLACE(REPLACE(LTRIM(RTRIM(@SoDienThoai)), ' ', ''), '-', ''), '.', '');
+    DECLARE @Stt INT;
 
     IF @SoDienThoaiDaChuanHoa = N''
     BEGIN
@@ -139,12 +141,13 @@ BEGIN
         RETURN;
     END;
 
-    IF NOT EXISTS (
-        SELECT 1
-        FROM dbo.QS_KhachHang
-        WHERE LTRIM(RTRIM(SoDienThoai)) = @SoDienThoaiDaChuanHoa
-          AND ISNULL(TrangThai, 0) <> -1
-    )
+    SELECT TOP (1) @Stt = Stt
+    FROM dbo.QS_KhachHang
+    WHERE REPLACE(REPLACE(REPLACE(LTRIM(RTRIM(SoDienThoai)), ' ', ''), '-', ''), '.', '') = @SoDienThoaiDaChuanHoa
+      AND ISNULL(TrangThai, 0) <> -1
+    ORDER BY Stt;
+
+    IF @Stt IS NULL
     BEGIN
         SELECT 0 AS Success,
                N'Không tìm thấy thông tin đăng ký. Vui lòng kiểm tra lại số điện thoại.' AS Message;
@@ -154,20 +157,25 @@ BEGIN
     IF EXISTS (
         SELECT 1
         FROM dbo.QS_KhachHang
-        WHERE LTRIM(RTRIM(SoDienThoai)) = @SoDienThoaiDaChuanHoa
+        WHERE Stt = @Stt
           AND TrangThai = 1
     )
     BEGIN
-        SELECT 1 AS Success, N'Bạn đã xác nhận tham gia trước đó.' AS Message;
+        SELECT 1 AS Success,
+               N'Bạn đã xác nhận tham gia trước đó.' AS Message,
+               @Stt AS Stt,
+               @Stt AS SoThuTu;
         RETURN;
     END;
 
     UPDATE dbo.QS_KhachHang
     SET TrangThai = 1,
         NgayThamDu = GETDATE()
-    WHERE LTRIM(RTRIM(SoDienThoai)) = @SoDienThoaiDaChuanHoa
-      AND ISNULL(TrangThai, 0) <> -1;
+    WHERE Stt = @Stt;
 
-    SELECT 1 AS Success, N'Xác nhận tham gia thành công!' AS Message;
+    SELECT 1 AS Success,
+           N'Xác nhận tham gia thành công!' AS Message,
+           @Stt AS Stt,
+           @Stt AS SoThuTu;
 END;
 GO

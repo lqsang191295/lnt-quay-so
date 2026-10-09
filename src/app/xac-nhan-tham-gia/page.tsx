@@ -9,12 +9,18 @@ import { FormEvent, useState } from "react";
 interface ConfirmationResult {
   Success?: number;
   Message?: string;
+  Stt?: number | string;
+  stt?: number | string;
+  STT?: number | string;
+  SoThuTu?: number | string;
+  soThuTu?: number | string;
 }
 
 export default function ConfirmAttendancePage() {
   const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
+  const [attendeeNumber, setAttendeeNumber] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -23,12 +29,14 @@ export default function ConfirmAttendancePage() {
 
     if (!normalizedPhone) {
       setIsSuccess(false);
+      setAttendeeNumber(null);
       setMessage("Vui lòng nhập số điện thoại đã đăng ký.");
       return;
     }
 
     setIsSubmitting(true);
     setMessage("");
+    setAttendeeNumber(null);
 
     const data = await act_XacNhanThamGia(normalizedPhone);
     const result: ConfirmationResult | undefined = Array.isArray(data)
@@ -39,6 +47,7 @@ export default function ConfirmAttendancePage() {
 
     if (!result || Number(result.Success) !== 1) {
       setIsSuccess(false);
+      setAttendeeNumber(null);
       setMessage(
         result?.Message ||
           "Không tìm thấy thông tin đăng ký. Vui lòng kiểm tra lại số điện thoại.",
@@ -46,7 +55,15 @@ export default function ConfirmAttendancePage() {
       return;
     }
 
+    const confirmedNumber =
+      result.Stt ??
+      result.stt ??
+      result.STT ??
+      result.SoThuTu ??
+      result.soThuTu;
+
     setIsSuccess(true);
+    setAttendeeNumber(confirmedNumber?.toString() || null);
     setMessage(result.Message || "Xác nhận tham gia thành công!");
   };
 
@@ -93,6 +110,20 @@ export default function ConfirmAttendancePage() {
               }`}
             >
               {message}
+            </div>
+          )}
+
+          {isSuccess && attendeeNumber && (
+            <div className="rounded-2xl border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-cyan-50 px-4 py-5 text-center shadow-inner">
+              <p className="text-sm font-bold uppercase tracking-[0.2em] text-blue-600">
+                Số thứ tự của bạn
+              </p>
+              <p className="mt-2 font-mono text-5xl font-black text-blue-700">
+                {attendeeNumber}
+              </p>
+              <p className="mt-2 text-sm text-slate-600">
+                Vui lòng ghi nhớ số này để tham dự quay thưởng
+              </p>
             </div>
           )}
 

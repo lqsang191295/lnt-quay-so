@@ -21,8 +21,8 @@ const prizes = [
     id: "2",
     name: "Giải nhì",
     image: "/giai-thuong/giai-2.webp",
-    accent: "from-slate-200 via-slate-400 to-slate-600",
-    glow: "shadow-slate-300/25",
+    accent: "from-cyan-300 via-blue-400 to-blue-600",
+    glow: "shadow-blue-400/25",
   },
   {
     id: "3",
