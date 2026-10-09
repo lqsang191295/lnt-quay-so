@@ -1,0 +1,136 @@
+-- Chạy toàn bộ script này trên database đang chứa bảng dbo.QS_KhachHang.
+-- Đăng ký mới có TrangThai = 0; sau khi check-in sẽ chuyển thành 1.
+
+CREATE OR ALTER PROCEDURE dbo.QS_ins_KhachHang
+    @Hoten NVARCHAR(1000),
+    @NoiCongTac NVARCHAR(1000),
+    @SoPhieu INT,
+    @LoaiDS NVARCHAR(100),
+    @NgayTao DATETIME,
+    @NgayThamDu DATETIME,
+    @NgayQuaySo DATETIME,
+    @GiaiTrung NVARCHAR(100),
+    @GiaiFix NVARCHAR(100),
+    @SoDienThoai NVARCHAR(100),
+    @HuyBo BIT = 0,
+    @TrangThai INT = 0
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SET XACT_ABORT ON;
+
+    BEGIN TRY
+        BEGIN TRANSACTION;
+
+        IF EXISTS (
+            SELECT 1
+            FROM dbo.QS_KhachHang WITH (UPDLOCK, HOLDLOCK)
+            WHERE Hoten = @Hoten
+              AND SoDienThoai = @SoDienThoai
+        )
+        BEGIN
+            ROLLBACK TRANSACTION;
+            SELECT -1 AS NewID;
+            RETURN;
+        END;
+
+        DECLARE @NewStt INT;
+
+        SELECT TOP (1) @NewStt = Stt + 1
+        FROM dbo.QS_KhachHang WITH (UPDLOCK, HOLDLOCK)
+        ORDER BY Stt DESC;
+
+        SET @NewStt = ISNULL(@NewStt, 1);
+
+        INSERT INTO dbo.QS_KhachHang
+        (
+            Stt,
+            Hoten,
+            NoiCongTac,
+            SoPhieu,
+            LoaiDS,
+            NgayTao,
+            NgayThamDu,
+            NgayQuaySo,
+            GiaiTrung,
+            GiaiFix,
+            SoDienThoai,
+            HuyBo,
+            TrangThai
+        )
+        VALUES
+        (
+            @NewStt,
+            @Hoten,
+            @NoiCongTac,
+            @SoPhieu,
+            @LoaiDS,
+            @NgayTao,
+            @NgayThamDu,
+            @NgayQuaySo,
+            @GiaiTrung,
+            @GiaiFix,
+            @SoDienThoai,
+            @HuyBo,
+            @TrangThai
+        );
+
+        COMMIT TRANSACTION;
+
+        SELECT @NewStt AS NewID;
+    END TRY
+    BEGIN CATCH
+        IF @@TRANCOUNT > 0
+            ROLLBACK TRANSACTION;
+
+        THROW;
+    END CATCH;
+END;
+GO
+
+CREATE OR ALTER PROCEDURE dbo.QS_upd_KhachHang_xac_nhan_tham_gia
+    @SoDienThoai NVARCHAR(100)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @SoDienThoaiDaChuanHoa NVARCHAR(100) = LTRIM(RTRIM(@SoDienThoai));
+
+    IF @SoDienThoaiDaChuanHoa = N''
+    BEGIN
+        SELECT 0 AS Success, N'Vui lòng nhập số điện thoại.' AS Message;
+        RETURN;
+    END;
+
+    IF NOT EXISTS (
+        SELECT 1
+        FROM dbo.QS_KhachHang
+        WHERE LTRIM(RTRIM(SoDienThoai)) = @SoDienThoaiDaChuanHoa
+          AND ISNULL(TrangThai, 0) <> -1
+    )
+    BEGIN
+        SELECT 0 AS Success,
+               N'Không tìm thấy thông tin đăng ký. Vui lòng kiểm tra lại số điện thoại.' AS Message;
+        RETURN;
+    END;
+
+    IF EXISTS (
+        SELECT 1
+        FROM dbo.QS_KhachHang
+        WHERE LTRIM(RTRIM(SoDienThoai)) = @SoDienThoaiDaChuanHoa
+          AND TrangThai = 1
+    )
+    BEGIN
+        SELECT 1 AS Success, N'Bạn đã xác nhận tham gia trước đó.' AS Message;
+        RETURN;
+    END;
+
+    UPDATE dbo.QS_KhachHang
+    SET TrangThai = 1,
+        NgayThamDu = GETDATE()
+    WHERE LTRIM(RTRIM(SoDienThoai)) = @SoDienThoaiDaChuanHoa
+      AND ISNULL(TrangThai, 0) <> -1;
+
+    SELECT 1 AS Success, N'Xác nhận tham gia thành công!' AS Message;
+END;
+GO

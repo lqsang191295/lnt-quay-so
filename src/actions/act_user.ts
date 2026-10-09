@@ -87,3 +87,24 @@ export const act_UpdateUser = async (user: IDataUser) => {
     return null;
   }
 };
+
+export const act_XacNhanThamGia = async (soDienThoai: string) => {
+  try {
+    const response = await post(`/quayso/call`, {
+      userId: "",
+      optionId: "7",
+      funcName: "dbo.QS_upd_KhachHang_xac_nhan_tham_gia",
+      paraData: [
+        { paraName: "SoDienThoai", paraValue: soDienThoai.trim() },
+      ],
+    });
+
+    if (response.status === "error") {
+      return null;
+    }
+
+    return response.message;
+  } catch {
+    return null;
+  }
+};

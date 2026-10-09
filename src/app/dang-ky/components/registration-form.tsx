@@ -76,7 +76,7 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
       GiaiTrung: null,
       GiaiFix: null,
       HuyBo: false,
-      TrangThai: 1,
+      TrangThai: 0,
     };
 
     // Simulate API call

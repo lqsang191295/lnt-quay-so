@@ -13,7 +13,7 @@ export default function RegistrationQrPage() {
 
         <div className="mt-8 rounded-3xl bg-white p-4 shadow-[0_0_60px_rgba(255,255,255,0.2)] md:p-6">
           <Image
-            src="/qr/qr-dang-ky.jpg"
+            src="/qr/qr-xac-nhan-tham-gia.jpg"
             alt="Mã QR đăng ký tham dự"
             width={720}
             height={720}
