@@ -2,6 +2,7 @@
 
 import { act_UpdateUser } from "@/actions/act_user";
 import SlotMachine from "@/components/SlotMachine";
+import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -12,6 +13,7 @@ import {
 } from "@/components/ui/select";
 import WinnerModal from "@/components/winner-modal";
 import WinnersList from "@/components/WinnersList";
+import PrizeGalleryModal from "@/components/prize-gallery-modal";
 import { formatDateTime } from "@/lib/format";
 import {
   IDataGiaiThuong,
@@ -21,7 +23,7 @@ import {
   getRandomOneUser,
 } from "@/lib/lottery-logic";
 import { useUserDataStore } from "@/store/data-user";
-import { ShieldUserIcon, Trophy } from "lucide-react";
+import { Gift, ShieldUserIcon, Trophy } from "lucide-react";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 
@@ -48,6 +50,7 @@ export default function LotteryDraw() {
   const [showConfetti, setShowConfetti] = useState(false);
   const [winner, setWinner] = useState<IDataUser | null>(null);
   const [showWinnerModal, setShowWinnerModal] = useState(false);
+  const [showPrizeGallery, setShowPrizeGallery] = useState(true);
 
   const removeWinner = (user: IDataUser) => {
     let data: IDataUser[] | null = null;
@@ -468,12 +471,26 @@ export default function LotteryDraw() {
         </div>
 
         {/* List trung thuong */}
-        <div className="absolute bottom-2 right-2">
+        <div className="absolute bottom-2 right-2 flex items-end gap-2">
+          <Button
+            type="button"
+            size="sm"
+            onClick={() => setShowPrizeGallery(true)}
+            className="h-9 cursor-pointer rounded-xl border border-amber-300/50 bg-gradient-to-r from-amber-500 to-orange-500 px-3 text-xs font-bold uppercase text-white shadow-lg hover:from-amber-400 hover:to-orange-400"
+          >
+            <Gift className="h-4 w-4" />
+            Xem giải thưởng
+          </Button>
           <WinnersList
             DataThamGia={DataThamGia}
             currGiaiThuong={currGiaiThuong}
           />
         </div>
+
+        <PrizeGalleryModal
+          open={showPrizeGallery}
+          onOpenChange={setShowPrizeGallery}
+        />
 
         {/* Winner modal */}
         <WinnerModal

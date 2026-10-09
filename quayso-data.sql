@@ -322,14 +322,14 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    UPDATE HIS_DATA.dbo.QS_KhachHang
+    UPDATE dbo.QS_KhachHang
     SET Hoten = @Hoten,
         NoiCongTac = @NoiCongTac,
         SoPhieu = @SoPhieu,
         LoaiDS = @LoaiDS,
-        NgayTao = CONVERT(datetime, @NgayTao, 121) ,
-        NgayThamDu = CONVERT(datetime, @NgayThamDu, 121) ,
-        NgayQuaySo = CONVERT(datetime, @NgayQuaySo, 121)  ,
+        NgayTao = TRY_CONVERT(DATETIME, NULLIF(@NgayTao, ''), 121),
+        NgayThamDu = TRY_CONVERT(DATETIME, NULLIF(@NgayThamDu, ''), 121),
+        NgayQuaySo = TRY_CONVERT(DATETIME, NULLIF(@NgayQuaySo, ''), 121),
         GiaiTrung = @GiaiTrung,
         GiaiFix = @GiaiFix,
         SoDienThoai=@SoDienThoai,
@@ -337,7 +337,7 @@ BEGIN
         TrangThai = @TrangThai
     WHERE Stt = @Stt;
 
-	SELECT 1
+    SELECT @@ROWCOUNT AS UpdatedRows;
 END;
 go
 

@@ -8,12 +8,12 @@ export default function RegistrationQrPage() {
           Quét mã QR để đăng ký
         </h1>
         <p className="mt-3 text-base text-blue-100 md:text-xl">
-          Vui lòng dùng camera điện thoại để quét mã và điền thông tin tham dự
+          Vui lòng dùng camera điện thoại để quét mã và điền thông tin đăng ký
         </p>
 
         <div className="mt-8 rounded-3xl bg-white p-4 shadow-[0_0_60px_rgba(255,255,255,0.2)] md:p-6">
           <Image
-            src="/qr/qr-xac-nhan-tham-gia.jpg"
+            src="/qr/qr-dang-ky.jpg"
             alt="Mã QR đăng ký tham dự"
             width={720}
             height={720}

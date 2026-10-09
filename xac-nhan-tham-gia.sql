@@ -88,6 +88,43 @@ BEGIN
 END;
 GO
 
+CREATE OR ALTER PROCEDURE dbo.QS_upd_KhachHang
+    @Stt INT,
+    @Hoten NVARCHAR(1000),
+    @NoiCongTac NVARCHAR(1000),
+    @SoPhieu INT,
+    @LoaiDS NVARCHAR(100),
+    @NgayTao NVARCHAR(50),
+    @NgayThamDu NVARCHAR(50),
+    @NgayQuaySo NVARCHAR(50),
+    @GiaiTrung NVARCHAR(100),
+    @GiaiFix NVARCHAR(100),
+    @SoDienThoai NVARCHAR(100),
+    @HuyBo BIT,
+    @TrangThai INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    UPDATE dbo.QS_KhachHang
+    SET Hoten = @Hoten,
+        NoiCongTac = @NoiCongTac,
+        SoPhieu = @SoPhieu,
+        LoaiDS = @LoaiDS,
+        NgayTao = TRY_CONVERT(DATETIME, NULLIF(@NgayTao, ''), 121),
+        NgayThamDu = TRY_CONVERT(DATETIME, NULLIF(@NgayThamDu, ''), 121),
+        NgayQuaySo = TRY_CONVERT(DATETIME, NULLIF(@NgayQuaySo, ''), 121),
+        GiaiTrung = @GiaiTrung,
+        GiaiFix = @GiaiFix,
+        SoDienThoai = @SoDienThoai,
+        HuyBo = @HuyBo,
+        TrangThai = @TrangThai
+    WHERE Stt = @Stt;
+
+    SELECT @@ROWCOUNT AS UpdatedRows;
+END;
+GO
+
 CREATE OR ALTER PROCEDURE dbo.QS_upd_KhachHang_xac_nhan_tham_gia
     @SoDienThoai NVARCHAR(100)
 AS

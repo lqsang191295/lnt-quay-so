@@ -26,6 +26,7 @@ export default function WinnerModal({
   onCancel,
 }: WinnerModalProps) {
   const [showConfetti, setShowConfetti] = useState(false);
+  const prizeImage = `/giai-thuong/giai-${currGiaiThuong.id}.webp`;
 
   useEffect(() => {
     if (isOpen) {
@@ -63,7 +64,14 @@ export default function WinnerModal({
           </div>
 
           <div className="w-full flex justify-center">
-            <Image src="/congra.png" width={200} height={200} alt="Gift" />
+            <Image
+              src={prizeImage}
+              width={200}
+              height={200}
+              alt={`Phần thưởng ${currGiaiThuong.ten}`}
+              className="h-[200px] w-[200px] object-contain"
+              priority
+            />
           </div>
 
           <div className="text-center space-y-4">
