@@ -81,7 +81,10 @@ export default function ConfirmAttendancePage() {
 
         <form onSubmit={handleSubmit} className="mt-8 space-y-5">
           <div className="space-y-2">
-            <Label htmlFor="phone" className="text-base font-semibold uppercase">
+            <Label
+              htmlFor="phone"
+              className="text-base font-semibold uppercase"
+            >
               Số điện thoại
             </Label>
             <Input
@@ -116,7 +119,7 @@ export default function ConfirmAttendancePage() {
           {isSuccess && attendeeNumber && (
             <div className="rounded-2xl border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-cyan-50 px-4 py-5 text-center shadow-inner">
               <p className="text-sm font-bold uppercase tracking-[0.2em] text-blue-600">
-                Số thứ tự của bạn
+                Số phiếu của bạn
               </p>
               <p className="mt-2 font-mono text-5xl font-black text-blue-700">
                 {attendeeNumber}
