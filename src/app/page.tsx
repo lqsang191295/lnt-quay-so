@@ -213,6 +213,8 @@ export default function LotteryDraw() {
       return false;
     }
 
+    debugger;
+
     if (!dataTrungThuong || dataTrungThuong.length === 0) {
       alert("Không còn nhân viên đủ điều kiện để nhận giải!");
       return false;

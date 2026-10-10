@@ -34,19 +34,19 @@ export const QUAT_QUY_QUAY_SO = {
   "3": {
     // Giải ba
     soLanQuay: 5,
-    loaiDS: ["kh"], // Chỉ khách mời
+    loaiDS: [], // Chỉ khách mời
     moTa: "Giải ba - 5 giải cho khách mời",
   },
   "2": {
     // Giải nhì
     soLanQuay: 5,
-    loaiDS: ["nv"], // Chỉ nhân viên
+    loaiDS: [], // Chỉ nhân viên
     moTa: "Giải nhì - 5 giải cho nhân viên",
   },
   "1": {
     // Giải nhất
     soLanQuay: 5,
-    loaiDS: ["nv"], // Chỉ nhân viên
+    loaiDS: [], // Chỉ nhân viên
     moTa: "Giải nhất - 5 giải cho nhân viên",
   },
 };

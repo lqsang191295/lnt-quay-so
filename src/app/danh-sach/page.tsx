@@ -63,12 +63,12 @@ export default function NhanVienTable() {
   const handleChangeByKey = (
     keyId: string, // Stt
     field: keyof IDataUser,
-    value: string | number | boolean | undefined
+    value: string | number | boolean | undefined,
   ) => {
     setData((prev) =>
       prev.map((item) =>
-        item.Stt === keyId ? { ...item, [field]: value } : item
-      )
+        item.Stt === keyId ? { ...item, [field]: value } : item,
+      ),
     );
   };
 
@@ -123,7 +123,7 @@ export default function NhanVienTable() {
       setLoading(true); // bật loading
 
       await Promise.all(
-        await data.map(async (user) => await act_UpdateUser(user))
+        await data.map(async (user) => await act_UpdateUser(user)),
       );
 
       setData(data);
@@ -160,7 +160,7 @@ export default function NhanVienTable() {
           user.HuyBo = false;
           user.NgayQuaySo = null;
           await act_UpdateUser(user);
-        })
+        }),
       );
 
       setData(data);
@@ -178,6 +178,8 @@ export default function NhanVienTable() {
       setLoading(true); // bật loading
 
       const DATA_THAM_GIA = await getDataThamGia();
+
+      console.log("DATA_THAM_GIA === ", DATA_THAM_GIA);
 
       setDataAll(DATA_THAM_GIA);
       setData([...DATA_THAM_GIA]);
@@ -209,7 +211,7 @@ export default function NhanVienTable() {
         await Promise.all(
           importedData.map(async (user) => {
             await act_DangKy(user);
-          })
+          }),
         );
 
         setData(importedData);
@@ -231,7 +233,7 @@ export default function NhanVienTable() {
 
   const handleUpdateUser = (updatedUser: IDataUser) => {
     const newData = DataAll.map((user) =>
-      user.Stt === updatedUser.Stt ? { ...user, ...updatedUser } : user
+      user.Stt === updatedUser.Stt ? { ...user, ...updatedUser } : user,
     );
     setData(newData);
   };
@@ -268,7 +270,7 @@ export default function NhanVienTable() {
   const totalPages = Math.ceil(filteredData.length / pageSize);
   const paginatedData = filteredData.slice(
     (currentPage - 1) * pageSize,
-    currentPage * pageSize
+    currentPage * pageSize,
   );
 
   return (
@@ -288,7 +290,8 @@ export default function NhanVienTable() {
           onValueChange={(val) => {
             setFilterLoai(val);
             setCurrentPage(1); // reset page khi filter
-          }}>
+          }}
+        >
           <SelectTrigger className="w-[200px]">
             <SelectValue placeholder="Lọc theo DS" />
           </SelectTrigger>
@@ -304,7 +307,8 @@ export default function NhanVienTable() {
           onValueChange={(val) => {
             setFilterGiai(val);
             setCurrentPage(1); // reset page khi filter
-          }}>
+          }}
+        >
           <SelectTrigger className="w-[200px]">
             <SelectValue placeholder="Lọc theo giải" />
           </SelectTrigger>
@@ -346,13 +350,15 @@ export default function NhanVienTable() {
         <Button
           variant="outline"
           className="cursor-pointer"
-          onClick={handleSaveAll}>
+          onClick={handleSaveAll}
+        >
           Lưu tất cả
         </Button>
         <Button
           variant="outline"
           className="cursor-pointer"
-          onClick={() => fileInputRef.current?.click()}>
+          onClick={() => fileInputRef.current?.click()}
+        >
           Import excel
         </Button>
         <input
@@ -365,19 +371,22 @@ export default function NhanVienTable() {
         <Button
           variant="outline"
           className="cursor-pointer"
-          onClick={handleExportExcel}>
+          onClick={handleExportExcel}
+        >
           Export excel
         </Button>
         <Button
           variant="outline"
           className="cursor-pointer"
-          onClick={handleReset}>
+          onClick={handleReset}
+        >
           Reset data
         </Button>
         <Button
           variant="outline"
           className="cursor-pointer"
-          onClick={handleFreshData}>
+          onClick={handleFreshData}
+        >
           Refresh data
         </Button>
       </div>
@@ -450,13 +459,14 @@ export default function NhanVienTable() {
                 row.TrangThai === -1
                   ? "italic text-gray-500" // Đã xóa: font in nghiêng
                   : row.GiaiTrung === "1"
-                  ? "text-blue-600 font-bold" // Giải nhất: màu xanh dương, in đậm
-                  : row.GiaiTrung === "2"
-                  ? "text-orange-600 font-bold" // Giải nhì: màu cam, in đậm
-                  : row.GiaiTrung === "3"
-                  ? "text-green-600 font-bold" // Giải ba: màu xanh lá, in đậm
-                  : ""
-              }`}>
+                    ? "text-blue-600 font-bold" // Giải nhất: màu xanh dương, in đậm
+                    : row.GiaiTrung === "2"
+                      ? "text-orange-600 font-bold" // Giải nhì: màu cam, in đậm
+                      : row.GiaiTrung === "3"
+                        ? "text-green-600 font-bold" // Giải ba: màu xanh lá, in đậm
+                        : ""
+              }`}
+            >
               {!stt && (
                 <TableCell className="border border-gray-300 p-0.5 text-center">
                   {row.Stt}
@@ -473,7 +483,7 @@ export default function NhanVienTable() {
                       handleChangeByKey(
                         row.Stt,
                         "SoPhieu",
-                        Number(e.target.value)
+                        Number(e.target.value),
                       )
                     }
                   />
@@ -518,7 +528,8 @@ export default function NhanVienTable() {
                     value={row.LoaiDS ?? ""}
                     onValueChange={(val) =>
                       handleChangeByKey(row.Stt, "LoaiDS", val)
-                    }>
+                    }
+                  >
                     <SelectTrigger className="w-full h-full border-0 rounded-none">
                       <SelectValue placeholder="Chọn loại" />
                     </SelectTrigger>
@@ -578,9 +589,10 @@ export default function NhanVienTable() {
                       handleChangeByKey(
                         row.Stt,
                         "GiaiTrung",
-                        val === "-1" ? "" : val
+                        val === "-1" ? "" : val,
                       )
-                    }>
+                    }
+                  >
                     <SelectTrigger className="w-full h-full border-0 rounded-none">
                       <SelectValue placeholder="-" />
                     </SelectTrigger>
@@ -601,9 +613,10 @@ export default function NhanVienTable() {
                       handleChangeByKey(
                         row.Stt,
                         "GiaiFix",
-                        val === "-1" ? "" : val // luôn string, không null
+                        val === "-1" ? "" : val, // luôn string, không null
                       )
-                    }>
+                    }
+                  >
                     <SelectTrigger className="w-full h-full border-0 rounded-none">
                       <SelectValue placeholder="-" />
                     </SelectTrigger>
@@ -637,7 +650,8 @@ export default function NhanVienTable() {
                     size="sm"
                     onClick={() => {
                       handleSave(row);
-                    }}>
+                    }}
+                  >
                     Lưu
                   </Button>
                   {row.TrangThai === -1 ? (
@@ -647,7 +661,8 @@ export default function NhanVienTable() {
                       size="sm"
                       onClick={() => {
                         handlePhucHoi(row);
-                      }}>
+                      }}
+                    >
                       Phục hồi
                     </Button>
                   ) : (
@@ -657,7 +672,8 @@ export default function NhanVienTable() {
                       size="sm"
                       onClick={() => {
                         handleDel(row);
-                      }}>
+                      }}
+                    >
                       Xóa
                     </Button>
                   )}
@@ -674,7 +690,8 @@ export default function NhanVienTable() {
           variant="outline"
           className="cursor-pointer"
           disabled={currentPage === 1}
-          onClick={() => setCurrentPage((prev) => prev - 1)}>
+          onClick={() => setCurrentPage((prev) => prev - 1)}
+        >
           Prev
         </Button>
 
@@ -686,7 +703,8 @@ export default function NhanVienTable() {
           variant="outline"
           className="cursor-pointer"
           disabled={currentPage === totalPages}
-          onClick={() => setCurrentPage((prev) => prev + 1)}>
+          onClick={() => setCurrentPage((prev) => prev + 1)}
+        >
           Next
         </Button>
       </div>
